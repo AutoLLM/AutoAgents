@@ -1,0 +1,4 @@
+openai>=0.27.7
+langchain
+duckpy
+huggingface_hub
