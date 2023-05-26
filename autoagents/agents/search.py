@@ -254,6 +254,6 @@ class ActionRunner:
         except Exception as e:
             self.ialogger.add_message({"error": str(e)})
             self.ialogger.save()
-            await outputq.put(Exception("Something went wrong. Please try searching again."))
+            await outputq.put(e)
             return
         return output

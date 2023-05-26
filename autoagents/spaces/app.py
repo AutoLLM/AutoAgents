@@ -106,7 +106,7 @@ async def run():
                                     st.warning(output)
                                     continue
                                 else:
-                                    await cleanup(str(output))
+                                    await cleanup("Something went wrong. Please try searching again.")
                                 return
                             try:
                                 output_fmt = literal_eval(output)
