@@ -74,8 +74,8 @@ async def run():
                 persist_logs=True,
             )  # log to HF-dataset
 
-            async def cleanup(log: str):
-                st.error(log)
+            async def cleanup(e):
+                st.error(e)
                 await st.session_state.task
                 st.session_state.task = None
                 st.stop()
@@ -99,9 +99,9 @@ async def run():
                             placeholder.empty()
                             if isinstance(output, Exception):
                                 if isinstance(output, openai.error.AuthenticationError):
-                                    await cleanup(
-                                        f"AuthenticationError: {output.json_body}"
-                                    )
+                                    await cleanup(f"AuthenticationError: Invalid OpenAI API key.")
+                                elif isinstance(output, openai.error.OpenAIError):
+                                    await cleanup(output)
                                 elif isinstance(output, RuntimeWarning):
                                     st.warning(output)
                                     continue
