@@ -2,6 +2,8 @@ import os
 import json
 from typing import Dict, Any
 import uuid
+from datetime import datetime
+import pytz
 
 import huggingface_hub
 from huggingface_hub import Repository
@@ -42,6 +44,8 @@ class InteractionsLogger:
         self.structured_data.update(data)
 
     def save(self):
+        # add current datetime
+        self.add_message({"datetime": datetime.now(pytz.utc).strftime("%m/%d/%Y %H:%M:%S %Z%z")})
         if self.persist:
             # TODO: want to add retry in a loop?
             self.repo.git_pull()

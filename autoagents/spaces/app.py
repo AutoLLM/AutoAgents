@@ -48,7 +48,7 @@ async def run():
         with st.sidebar:
             model_dict = {
                 "gpt-3.5-turbo": "GPT-3.5-turbo",
-                "gpt-4": "GPT-4 (Recommneded for better quality results)",
+                "gpt-4": "GPT-4 (Better but slower)",
             }
             st.radio(
                 "OpenAI model",
