@@ -6,7 +6,7 @@ Inspired by AutoGPT, we are interested in building real applications that can ge
 
 We are excited to release the initial version of AutoAgents, a proof-of-concept search agent that collects information on your behalf via simply well-written prompts.
  
-Come try out our [Huggingface Space](https://huggingface.co/spaces/AutoLLM/AutoAgents)! Or check out the local deployment instructions [here](./docs/repo-howto.md).
+Come try out our [Huggingface Space](https://huggingface.co/spaces/AutoLLM/AutoAgents)! Or check out the local deployment instructions [here](../docs/repo-howto.md).
 
 ## The AutoAgents Project
 
@@ -16,7 +16,7 @@ For simplicity, our first attempt starts with a Web Search Agent.
 
 ## How it works:
 
-<p align="left"><img src="./docs/images/agent.png" width=580/></p>
+<p align="left"><img src="../docs/images/agent.png" width=580/></p>
 
 ## Some initial findings:
 1. How far can a better prompting strategy contribute?
