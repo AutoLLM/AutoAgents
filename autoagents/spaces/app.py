@@ -1,6 +1,7 @@
 import os
 import asyncio
 import random
+from datetime import date
 from ast import literal_eval
 
 import streamlit as st
@@ -56,6 +57,8 @@ async def run():
                 key="model_name",
                 format_func=lambda x: model_dict[x],
             )
+
+            st.markdown(f"**The system local date is {date.today()}**")
 
             st.markdown("**Example Queries:**")
             for q in SAMPLE_QUESTIONS:
