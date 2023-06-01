@@ -10,10 +10,13 @@ To run the search agent locally:
 2. Install the dependencies
 `pip install -r requirements.txt`
 
-3. Make sure you have your OpenAI API key set as an environment variable. Alternatively, you can also feed it through the input text-box on the sidebar.
+3. Install the `autoagents` package
+`pip install -e .`
+
+4. Make sure you have your OpenAI API key set as an environment variable. Alternatively, you can also feed it through the input text-box on the sidebar.
 `export OPENAI_API_KEY=sk-xxxxxx`
 
-4. Run the Streamlit app
+5. Run the Streamlit app
 `streamlit run autoagents/spaces/app.py`
 
 
