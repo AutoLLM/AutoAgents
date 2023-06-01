@@ -59,7 +59,7 @@ async def run():
             )
 
             time_zone = str(datetime.now(timezone(timedelta(0))).astimezone().tzinfo)
-            st.markdown(f"**The system time zone is {time_zone} and date is {date.today()}**")
+            st.markdown(f"**The system time zone is {time_zone} and the date is {date.today()}**")
 
             st.markdown("**Example Queries:**")
             for q in SAMPLE_QUESTIONS:
