@@ -1,7 +1,7 @@
 import os
 import asyncio
 import random
-from datetime import date
+from datetime import date, datetime, timezone, timedelta
 from ast import literal_eval
 
 import streamlit as st
@@ -58,7 +58,8 @@ async def run():
                 format_func=lambda x: model_dict[x],
             )
 
-            st.markdown(f"**The system local date is {date.today()}**")
+            time_zone = str(datetime.now(timezone(timedelta(0))).astimezone().tzinfo)
+            st.markdown(f"**The system time zone is {time_zone} and the date is {date.today()}**")
 
             st.markdown("**Example Queries:**")
             for q in SAMPLE_QUESTIONS:
