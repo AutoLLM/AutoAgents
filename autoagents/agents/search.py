@@ -4,6 +4,7 @@ import re
 from datetime import date
 import asyncio
 from collections import defaultdict
+import os
 
 from langchain.agents import Tool, AgentExecutor, LLMSingleActionAgent, AgentOutputParser
 from langchain.prompts import StringPromptTemplate
@@ -165,7 +166,11 @@ class CustomOutputParser(AgentOutputParser):
 
 
 class ActionRunner:
-    def __init__(self, outputq, api_key: str, model_name: str, persist_logs=False):
+    def __init__(self,
+                 outputq,
+                 api_key: str,
+                 model_name: str,
+                 persist_logs: bool = False):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
         tools = [search_tool, note_tool]
         prompt = CustomPromptTemplate(
@@ -220,7 +225,10 @@ class ActionRunner:
 
         handler = MyCustomHandler()
 
-        llm = ChatOpenAI(openai_api_key=api_key, temperature=0, model_name=model_name)
+        llm = ChatOpenAI(openai_api_key=api_key,
+                         openai_organization=os.getenv("OPENAI_API_ORG"),
+                         temperature=0,
+                         model_name=model_name)
         llm_chain = LLMChain(llm=llm, prompt=prompt, callbacks=[handler])
         tool_names = [tool.name for tool in tools]
         for tool in tools:

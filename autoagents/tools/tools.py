@@ -1,3 +1,4 @@
+import os
 from langchain import PromptTemplate, OpenAI, LLMChain
 from langchain.agents import Tool
 from duckpy import Client
@@ -57,7 +58,9 @@ def rewrite_search_query(q: str, search_history, api_key: str) -> str:
                  # Previous queries:
                  {history_string}. \n\n Rewrite query {action_input} to be
                  different from the previous ones."""
-    llm = ChatOpenAI(temperature=0, openai_api_key=api_key)
+    llm = ChatOpenAI(temperature=0,
+                     openai_api_key=api_key,
+                     openai_organization=os.getenv("OPENAI_API_ORG"))
     prompt = PromptTemplate(template=template,
                             input_variables=["action_input", "history_string"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
