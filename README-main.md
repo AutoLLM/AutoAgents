@@ -6,15 +6,21 @@ We are excited to release the initial version of AutoAgents, a proof-of-concept 
  
 Come try out our [Huggingface Space](https://huggingface.co/spaces/AutoLLM/AutoAgents)! Or check out the [local deployment](#how-to-use-this-repo) instructions.
 
+
+
 ## The AutoAgents Project
 
 This project demonstrates LLMs capability to execute a complex user goal: understand a user's goal, generate a plan, use proper tools, and deliver a final result.
 
 For simplicity, our first attempt starts with a Web Search Agent.
 
+
+
 ## How it works:
 
 <p align="left"><img src="../docs/images/agent.png" width=830/></p>
+
+
 
 ## Examples
 
@@ -27,6 +33,7 @@ For example:
 *2. What is the average age of the past three president when they took office*
 
 *3. What is the mortgage rate right now and how does that compare to the past two years*
+
 
 
 ## Roadmap
@@ -47,6 +54,8 @@ For example:
 We are actively developing a few interesting things, check back here, sign up for the mailing list, or follow us on [Twitter](https://twitter.com/AutoLLM) for any new development.
  
 If you are interested in any other problems, feel free to shoot us an issue.
+
+
 
 ## How to use this repo?
 
