@@ -65,24 +65,33 @@ To run the search agent locally:
 
 1. Clone the repo and change the directory
 
-  `git clone https://github.com/AutoLLM/AutoAgents.git`
-
-  `cd AutoAgents`
+  ```bash
+  git clone https://github.com/AutoLLM/AutoAgents.git
+  cd AutoAgents
+  ```
 
 2. Install the dependencies
 
-  `pip install -r requirements.txt`
+  ```bash
+  pip install -r requirements.txt
+  ```
 
 3. Install the `autoagents` package
 
-  `pip install -e .`
+  ```bash
+  pip install -e .
+  ```
 
 4. Make sure you have your OpenAI API key set as an environment variable. Alternatively, you can also feed it through the input text-box on the sidebar.
 
-  `export OPENAI_API_KEY=sk-xxxxxx`
+  ```bash
+  export OPENAI_API_KEY=sk-xxxxxx
+  ```
 
 5. Run the Streamlit app
 
-  `streamlit run autoagents/spaces/app.py`
+  ```bash
+  streamlit run autoagents/spaces/app.py
+  ```
 
 This should open a browser window where you can type your search query.
