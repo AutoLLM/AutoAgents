@@ -1,8 +1,12 @@
 MAIN_HEADER = "Web Search Agent"
 
-MAIN_CAPTION = """This is a proof-of-concept search agent that reasons, plans, and executes web searches to collect information on your behalf.
-It aims to resolve your question by breaking it down into step-by-step subtasks.
-All the intermediate results will be presented."""
+MAIN_CAPTION = """This is a proof-of-concept search agent that reasons, plans,
+and executes web searches to collect information on your behalf.  It aims to
+resolve your question by breaking it down into step-by-step subtasks. All the
+intermediate results will be presented. DISCLAIMER: We are collecting search
+queries, so please refrain from providing any personal information. If you wish
+to avoid this, you can run the app locally by following the instructions on our
+Github."""
 
 SAMPLE_QUESTIONS = [
     "Recommend me a movie in theater now to watch with kids.",
