@@ -4,7 +4,7 @@ The purpose of this project is to extend LLMs ability to answer more complex que
 
 We are excited to release the initial version of AutoAgents, a proof-of-concept on what can be achieved with only well-written prompts. This is the initial step towards our first big milestone, releasing and open-sourcing the AutoAgents 7B model!
  
-Come try out our [Huggingface Space](https://huggingface.co/spaces/AutoLLM/AutoAgents)! Or check out the [local deployment](#how-to-use-this-repo) instructions.
+Come try out our [Huggingface Space](https://huggingface.co/spaces/AutoLLM/AutoAgents)!
 
 
 
