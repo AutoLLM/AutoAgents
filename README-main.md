@@ -2,8 +2,6 @@
 
 The purpose of this project is to extend LLMs ability to answer more complex questions through chain-of-thought reasoning and information-seeking actions.
 
-We are focused on increasing end user confidence in LLM provided answers through added transparency on the process taken to research the question and find the answer.
-
 We are excited to release the initial version of AutoAgents, a proof-of-concept on what can be achieved with only well-written prompts. This is the initial step towards our first big milestone, releasing and open-sourcing the AutoAgents 7B model!
  
 Come try out our [Huggingface Space](https://huggingface.co/spaces/AutoLLM/AutoAgents)! Or check out the [local deployment](#how-to-use-this-repo) instructions.
