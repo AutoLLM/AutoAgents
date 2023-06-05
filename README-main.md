@@ -25,7 +25,9 @@ Ask your AutoAgent to do what a real person would do using the internet:
 For example:
 
 *1. Recommend a kid friendly movie that is playing at a theater near Sunnyvale. Give me the showtimes and a link to purchase the tickets*
+
 *2. What is the average age of the past three president when they took office*
+
 *3. What is the mortgage rate right now and how does that compare to the past two years*
 
 
