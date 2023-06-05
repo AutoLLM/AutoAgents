@@ -1,4 +1,4 @@
-## Overview
+## 👉	Overview
 
 The purpose of this project is to extend LLMs ability to answer more complex questions through chain-of-thought reasoning and information-seeking actions.
 
@@ -8,7 +8,7 @@ Come try out our [Huggingface Space](https://huggingface.co/spaces/AutoLLM/AutoA
 
 
 
-## The AutoAgents Project
+## 🤖 The AutoAgents Project
 
 This project demonstrates LLMs capability to execute a complex user goal: understand a user's goal, generate a plan, use proper tools, and deliver a final result.
 
@@ -16,13 +16,13 @@ For simplicity, our first attempt starts with a Web Search Agent.
 
 
 
-## How it works:
+## 💫 How it works:
 
 <p align="left"><img src="../docs/images/agent.png" width=830/></p>
 
 
 
-## Examples
+## 📔 Examples
 
 Ask your AutoAgent to do what a real person would do using the internet:
 
@@ -36,7 +36,7 @@ For example:
 
 
 
-## Roadmap
+## 💁 Roadmap
 
 * ~~HuggingFace Space demo using OpenAI models~~ [LINK](https://huggingface.co/spaces/AutoLLM/AutoAgents)
 * AutoAgents [7B] Model
@@ -57,7 +57,7 @@ If you are interested in any other problems, feel free to shoot us an issue.
 
 
 
-## How to use this repo?
+## 🧭 How to use this repo?
 
 This repo contains the entire code to run the search agent from your local browser. All you need is an OpenAI API key to begin.
 
