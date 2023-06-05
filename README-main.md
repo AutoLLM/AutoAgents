@@ -51,7 +51,7 @@ For example:
 * Support Multi-turn Dialogue
 * Advanced Flow Control in Plan Execution
 
-We are actively developing a few interesting things, check back here, sign up for the mailing list, or follow us on [Twitter](https://twitter.com/AutoLLM) for any new development.
+We are actively developing a few interesting things, check back here or follow us on [Twitter](https://twitter.com/AutoLLM) for any new development.
  
 If you are interested in any other problems, feel free to shoot us an issue.
 
