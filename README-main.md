@@ -16,7 +16,7 @@ For simplicity, our first attempt starts with a Web Search Agent.
 
 ## How it works:
 
-<p align="left"><img src="../docs/images/agent.png" width=580/></p>
+<p align="left"><img src="../docs/images/agent.png" width=830/></p>
 
 ## Examples
 
