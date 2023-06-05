@@ -6,7 +6,7 @@ We are focused on increasing end user confidence in LLM provided answers through
 
 We are excited to release the initial version of AutoAgents, a proof-of-concept on what can be achieved with only well-written prompts. This is the initial step towards our first big milestone, releasing and open-sourcing the AutoAgents 7B model!
  
-Come try out our [Huggingface Space](https://huggingface.co/spaces/AutoLLM/AutoAgents)! Or check out the [local deployment](## How to use this repo?) instructions.
+Come try out our [Huggingface Space](https://huggingface.co/spaces/AutoLLM/AutoAgents)! Or check out the [local deployment](#how-to-use-this-repo) instructions.
 
 ## The AutoAgents Project
 
@@ -55,24 +55,24 @@ To run the search agent locally:
 
 1. Clone the repo and change the directory
 
-`git clone https://github.com/AutoLLM/AutoAgents.git`
+  `git clone https://github.com/AutoLLM/AutoAgents.git`
 
-`cd AutoAgents`
+  `cd AutoAgents`
 
 2. Install the dependencies
 
-`pip install -r requirements.txt`
+  `pip install -r requirements.txt`
 
 3. Install the `autoagents` package
 
-`pip install -e .`
+  `pip install -e .`
 
 4. Make sure you have your OpenAI API key set as an environment variable. Alternatively, you can also feed it through the input text-box on the sidebar.
 
-`export OPENAI_API_KEY=sk-xxxxxx`
+  `export OPENAI_API_KEY=sk-xxxxxx`
 
 5. Run the Streamlit app
 
-`streamlit run autoagents/spaces/app.py`
+  `streamlit run autoagents/spaces/app.py`
 
 This should open a browser window where you can type your search query.
