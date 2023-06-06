@@ -1,5 +1,7 @@
 # AutoAgents
 
+<p align="center"><img src="https://github.com/AutoLLM/AutoAgents/blob/main/docs/images/logo.png?raw=true" width=400/></p>
+
 Unlock complex question answering in LLMs with enhanced chain-of-thought reasoning and information-seeking capabilities.
 
 ## 👉	Overview
