@@ -1,12 +1,13 @@
 import os
 import asyncio
-from action import ActionRunner
+from autoagents.agents.search import ActionRunner
 from langchain.callbacks import get_openai_callback
 from pprint import pprint
 import pdb
 from ast import literal_eval
+from multiprocessing import Pool, TimeoutError
 
-async def main(user_input):
+async def work(user_input):
     outputq = asyncio.Queue()
 
     API_O = os.getenv("OPENAI_API_KEY")
@@ -27,12 +28,11 @@ async def main(user_input):
             break
     await task
 
-
-# "list 5 cities and their current populations where Paramore is playing this year.",
-# "Who is Leo DiCaprio's girlfriend? What is her current age raised to the 0.43 power?",
-# "How many watermelons can fit in a Tesla Model S?",
-# "Recommend me some laptops suitable for UI designers under $2000. Please include brand and price."
 Q = [
+     "list 5 cities and their current populations where Paramore is playing this year.",
+     "Who is Leo DiCaprio's girlfriend? What is her current age raised to the 0.43 power?",
+     "How many watermelons can fit in a Tesla Model S?",
+     "Recommend me some laptops suitable for UI designers under $2000. Please include brand and price."
      "Build me a vacation plan for Rome and Milan this summer for seven days. Include place to visit and hotels to stay. ",
      "What is the sum of ages of the wives of Barack Obama and Donald Trump?",
      "Who is the most recent NBA MVP? Which team does he play for? What is his season stats?",
@@ -44,6 +44,9 @@ Q = [
      "Who are some top researchers in the field of machine learning systems nowadays?"
      ]
 
-loop = asyncio.new_event_loop()
-for i in range(len(Q)):
-    loop.run_until_complete(main(Q[i]))
+def main(q):
+    asyncio.run(work(q))
+
+if __name__ == "__main__":
+    with Pool(processes=10) as pool:
+        print(pool.map(main, Q))
