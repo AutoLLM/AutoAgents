@@ -78,7 +78,7 @@ class CustomPromptTemplate(StringPromptTemplate):
             outputs += f"{action.log}\n"
         if len(intermediate_steps) > 0:
             action, observation = intermediate_steps[-1]
-            self.ialogger.add_system({"action": action, "observation": observation})
+            # self.ialogger.add_system({"action": action, "observation": observation})
             if action.tool not in ("Search", "Notepad"):
                 raise Exception("Invalid tool requested by the model.")
             if action.tool == "Notepad":
@@ -115,9 +115,7 @@ class CustomPromptTemplate(StringPromptTemplate):
         kwargs["tool_names"] = ", ".join([tool.name for tool in self.tools])
         kwargs["today"] = date.today()
         final_prompt = self.template.format(**kwargs)
-        if not intermediate_steps:
-            # first iteration
-            self.ialogger.add_system({"prompt": final_prompt})
+        self.ialogger.add_system({"value": final_prompt})
         return final_prompt
 
 
@@ -156,6 +154,7 @@ class CustomOutputParser(AgentOutputParser):
             new_action_input = rewrite_search_query(action_input,
                                                     self.action_history[action],
                                                     self.api_key)
+            self.ialogger.add_message({"query_rewrite": True})
             self.new_action_input = new_action_input
             self.action_history[action].add(new_action_input)
             return AgentAction(tool=action, tool_input=new_action_input, log=llm_output)
