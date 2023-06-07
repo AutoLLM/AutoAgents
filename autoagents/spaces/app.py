@@ -9,7 +9,7 @@ import openai
 
 from autoagents.utils.constants import MAIN_HEADER, MAIN_CAPTION, SAMPLE_QUESTIONS
 from autoagents.agents.search import ActionRunner
-
+from autoagents.utils.utils import OpenAICred
 
 async def run():
     output_acc = ""
@@ -43,9 +43,11 @@ async def run():
         )
 
         # Ask the user to enter their OpenAI API key
-        API_O = st.sidebar.text_input("OpenAI api-key", type="password") or os.getenv(
-            "OPENAI_API_KEY"
-        )
+        if (api_key := st.sidebar.text_input("OpenAI api-key", type="password")):
+            cred = OpenAICred(api_key, None)
+        else:
+            cred = OpenAICred(os.getenv("OPENAI_API_KEY"),
+                              os.getenv("OPENAI_API_ORG"))
         with st.sidebar:
             model_dict = {
                 "gpt-3.5-turbo": "GPT-3.5-turbo",
@@ -65,18 +67,18 @@ async def run():
             for q in SAMPLE_QUESTIONS:
                 st.markdown(f"*{q}*")
 
-        if not API_O:
+        if not cred.key:
             st.warning(
                 "API key required to try this app. The API key is not stored in any form. [This](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key) might help."
             )
         else:
             outputq = asyncio.Queue()
             runner = ActionRunner(
-                outputq,
-                api_key=API_O,
-                model_name=st.session_state.model_name,
-                persist_logs=True,
-            )  # log to HF-dataset
+                    outputq,
+                    cred=cred,
+                    model_name=st.session_state.model_name,
+                    persist_logs=True,
+                    )  # log to HF-dataset
 
             async def cleanup(e):
                 st.error(e)

@@ -18,6 +18,7 @@ from langchain.callbacks.manager import AsyncCallbackManager
 
 from autoagents.tools.tools import search_tool, note_tool, rewrite_search_query
 from autoagents.utils.logger import InteractionsLogger
+from autoagents.utils.utils import OpenAICred
 
 
 # Set up the base template
@@ -123,7 +124,7 @@ class CustomOutputParser(AgentOutputParser):
     class Config:
         arbitrary_types_allowed = True
     ialogger: InteractionsLogger
-    api_key: str
+    cred: OpenAICred
     new_action_input: Optional[str]
 
     action_history = defaultdict(set)
@@ -153,7 +154,7 @@ class CustomOutputParser(AgentOutputParser):
         if action_input in self.action_history[action]:
             new_action_input = rewrite_search_query(action_input,
                                                     self.action_history[action],
-                                                    self.api_key)
+                                                    cred)
             self.ialogger.add_message({"query_rewrite": True})
             self.new_action_input = new_action_input
             self.action_history[action].add(new_action_input)
@@ -167,7 +168,7 @@ class CustomOutputParser(AgentOutputParser):
 class ActionRunner:
     def __init__(self,
                  outputq,
-                 api_key: str,
+                 cred: OpenAICred,
                  model_name: str,
                  persist_logs: bool = False):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
@@ -178,7 +179,7 @@ class ActionRunner:
                 input_variables=["input", "intermediate_steps"],
                 ialogger=self.ialogger)
 
-        output_parser = CustomOutputParser(ialogger=self.ialogger, api_key=api_key)
+        output_parser = CustomOutputParser(ialogger=self.ialogger, cred=cred)
 
         class MyCustomHandler(AsyncCallbackHandler):
             def __init__(self):
@@ -224,8 +225,8 @@ class ActionRunner:
 
         handler = MyCustomHandler()
 
-        llm = ChatOpenAI(openai_api_key=api_key,
-                         openai_organization=os.getenv("OPENAI_API_ORG"),
+        llm = ChatOpenAI(openai_api_key=cred.key,
+                         openai_organization=cred.org,
                          temperature=0,
                          model_name=model_name)
         llm_chain = LLMChain(llm=llm, prompt=prompt, callbacks=[handler])
