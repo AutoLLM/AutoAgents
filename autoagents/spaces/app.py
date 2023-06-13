@@ -106,6 +106,9 @@ async def run():
                             if isinstance(output, Exception):
                                 if isinstance(output, openai.error.AuthenticationError):
                                     await cleanup(f"AuthenticationError: Invalid OpenAI API key.")
+                                elif isinstance(output, openai.error.InvalidRequestError) \
+                                      and output._message == "The model: `gpt-4` does not exist":
+                                    await cleanup(f"The free API key does not support GPT-4. Please switch to GPT-3.5-turbo or input your own API key.")
                                 elif isinstance(output, openai.error.OpenAIError):
                                     await cleanup(output)
                                 elif isinstance(output, RuntimeWarning):
