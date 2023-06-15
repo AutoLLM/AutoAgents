@@ -45,15 +45,17 @@ class InteractionsLogger:
 
     def save(self):
         # add current datetime
+        if not os.path.exists("./data"):
+            os.mkdir("./data")
         self.add_message({"datetime": datetime.now(pytz.utc).strftime("%m/%d/%Y %H:%M:%S %Z%z")})
+        fname = uuid.uuid4().hex[:16]
+        with open(f"./data/{fname}.json", "w") as f:
+            json.dump(self.messages, f, indent=2)
+        with open(f"./data/{fname}.clean.json", "w") as f:
+            json.dump(self.structured_data, f, indent=2)
         if self.persist:
             # TODO: want to add retry in a loop?
             self.repo.git_pull()
-            fname = uuid.uuid4().hex[:16]
-            with open(f"./data/{fname}.json", "w") as f:
-                json.dump(self.messages, f, indent=2)
-            with open(f"./data/{fname}.clean.json", "w") as f:
-                json.dump(self.structured_data, f, indent=2)
             commit_url = self.repo.push_to_hub()
 
     def add_cost(self, cost):

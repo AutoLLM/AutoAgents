@@ -78,7 +78,6 @@ class CustomPromptTemplate(StringPromptTemplate):
             outputs += f"{action.log}\n"
         if len(intermediate_steps) > 0:
             action, observation = intermediate_steps[-1]
-            # self.ialogger.add_system({"action": action, "observation": observation})
             if action.tool not in ("Search", "Notepad"):
                 raise Exception("Invalid tool requested by the model.")
             if action.tool == "Notepad":
