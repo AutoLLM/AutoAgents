@@ -3,9 +3,7 @@ import os
 from duckpy import Client
 from langchain import PromptTemplate, OpenAI, LLMChain
 from langchain.agents import Tool
-from langchain.chat_models import ChatOpenAI
-
-from autoagents.utils.utils import OpenAICred
+from langchain.base_language import BaseLanguageModel
 
 
 MAX_SEARCH_RESULTS = 20  # Number of search results to observe at a time
@@ -55,15 +53,12 @@ note_tool = Tool(name="Notepad",
                    description=notepad_description)
 
 
-def rewrite_search_query(q: str, search_history, cred: OpenAICred) -> str:
+def rewrite_search_query(q: str, search_history, llm: BaseLanguageModel) -> str:
     history_string = '\n'.join(search_history)
     template ="""We are using the Search tool.
                  # Previous queries:
                  {history_string}. \n\n Rewrite query {action_input} to be
                  different from the previous ones."""
-    llm = ChatOpenAI(temperature=0,
-                     openai_api_key=cred.key,
-                     openai_organization=cred.org)
     prompt = PromptTemplate(template=template,
                             input_variables=["action_input", "history_string"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)

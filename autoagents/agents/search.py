@@ -14,11 +14,10 @@ from langchain.schema import AgentAction, AgentFinish
 from langchain.callbacks import get_openai_callback
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.callbacks.manager import AsyncCallbackManager
-
+from langchain.base_language import BaseLanguageModel
 
 from autoagents.tools.tools import search_tool, note_tool, rewrite_search_query
 from autoagents.utils.logger import InteractionsLogger
-from autoagents.utils.utils import OpenAICred
 
 
 # Set up the base template
@@ -124,9 +123,8 @@ class CustomOutputParser(AgentOutputParser):
     class Config:
         arbitrary_types_allowed = True
     ialogger: InteractionsLogger
-    cred: OpenAICred
+    llm: BaseLanguageModel
     new_action_input: Optional[str]
-
     action_history = defaultdict(set)
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
@@ -154,7 +152,7 @@ class CustomOutputParser(AgentOutputParser):
         if action_input in self.action_history[action]:
             new_action_input = rewrite_search_query(action_input,
                                                     self.action_history[action],
-                                                    cred)
+                                                    self.llm)
             self.ialogger.add_message({"query_rewrite": True})
             self.new_action_input = new_action_input
             self.action_history[action].add(new_action_input)
@@ -168,8 +166,7 @@ class CustomOutputParser(AgentOutputParser):
 class ActionRunner:
     def __init__(self,
                  outputq,
-                 cred: OpenAICred,
-                 model_name: str,
+                 llm: BaseLanguageModel,
                  persist_logs: bool = False):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
         tools = [search_tool, note_tool]
@@ -179,7 +176,7 @@ class ActionRunner:
                 input_variables=["input", "intermediate_steps"],
                 ialogger=self.ialogger)
 
-        output_parser = CustomOutputParser(ialogger=self.ialogger, cred=cred)
+        output_parser = CustomOutputParser(ialogger=self.ialogger, llm=llm)
 
         class MyCustomHandler(AsyncCallbackHandler):
             def __init__(self):
@@ -225,10 +222,6 @@ class ActionRunner:
 
         handler = MyCustomHandler()
 
-        llm = ChatOpenAI(openai_api_key=cred.key,
-                         openai_organization=cred.org,
-                         temperature=0,
-                         model_name=model_name)
         llm_chain = LLMChain(llm=llm, prompt=prompt, callbacks=[handler])
         tool_names = [tool.name for tool in tools]
         for tool in tools:
