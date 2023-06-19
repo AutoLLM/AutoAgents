@@ -1,17 +1,22 @@
 import os
 import asyncio
-from autoagents.agents.search import ActionRunner
-from langchain.callbacks import get_openai_callback
+
 from pprint import pprint
-import pdb
 from ast import literal_eval
 from multiprocessing import Pool, TimeoutError
 
+from autoagents.agents.search import ActionRunner
+from langchain.callbacks import get_openai_callback
+from langchain.chat_models import ChatOpenAI
+
+
 async def work(user_input):
     outputq = asyncio.Queue()
-
-    API_O = os.getenv("OPENAI_API_KEY")
-    runner = ActionRunner(outputq, api_key=API_O, model_name="gpt-3.5-turbo")
+    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"),
+                     openai_organization=os.getenv("OPENAI_API_ORG"),
+                     temperature=0,
+                     model_name="gpt-3.5-turbo")
+    runner = ActionRunner(outputq, llm=llm)
     task = asyncio.create_task(runner.run(user_input, outputq))
 
     while True:
