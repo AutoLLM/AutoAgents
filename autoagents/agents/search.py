@@ -16,47 +16,45 @@ from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.callbacks.manager import AsyncCallbackManager
 from langchain.base_language import BaseLanguageModel
 
-from autoagents.tools.tools import search_tool, note_tool, rewrite_search_query
+from autoagents.tools.tools import search_tool, note_tool, rewrite_search_query, finish_tool
 from autoagents.utils.logger import InteractionsLogger
 
 
 # Set up the base template
 template = """
-We are working together to satisfy the user's original goal step-by-step. Play to your strengths as an LLM.
-Make sure the plan is achievable using the
-available tools. You SHOULD directly produce a `Final Answer:` when you
-think you have good-enough information to achieve the Goal. The final answer should be descriptive should be descriptive, encompassing all relevant details..
-Today is {today}.
+We are working together to satisfy the user's original goal step-by-step. Play
+to your strengths as an LLM.  Make sure the plan is achievable using the
+available tools. The final answer should be descriptive should be descriptive,
+including all relevant details. Today is {today}.
 
 ## Goal:
 {input}
 
-If you require assistance or additional information, you should use *only* one of the following tools:
-{tools}.
+If you require assistance or additional information, you should use *only* one
+of the following tools: {tools}.
+
+## History
+{agent_scratchpad}
+
+Do not repeat any past actions in History, because you will not get additional
+information. If the last action is search, then you should use notepad to keep
+critical information. If you have gathered all information in your plannings
+to satisfy the user's original goal, then respond immediately with the Finish
+Action.
 
 ## Output format
 You MUST produce Output in the following format:
-
 Thought: you should always think about what to do when you think you have not achieved the Goal.
 Reasoning: reasoning
 Plan:
 - short bulleted
 - list that conveys
 - next-step plan
-Action: the action to take, should be ONE OF {tool_names}
+Action: the action to take
 Action Input: the input to the Action
 Observation: the result of the Action
 ... (this Thought/Reasoning/Plan/Action/Action Input/Observation can repeat N
-times until there is a Final Answer)
-Final Answer: the final answer to achieve the original Goal which can be the
-only output or when you have no Action to do next.
-
-## History
-{agent_scratchpad}
-
-Do not repeat any past actions in History, because you will not get additional information.
-If the last action is search, then you should use notepad to keep critical information.
-If you have gathered all information in your plannings to satisfy the user's original goal, then respond immediately as the Final Answer.
+times until there is a Finish Action. There SHOULD only be ONE Action)
 """
 
 
@@ -79,7 +77,7 @@ class CustomPromptTemplate(StringPromptTemplate):
         if len(intermediate_steps) > 0:
             action, observation = intermediate_steps[-1]
             # self.ialogger.add_system({"action": action, "observation": observation})
-            if action.tool not in ("Search", "Notepad"):
+            if action.tool not in ("Search", "Notepad", "Finish"):
                 raise Exception("Invalid tool requested by the model.")
             if action.tool == "Notepad":
                 outputs += f"{action.log}\n"
@@ -129,18 +127,6 @@ class CustomOutputParser(AgentOutputParser):
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
         self.ialogger.add_ai(llm_output)
-        # Check if agent should finish
-        if "Final Answer:" in llm_output:
-            final_answer = llm_output.split("Final Answer:")[-1].strip()
-            self.ialogger.add_structured_data({"output": {"action": "Final Answer",
-                                                          "action_input": final_answer,
-                                                          "raw_output": llm_output}})
-            return AgentFinish(
-                # Return values is generally always a dictionary with a single `output` key
-                # It is not recommended to try anything else at the moment :)
-                return_values={"output": final_answer},
-                log=llm_output,
-            )
         # Parse out the action and action input
         regex = r"Action\s*\d*\s*:(.*?)\nAction\s*\d*\s*Input\s*\d*\s*:[\s]*(.*)"
         match = re.search(regex, llm_output, re.DOTALL)
@@ -149,7 +135,13 @@ class CustomOutputParser(AgentOutputParser):
         action = match.group(1).strip()
         action_input = match.group(2).strip().strip('"')
 
-        if action_input in self.action_history[action]:
+        if action == "Finish":
+            self.ialogger.add_structured_data({"output":{"action": action,
+                                                         "action_input": action_input,
+                                                         "raw_output":llm_output}})
+            return AgentFinish(return_values={"output": action_input}, log=llm_output)
+
+        if (action == "Search") and action_input in self.action_history[action]:
             new_action_input = rewrite_search_query(action_input,
                                                     self.action_history[action],
                                                     self.llm)
@@ -169,7 +161,7 @@ class ActionRunner:
                  llm: BaseLanguageModel,
                  persist_logs: bool = False):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
-        tools = [search_tool, note_tool]
+        tools = [search_tool, note_tool, finish_tool]
         prompt = CustomPromptTemplate(
                 template=template,
                 tools=tools,

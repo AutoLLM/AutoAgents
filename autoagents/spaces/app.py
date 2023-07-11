@@ -136,7 +136,7 @@ async def run():
                                     f"Maximum iterations ({iterations}) exceeded. You can try running the search again or try a variation of the query."
                                 )
                                 return
-                            if "Final Answer:" in output:
+                            if "Action: Finish" in output:
                                 break
                 # Found the answer
                 final_answer = await st.session_state.task

@@ -52,6 +52,23 @@ note_tool = Tool(name="Notepad",
                    coroutine=notepad,
                    description=notepad_description)
 
+async def final(x: str):
+    pass
+
+finish_description = """
+Useful when you have enough information to produce final answer that
+achieves the original Goal.
+
+## Exampels of using Finish tool
+Action: Finish
+Action Input: "final answer"
+"""
+
+finish_tool = Tool(name="Finish",
+                   func=lambda x: x,
+                   coroutine=final,
+                   description=finish_description)
+
 
 def rewrite_search_query(q: str, search_history, llm: BaseLanguageModel) -> str:
     history_string = '\n'.join(search_history)
