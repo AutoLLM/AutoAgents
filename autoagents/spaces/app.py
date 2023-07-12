@@ -1,5 +1,6 @@
 import os
 import asyncio
+import json
 import random
 from datetime import date, datetime, timezone, timedelta
 from ast import literal_eval
@@ -123,21 +124,20 @@ async def run():
                                     await cleanup("Something went wrong. Please try searching again.")
                                 return
                             try:
-                                output_fmt = literal_eval(output)
-                                st.json(output_fmt, expanded=False)
+                                parsed = json.loads(output)
+                                st.json(output, expanded=True)
                                 st.write("---")
                                 iterations += 1
+                                if parsed.get("action") == "Finish":
+                                    break
                             except:
-                                output_acc += "\n" + output
-                                st.markdown(f"<div class=\"inter\"> {output} </div>",
-                                            unsafe_allow_html=True)
+                                output_fmt = literal_eval(output)
+                                st.json(output_fmt, expanded=False)
                             if iterations >= runner.agent_executor.max_iterations:
                                 await cleanup(
                                     f"Maximum iterations ({iterations}) exceeded. You can try running the search again or try a variation of the query."
                                 )
                                 return
-                            if "Action: Finish" in output:
-                                break
                 # Found the answer
                 final_answer = await st.session_state.task
                 final_answer = final_answer.replace("$", "\$")

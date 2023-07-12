@@ -8,6 +8,7 @@ from autoagents.agents.search import ActionRunner
 from langchain.callbacks import get_openai_callback
 from langchain.chat_models import ChatOpenAI
 from autoagents.models.custom import CustomLLM
+import json
 
 
 async def work(user_input):
@@ -24,10 +25,15 @@ async def work(user_input):
         if isinstance(output, Exception):
             print(output)
             return
-        print(output)
-        print("-----------------------------------------------------------")
-        if "Action: Finish" in output:
-            break
+        try:
+            parsed = json.loads(output)
+            print(json.dumps(parsed, indent=2))
+            print("-----------------------------------------------------------")
+            if parsed["action"] == "Finish":
+                break
+        except:
+            print(output)
+            print("-----------------------------------------------------------")
     return await task
 
 Q = [
@@ -51,4 +57,5 @@ def main(q):
 
 if __name__ == "__main__":
     for i, q in Q:
-        main(q)
+        if i == 2:
+            main(q)

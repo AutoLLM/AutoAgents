@@ -18,7 +18,8 @@ from langchain.base_language import BaseLanguageModel
 
 from autoagents.tools.tools import search_tool, note_tool, rewrite_search_query, finish_tool
 from autoagents.utils.logger import InteractionsLogger
-
+from pprint import pprint
+import json
 
 # Set up the base template
 template = """ We are working together to satisfy the user's original goal
@@ -45,18 +46,17 @@ to satisfy the user's original goal, then respond immediately with the Finish
 Action.
 
 ## Output format
-You MUST produce Output in the following format:
-Thought: you should always think about what to do when you think you have not achieved the Goal.
-Reasoning: reasoning
-Plan:
-- short bulleted
-- list that conveys
-- next-step plan
-Action: the action to take
-Action Input: the input to the Action
-Observation: the result of the Action
-... (this Thought/Reasoning/Plan/Action/Action Input/Observation can repeat N
-times until there is a Finish Action. There SHOULD only be ONE Action)
+You MUST produce JSON output with below keys:
+"thought": "you should always think about what to do when you think you have not achieved the Goal.",
+"reasoning": "reasoning",
+"plan": [
+"short bulleted",
+"list that conveys",
+"next-step plan",
+],
+"action": "the action to take, should be ONE OF Search, Notepad and Finish",
+"action_input": "the input to the Action",
+"observation": "the result of the Action"
 """
 
 
@@ -128,14 +128,11 @@ class CustomOutputParser(AgentOutputParser):
     action_history = defaultdict(set)
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
+        parsed = json.loads(llm_output)
         self.ialogger.add_ai(llm_output)
         # Parse out the action and action input
-        regex = r"Action\s*\d*\s*:(.*?)\nAction\s*\d*\s*Input\s*\d*\s*:[\s]*(.*)"
-        match = re.search(regex, llm_output, re.DOTALL)
-        if not match:
-            raise ValueError(f"Could not parse LLM output: `{llm_output}`")
-        action = match.group(1).strip()
-        action_input = match.group(2).strip().strip('"')
+        action = parsed["action"]
+        action_input = parsed["action_input"]
 
         if action == "Finish":
             self.ialogger.add_structured_data({"output":{"action": action,
