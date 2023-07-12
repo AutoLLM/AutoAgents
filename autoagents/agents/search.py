@@ -21,11 +21,13 @@ from autoagents.utils.logger import InteractionsLogger
 
 
 # Set up the base template
-template = """
-We are working together to satisfy the user's original goal step-by-step. Play
-to your strengths as an LLM.  Make sure the plan is achievable using the
-available tools. The final answer should be descriptive should be descriptive,
-including all relevant details. Today is {today}.
+template = """ We are working together to satisfy the user's original goal
+step-by-step. Play to your strengths as an LLM.  Make sure the plan is
+achievable using the available tools. The final answer should be descriptive,
+and should include all relevant details. For each fact you give in the final
+answer, you must provide a direct citation to the URL from a search result.
+
+Today is {today}.
 
 ## Goal:
 {input}

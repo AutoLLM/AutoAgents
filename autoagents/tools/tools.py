@@ -19,15 +19,16 @@ The Action Input cannot be None or empty.
 """
 
 notepad_description = """ Useful for when you need to note-down specific
-information for later reference. Please provide full information you want to
-note-down in the Action Input and all future prompts will remember it.
-This is the mandatory tool after using the search tool.
+information for later reference. Please provide the website and full
+information you want to note-down in the Action Input and all future prompts
+will remember it.  This is the mandatory tool after using the search tool.
 Using Notepad does not always lead to a final answer.
 
 ## Exampels of using notepad tool
 Action: Notepad
-Action Input: the information you want to note-down
+Action Input: (www.website.com) the information you want to note-down
 """
+
 
 async def ddg(query: str):
     if query is None or query.lower().strip().strip('"') == "none" or query.lower().strip().strip('"') == "null":
@@ -55,13 +56,15 @@ note_tool = Tool(name="Notepad",
 async def final(x: str):
     pass
 
-finish_description = """
-Useful when you have enough information to produce final answer that
-achieves the original Goal.
+finish_description = """ Useful when you have enough information to produce
+final answer that achieves the original Goal. Provide citations for all facts
+in your final answer. These citations should be URLs to webpages.
 
 ## Exampels of using Finish tool
 Action: Finish
 Action Input: "final answer"
+
+
 """
 
 finish_tool = Tool(name="Finish",
