@@ -54,9 +54,8 @@ You MUST produce JSON output with below keys:
 "list that conveys",
 "next-step plan",
 ],
-"action": "the action to take, should be ONE OF Search, Notepad and Finish",
+"action": "the action to take",
 "action_input": "the input to the Action",
-"observation": "the result of the Action"
 """
 
 
@@ -69,44 +68,27 @@ class CustomPromptTemplate(StringPromptTemplate):
     ialogger: InteractionsLogger
 
     def format(self, **kwargs) -> str:
-        # Get the intermediate steps (AgentAction, Observation tuples)
+        # Get the intermediate steps [(AgentAction, Observation)]
         # Format them in a particular way
         intermediate_steps = kwargs.pop("intermediate_steps")
         outputs = ""
         # Set the agent_scratchpad variable to that value
         for action, observation in intermediate_steps[:-1]:
-            outputs += f"{action.log}\n"
+            parsed = json.loads(action.log)
+            outputs += f"{parsed}\n"
         if len(intermediate_steps) > 0:
             action, observation = intermediate_steps[-1]
-            # self.ialogger.add_system({"action": action, "observation": observation})
             if action.tool not in ("Search", "Notepad", "Finish"):
                 raise Exception("Invalid tool requested by the model.")
-            if action.tool == "Notepad":
-                outputs += f"{action.log}\n"
-                outputs += f"Observation: {observation}\n"
-            elif action.tool == "Search":
-                current = "".join([f"{d}" for d in observation])
-                outputs += f"{action.log}\n"
-                outputs += f"Observation: {current}\n"
-
-            # Parse the output ofr the last step for the reasoning and plan
-            regex = r"Thought\s*\d*\s*:(.*?)\n(.*)"
-            match = re.search(regex, action.log, re.DOTALL)
-            thoughts = match.group(1).strip() if match else ""
-
-            regex = r"Reasoning\s*\d*\s*:(.*?)\n(.*)"
-            match = re.search(regex, action.log, re.DOTALL)
-            reasoning = match.group(1).strip() if match else ""
-
-            regex = r"Plan\s*\d*\s*:(.*?)\nAction(.*)"
-            match = re.search(regex, action.log, re.DOTALL)
-            plans = match.group(1).strip() if match else ""
-            self.ialogger.add_structured_data({"output":{"thoughts": thoughts,
-                                                         "reasoning": reasoning,
-                                                         "plans": plans,
-                                                         "action": action.tool,
-                                                         "action_input": action.tool_input,
-                                                         "raw_output":action.log},
+            parsed = json.loads(action.log)
+            parsed["observation"] = observation
+            outputs += f"{parsed}\n"
+            self.ialogger.add_structured_data({"output":{"thought": parsed["thought"],
+                                                         "reasoning": parsed["reasoning"],
+                                                         "plan": parsed["plan"],
+                                                         "action": parsed["action"],
+                                                         "action_input": parsed["action_input"],
+                                                         "raw_output": action.log},
                                                          "observation": observation})
         kwargs["agent_scratchpad"] = outputs
         # Create a tools variable from the list of tools provided
@@ -219,11 +201,11 @@ class ActionRunner:
             tool.callbacks = [handler]
 
         agent = LLMSingleActionAgent(
-            llm_chain=llm_chain,
-            output_parser=output_parser,
-            stop=["\nObservation:"],
-            allowed_tools=tool_names
-        )
+                llm_chain=llm_chain,
+                output_parser=output_parser,
+                stop=["0xdeadbeef"],  # required
+                allowed_tools=tool_names
+                )
         callback_manager = AsyncCallbackManager([handler])
 
         # Finally create the Executor
