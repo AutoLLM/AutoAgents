@@ -30,7 +30,7 @@ class InteractionsLogger:
         self.structured_data = {"goal": goal}
 
     def add_system(self, more: Dict):
-        self.convos = [{"from": "system"} | more]
+        self.convos = [dict(**{"from": "system"}, **more)]
 
     def add_ai(self, msg: str):
         self.convos.append({"from": "ai", "value": msg})
@@ -43,17 +43,20 @@ class InteractionsLogger:
     def add_message(self, data: Dict[str, Any]):
         self.structured_data.update(data)
 
-    def save(self):
+    def save(self, output_dir):
         # add current datetime
+        output_dir = os.path.join(".", output_dir)
+        if not os.path.exists(output_dir):
+            os.mkdir(output_dir)
         self.add_message({"datetime": datetime.now(pytz.utc).strftime("%m/%d/%Y %H:%M:%S %Z%z")})
+        fname = uuid.uuid4().hex[:16]
+        with open(f"{output_dir}/{fname}.json", "w") as f:
+            json.dump(self.messages, f, indent=2)
+        with open(f"{output_dir}/{fname}.clean.json", "w") as f:
+            json.dump(self.structured_data, f, indent=2)
         if self.persist:
             # TODO: want to add retry in a loop?
             self.repo.git_pull()
-            fname = uuid.uuid4().hex[:16]
-            with open(f"./data/{fname}.json", "w") as f:
-                json.dump(self.messages, f, indent=2)
-            with open(f"./data/{fname}.clean.json", "w") as f:
-                json.dump(self.structured_data, f, indent=2)
             commit_url = self.repo.push_to_hub()
 
     def add_cost(self, cost):

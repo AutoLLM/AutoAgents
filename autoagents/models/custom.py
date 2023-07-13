@@ -4,6 +4,9 @@ from langchain.llms.base import LLM
 
 
 class CustomLLM(LLM):
+
+    model_name: str = "action_longchat_7b"
+
     @property
     def _llm_type(self) -> str:
         return "custom"
@@ -12,7 +15,7 @@ class CustomLLM(LLM):
         r = requests.post(
             "http://localhost:8000/v1/chat/completions",
             json={
-                "model": "283-vicuna-7b",
+                "model": self.model_name,
                 "messages": [{"role": "user", "content": prompt}],
                 "stop": stop
             },
@@ -24,7 +27,7 @@ class CustomLLM(LLM):
         r = requests.post(
             "http://localhost:8000/v1/chat/completions",
             json={
-                "model": "283-vicuna-7b",
+                "model": self.model_name,
                 "messages": [{"role": "user", "content": prompt}],
                 "stop": stop
             },
