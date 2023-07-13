@@ -78,7 +78,7 @@ class CustomPromptTemplate(StringPromptTemplate):
             outputs += f"{parsed}\n"
         if len(intermediate_steps) > 0:
             action, observation = intermediate_steps[-1]
-            if action.tool not in ("Search", "Notepad", "Finish"):
+            if action.tool not in (tool.name for tool in self.tools):
                 raise Exception("Invalid tool requested by the model.")
             parsed = json.loads(action.log)
             parsed["observation"] = observation
@@ -108,6 +108,7 @@ class CustomOutputParser(AgentOutputParser):
     llm: BaseLanguageModel
     new_action_input: Optional[str]
     action_history = defaultdict(set)
+    search_tool_name: str = "Search"
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
         parsed = json.loads(llm_output)
@@ -122,7 +123,7 @@ class CustomOutputParser(AgentOutputParser):
                                                          "raw_output":llm_output}})
             return AgentFinish(return_values={"output": action_input}, log=llm_output)
 
-        if (action == "Search") and action_input in self.action_history[action]:
+        if (action == self.search_tool_name) and action_input in self.action_history[action]:
             new_action_input = rewrite_search_query(action_input,
                                                     self.action_history[action],
                                                     self.llm)
@@ -140,16 +141,19 @@ class ActionRunner:
     def __init__(self,
                  outputq,
                  llm: BaseLanguageModel,
-                 persist_logs: bool = False):
+                 persist_logs: bool = False,
+                 prompt_template: str = template,
+                 tools: List[Tool] = [search_tool, note_tool, finish_tool],
+                 search_tool_name: str = "Search"):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
-        tools = [search_tool, note_tool, finish_tool]
         prompt = CustomPromptTemplate(
-                template=template,
+                template=prompt_template,
                 tools=tools,
                 input_variables=["input", "intermediate_steps"],
                 ialogger=self.ialogger)
 
-        output_parser = CustomOutputParser(ialogger=self.ialogger, llm=llm)
+        output_parser = CustomOutputParser(ialogger=self.ialogger, llm=llm, search_tool_name=search_tool_name)
+        self.model_name = llm.model_name
 
         class MyCustomHandler(AsyncCallbackHandler):
             def __init__(self):
@@ -224,10 +228,10 @@ class ActionRunner:
                                         "completion_tokens": cb.completion_tokens,
                                         "total_cost": cb.total_cost,
                                         "successful_requests": cb.successful_requests})
-            self.ialogger.save()
+            self.ialogger.save(self.model_name)
         except Exception as e:
             self.ialogger.add_message({"error": str(e)})
-            self.ialogger.save()
+            self.ialogger.save(self.model_name)
             await outputq.put(e)
             return
         return output

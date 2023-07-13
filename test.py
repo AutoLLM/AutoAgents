@@ -1,14 +1,13 @@
 import os
 import asyncio
-
-from ast import literal_eval
-from multiprocessing import Pool, TimeoutError
+import json
 
 from autoagents.agents.search import ActionRunner
-from langchain.callbacks import get_openai_callback
+from autoagents.agents.wiki_agent import WikiActionRunner
 from langchain.chat_models import ChatOpenAI
-from autoagents.models.custom import CustomLLM
-import json
+
+
+USE_WIKIAGENT: bool = False
 
 
 async def work(user_input):
@@ -17,12 +16,14 @@ async def work(user_input):
                      openai_organization=os.getenv("OPENAI_API_ORG"),
                      temperature=0,
                      model_name="gpt-4")
-    runner = ActionRunner(outputq, llm=llm)
+    runner = ActionRunner(outputq, llm=llm) if not USE_WIKIAGENT \
+        else WikiActionRunner(outputq, llm=llm)
     task = asyncio.create_task(runner.run(user_input, outputq))
 
     while True:
         output = await outputq.get()
         if isinstance(output, Exception):
+            print(f"Question: {user_input}")
             print(output)
             return
         try:
@@ -32,6 +33,7 @@ async def work(user_input):
             if parsed["action"] == "Finish":
                 break
         except:
+            print(f"Question: {user_input}")
             print(output)
             print("-----------------------------------------------------------")
     return await task
@@ -52,10 +54,19 @@ Q = [
      (12, "Who are some top researchers in the field of machine learning systems nowadays?"),
      ]
 
+Q_HOTPOTQA = [
+    (0, "What science fantasy young adult series, told in first person, has a set of companion books narrating the stories of enslaved worlds and alien species?"),
+    (1, "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?"),
+    (2, "Were Scott Derrickson and Ed Wood of the same nationality?"),
+    (3, "Who won the last NBA championship and what's the series score?"),
+    (4, "Who is the current CEO of Apple Inc and what has been done by him?"),
+    (5, "Who is indicted after a special counsel investigation charges him with mishandling classified documents and how old is him?")
+]
+
 def main(q):
     return asyncio.run(work(q))
 
 if __name__ == "__main__":
-    for i, q in Q:
+    for i, q in (Q if not USE_WIKIAGENT else Q_HOTPOTQA):
         if i == 2:
             main(q)
