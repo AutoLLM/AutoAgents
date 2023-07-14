@@ -56,16 +56,17 @@ note_tool = Tool(name="Notepad",
 async def final(x: str):
     pass
 
-finish_description = """ Useful when you have enough information to produce
-final answer that achieves the original Goal. Provide citations for all facts
-in your final answer. These citations should be URLs to webpages.
+finish_description = """ Useful when you have enough information to produce a
+final answer that achieves the original Goal. Include direct references to the citations list
+in your final answer.
 
-## Exampels of using Finish tool
+ 
+## Examples of using Finish tool
 Action: Finish
 Action Input: "final answer"
 
-
 """
+
 
 finish_tool = Tool(name="Finish",
                    func=lambda x: x,

@@ -25,8 +25,7 @@ import json
 template = """ We are working together to satisfy the user's original goal
 step-by-step. Play to your strengths as an LLM.  Make sure the plan is
 achievable using the available tools. The final answer should be descriptive,
-and should include all relevant details. For each fact you give in the final
-answer, you must provide a direct citation to the URL from a search result.
+and should include all relevant details.
 
 Today is {today}.
 
@@ -56,6 +55,8 @@ You MUST produce JSON output with below keys:
 ],
 "action": "the action to take",
 "action_input": "the input to the Action",
+"citations": ["www.example.com/a/list/of/websites",
+              "www.example.com/used/to/produce/the/action/and/action/input"]
 """
 
 
@@ -113,7 +114,7 @@ class CustomOutputParser(AgentOutputParser):
         parsed = json.loads(llm_output)
         self.ialogger.add_ai(llm_output)
         # Parse out the action and action input
-        action = parsed["action"]
+        action = parsed["action"].capitalize()
         action_input = parsed["action_input"]
 
         if action == "Finish":
