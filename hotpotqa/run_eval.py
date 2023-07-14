@@ -122,8 +122,6 @@ async def work(data, pred_dict):
                 statistics["multi_tools"] += 1
             pass
 
-        if "Wikipedia Page Title: " in output:
-            titles.add(output.split("Wikipedia Page Title: ")[1].split('\n')[0].strip())
         if "Final Answer:" in output:
             final_answer: str = output.split("Final Answer:")[-1].strip()
             gt_answer: str = data["answer"]
