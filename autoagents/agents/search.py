@@ -40,7 +40,7 @@ of the following tools: {tools}.
 {agent_scratchpad}
 
 Do not repeat any past actions in History, because you will not get additional
-information. If the last action is search, then you should use notepad to keep
+information. If the last action is Tool_Search, then you should use Tool_Notepad to keep
 critical information. If you have gathered all information in your plannings
 to satisfy the user's original goal, then respond immediately with the Finish
 Action.
@@ -71,33 +71,25 @@ class CustomPromptTemplate(StringPromptTemplate):
         # Get the intermediate steps [(AgentAction, Observation)]
         # Format them in a particular way
         intermediate_steps = kwargs.pop("intermediate_steps")
-        outputs = ""
+        history = []
         # Set the agent_scratchpad variable to that value
-        for action, observation in intermediate_steps[:-1]:
-            parsed = json.loads(action.log)
-            outputs += f"{parsed}\n"
-        if len(intermediate_steps) > 0:
-            action, observation = intermediate_steps[-1]
-            if action.tool not in ("Search", "Notepad", "Finish"):
+        for i, (action, observation) in enumerate(intermediate_steps):
+            if action.tool not in [tool.name for tool in self.tools]:
                 raise Exception("Invalid tool requested by the model.")
             parsed = json.loads(action.log)
-            parsed["observation"] = observation
-            outputs += f"{parsed}\n"
-            self.ialogger.add_structured_data({"output":{"thought": parsed["thought"],
-                                                         "reasoning": parsed["reasoning"],
-                                                         "plan": parsed["plan"],
-                                                         "action": parsed["action"],
-                                                         "action_input": parsed["action_input"],
-                                                         "raw_output": action.log},
-                                                         "observation": observation})
-        kwargs["agent_scratchpad"] = outputs
+            if i == len(intermediate_steps) - 1:
+                # Add observation only for the last action
+                parsed["observation"] = observation
+            history.append(parsed)
+        self.ialogger.add_history(history)
+        kwargs["agent_scratchpad"] = json.dumps(history)
         # Create a tools variable from the list of tools provided
         kwargs["tools"] = "\n".join([f"{tool.name}: {tool.description}" for tool in self.tools])
         # Create a list of tool names for the tools provided
         kwargs["tool_names"] = ", ".join([tool.name for tool in self.tools])
         kwargs["today"] = date.today()
         final_prompt = self.template.format(**kwargs)
-        self.ialogger.add_system({"value": final_prompt})
+        self.ialogger.add_system(final_prompt)
         return final_prompt
 
 
@@ -116,13 +108,10 @@ class CustomOutputParser(AgentOutputParser):
         action = parsed["action"]
         action_input = parsed["action_input"]
 
-        if action == "Finish":
-            self.ialogger.add_structured_data({"output":{"action": action,
-                                                         "action_input": action_input,
-                                                         "raw_output":llm_output}})
+        if action == "Tool_Finish":
             return AgentFinish(return_values={"output": action_input}, log=llm_output)
 
-        if (action == "Search") and action_input in self.action_history[action]:
+        if action_input in self.action_history[action]:
             new_action_input = rewrite_search_query(action_input,
                                                     self.action_history[action],
                                                     self.llm)
@@ -143,11 +132,10 @@ class ActionRunner:
                  persist_logs: bool = False):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
         tools = [search_tool, note_tool, finish_tool]
-        prompt = CustomPromptTemplate(
-                template=template,
-                tools=tools,
-                input_variables=["input", "intermediate_steps"],
-                ialogger=self.ialogger)
+        prompt = CustomPromptTemplate(template=template,
+                                      tools=tools,
+                                      input_variables=["input", "intermediate_steps"],
+                                      ialogger=self.ialogger)
 
         output_parser = CustomOutputParser(ialogger=self.ialogger, llm=llm)
 

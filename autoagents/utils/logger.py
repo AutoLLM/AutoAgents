@@ -21,40 +21,36 @@ class InteractionsLogger:
                 local_dir="data", clone_from=HF_DATASET_REPO_URL, use_auth_token=HF_TOKEN
             )
         else:
-            self.persist = False
+            self.repo = None
 
     def set_goal(self, goal: str):
-        # Initialize two variables for saving two files (self.messages for
-        # training and self.structure_data for later use)
         self.messages = [{"goal": goal}]
-        self.structured_data = {"goal": goal}
+
+    def add_history(self, hist: Dict):
+        self.convos = [{"from": "history", "value": hist}]
 
     def add_system(self, more: Dict):
-        self.convos = [{"from": "system"} | more]
+        self.convos.append({"from": "system", "value": more})
 
-    def add_ai(self, msg: str):
+    def add_ai(self, msg: Dict):
         self.convos.append({"from": "ai", "value": msg})
         self.messages.append({"id": f"{self.name}_{self.counter}", "conversations": self.convos})
         self.counter += 1
 
-    def add_structured_data(self, data: Dict[str, Any]):
-        self.structured_data.update({f"turn_{self.counter}": data})
-
     def add_message(self, data: Dict[str, Any]):
-        self.structured_data.update(data)
+        self.messages.append(data)
 
     def save(self):
-        # add current datetime
         self.add_message({"datetime": datetime.now(pytz.utc).strftime("%m/%d/%Y %H:%M:%S %Z%z")})
         if self.persist:
             # TODO: want to add retry in a loop?
-            self.repo.git_pull()
+            if self.repo is not None:
+                self.repo.git_pull()
             fname = uuid.uuid4().hex[:16]
             with open(f"./data/{fname}.json", "w") as f:
                 json.dump(self.messages, f, indent=2)
-            with open(f"./data/{fname}.clean.json", "w") as f:
-                json.dump(self.structured_data, f, indent=2)
-            commit_url = self.repo.push_to_hub()
+            if self.repo is not None:
+                commit_url = self.repo.push_to_hub()
 
     def add_cost(self, cost):
         self.messages.append({"metrics": cost})

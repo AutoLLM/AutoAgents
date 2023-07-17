@@ -9,27 +9,31 @@ from langchain.callbacks import get_openai_callback
 from langchain.chat_models import ChatOpenAI
 from autoagents.models.custom import CustomLLM
 import json
+from pprint import pprint
 
 
 async def work(user_input):
     outputq = asyncio.Queue()
     llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"),
                      openai_organization=os.getenv("OPENAI_API_ORG"),
-                     temperature=0,
+                     temperature=0.,
                      model_name="gpt-4")
-    runner = ActionRunner(outputq, llm=llm)
+    runner = ActionRunner(outputq, llm=llm, persist_logs=False)
     task = asyncio.create_task(runner.run(user_input, outputq))
 
     while True:
         output = await outputq.get()
-        if isinstance(output, Exception):
+        if isinstance(output, RuntimeWarning):
+            print(output)
+            continue
+        elif isinstance(output, Exception):
             print(output)
             return
         try:
             parsed = json.loads(output)
             print(json.dumps(parsed, indent=2))
             print("-----------------------------------------------------------")
-            if parsed["action"] == "Finish":
+            if parsed["action"] == "Tool_Finish":
                 break
         except:
             print(output)
@@ -52,10 +56,28 @@ Q = [
      (12, "Who are some top researchers in the field of machine learning systems nowadays?"),
      ]
 
+FT = [(0, "Briefly explain the current global climate change adaptation strategy and its effectiveness."),
+      (1, "What steps should be taken to prepare a backyard garden for spring planting?"),
+      (2, "Report the critical reception of the latest superhero movie."),
+      (3, "When is the next NBA or NFL finals game scheduled?"),
+      (4, "Which national parks or nature reserves are currently open for visitors near Denver, Colorado?"),
+      (5, "Who are the most recent Nobel Prize winners in physics, chemistry, and medicine, and what are their respective contributions?"),
+      ]
+
+HF = [(0, "Recommend me a movie in theater now to watch with kids."),
+      (1, "Who is the most recent NBA MVP? Which team does he play for? What are his career stats?"),
+      (2, "Who is the head coach of AC Milan now? How long has he been coaching the team?"),
+      (3, "What is the mortgage rate right now and how does that compare to the past two years?"),
+      (4, "What is the weather like in San Francisco today? What about tomorrow?"),
+      (5, "When and where is the upcoming concert for Taylor Swift? Share a link to purchase tickets."),
+      (6, "Find me recent studies focusing on hallucination in large language models. Provide the link to each study found."),
+      ]
+
+
 def main(q):
     return asyncio.run(work(q))
 
 if __name__ == "__main__":
-    for i, q in Q:
-        if i == 2:
+    for i, q in HF:
+        if i == 5:
             main(q)
