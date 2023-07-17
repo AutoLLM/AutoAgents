@@ -167,6 +167,7 @@ class ActionRunner:
                     **kwargs: Any,
                     ) -> None:
                 if (new_action_input := output_parser.new_action_input):
+                    await outputq.put(RuntimeWarning(f"Action Input Rewritten: {new_action_input}"))
                     # Notify users
                     output_parser.new_action_input = None
 
