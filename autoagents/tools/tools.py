@@ -58,13 +58,18 @@ async def final(x: str):
     pass
 
 finish_description = """ Useful when you have enough information to produce a
-final answer that achieves the original Goal. Include direct references [source](www.website.com)
- to the citations list in your final answer.
+final answer that achieves the original Goal.
 
+You must also include this key in the output for the finish action
+"citations": ["www.example.com/a/list/of/websites: what facts you got from the website",
+              "www.example.com/used/to/produce/the/action/and/action/input: "what facts you got from the website",
+              "www.webiste.com/include/the/citations/from/the/previous/steps/as/well: "what facts you got from the website",
+              "www.website.com": "this section is only needed for the final answer"]
  
 ## Examples of using Finish tool
 Action: Finish
 Action Input: "final answer"
+Citations: ["www.example.com: what facts you got from the website"]
 
 """
 

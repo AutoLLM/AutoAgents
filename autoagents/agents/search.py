@@ -55,12 +55,6 @@ You MUST produce JSON output with below keys:
 ],
 "action": "the action to take",
 "action_input": "the input to the Action",
-
-If "action" is "Finish", you must also include this key:
-"citations": ["www.example.com/a/list/of/websites: what facts you got from the website",
-              "www.example.com/used/to/produce/the/action/and/action/input: "what facts you got from the website",
-              "www.webiste.com/include/the/citations/from/the/previous/steps/as/well: "what facts you got from the website",
-              "www.website.com": "this section is only needed for the final answer"]
 """
 
 
