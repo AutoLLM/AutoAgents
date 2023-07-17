@@ -31,7 +31,6 @@ Action Input: (www.website.com) the information you want to note-down
 
 
 async def ddg(query: str):
-    print(query)
     if query is None or query.lower().strip().strip('"') == "none" or query.lower().strip().strip('"') == "null":
         x = "The action input field is empty. Please provide a search query."
         return [x]
