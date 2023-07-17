@@ -56,16 +56,22 @@ note_tool = Tool(name="Notepad",
 async def final(x: str):
     pass
 
-finish_description = """ Useful when you have enough information to produce
-final answer that achieves the original Goal. Provide citations for all facts
-in your final answer. These citations should be URLs to webpages.
+finish_description = """ Useful when you have enough information to produce a
+final answer that achieves the original Goal.
 
-## Exampels of using Finish tool
+You must also include this key in the output for the finish action
+"citations": ["www.example.com/a/list/of/websites: what facts you got from the website",
+              "www.example.com/used/to/produce/the/action/and/action/input: "what facts you got from the website",
+              "www.webiste.com/include/the/citations/from/the/previous/steps/as/well: "what facts you got from the website",
+              "www.website.com": "this section is only needed for the final answer"]
+ 
+## Examples of using Finish tool
 Action: Finish
 Action Input: "final answer"
-
+Citations: ["www.example.com: what facts you got from the website"]
 
 """
+
 
 finish_tool = Tool(name="Finish",
                    func=lambda x: x,
@@ -82,4 +88,5 @@ def rewrite_search_query(q: str, search_history, llm: BaseLanguageModel) -> str:
     prompt = PromptTemplate(template=template,
                             input_variables=["action_input", "history_string"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
-    return llm_chain.predict(action_input=q, history_string=history_string)
+    result = llm_chain.predict(action_input=q, history_string=history_string)
+    return result
