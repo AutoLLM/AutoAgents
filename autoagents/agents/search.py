@@ -46,7 +46,7 @@ Action.
 
 ## Output format
 You MUST produce JSON output with below keys:
-"thought": "you should always think about what to do when you think you have not achieved the Goal.",
+"thought": "current train of thought",
 "reasoning": "reasoning",
 "plan": [
 "short bulleted",
@@ -55,8 +55,12 @@ You MUST produce JSON output with below keys:
 ],
 "action": "the action to take",
 "action_input": "the input to the Action",
-"citations": ["www.example.com/a/list/of/websites",
-              "www.example.com/used/to/produce/the/action/and/action/input"]
+
+If "action" is "Finish", you must also include this key:
+"citations": ["www.example.com/a/list/of/websites: what facts you got from the website",
+              "www.example.com/used/to/produce/the/action/and/action/input: "what facts you got from the website",
+              "www.webiste.com/include/the/citations/from/the/previous/steps/as/well: "what facts you got from the website",
+              "www.website.com": "this section is only needed for the final answer"]
 """
 
 
@@ -170,7 +174,6 @@ class ActionRunner:
                     ) -> None:
                 if (new_action_input := output_parser.new_action_input):
                     # Notify users
-                    await outputq.put(RuntimeWarning(f"Action Input Rewritten: {new_action_input}"))
                     output_parser.new_action_input = None
 
             async def on_tool_start(

@@ -31,6 +31,7 @@ Action Input: (www.website.com) the information you want to note-down
 
 
 async def ddg(query: str):
+    print(query)
     if query is None or query.lower().strip().strip('"') == "none" or query.lower().strip().strip('"') == "null":
         x = "The action input field is empty. Please provide a search query."
         return [x]
@@ -57,8 +58,8 @@ async def final(x: str):
     pass
 
 finish_description = """ Useful when you have enough information to produce a
-final answer that achieves the original Goal. Include direct references to the citations list
-in your final answer.
+final answer that achieves the original Goal. Include direct references [source](www.website.com)
+ to the citations list in your final answer.
 
  
 ## Examples of using Finish tool
@@ -83,4 +84,5 @@ def rewrite_search_query(q: str, search_history, llm: BaseLanguageModel) -> str:
     prompt = PromptTemplate(template=template,
                             input_variables=["action_input", "history_string"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
-    return llm_chain.predict(action_input=q, history_string=history_string)
+    result = llm_chain.predict(action_input=q, history_string=history_string)
+    return result
