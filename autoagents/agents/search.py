@@ -1,10 +1,12 @@
-from typing import List, Union, Any, Optional, Dict
+import os
+import json
 import uuid
 import re
 from datetime import date
 import asyncio
 from collections import defaultdict
-import os
+from pprint import pprint
+from typing import List, Union, Any, Optional, Dict
 
 from langchain.agents import Tool, AgentExecutor, LLMSingleActionAgent, AgentOutputParser
 from langchain.prompts import StringPromptTemplate
@@ -18,8 +20,41 @@ from langchain.base_language import BaseLanguageModel
 
 from autoagents.tools.tools import search_tool, note_tool, rewrite_search_query, finish_tool
 from autoagents.utils.logger import InteractionsLogger
-from pprint import pprint
-import json
+
+from pydantic import BaseModel, ValidationError, Extra  # pydantic==1.10.11
+
+
+class InterOutputSchema(BaseModel):
+    thought: str
+    reasoning: str
+    plan: List[str]
+    action: str
+    action_input: str
+    class Config:
+        extra = Extra.forbid
+
+
+class FinalOutputSchema(BaseModel):
+    thought: str
+    reasoning: str
+    plan: List[str]
+    action: str
+    action_input: str
+    citations: List[str]
+    class Config:
+        extra = Extra.forbid
+
+
+def check_valid(o):
+    try:
+        if o.get("action") == "Tool_Finish":
+            FinalOutputSchema(**o)
+        else:
+            InterOutputSchema(**o)
+    except ValidationError:
+        return False
+    return True
+
 
 # Set up the base template
 template = """We are working together to satisfy the user's original goal
@@ -102,6 +137,9 @@ class CustomOutputParser(AgentOutputParser):
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
         parsed = json.loads(llm_output)
+        if not check_valid(parsed):
+            raise ValueError(f"Could not parse LLM output: `{llm_output}`")
+
         self.ialogger.add_ai(llm_output)
         # Parse out the action and action input
         action = parsed["action"]
