@@ -25,8 +25,7 @@ import json
 template = """ We are working together to satisfy the user's original goal
 step-by-step. Play to your strengths as an LLM.  Make sure the plan is
 achievable using the available tools. The final answer should be descriptive,
-and should include all relevant details. For each fact you give in the final
-answer, you must provide a direct citation to the URL from a search result.
+and should include all relevant details.
 
 Today is {today}.
 
@@ -47,7 +46,7 @@ Action.
 
 ## Output format
 You MUST produce JSON output with below keys:
-"thought": "you should always think about what to do when you think you have not achieved the Goal.",
+"thought": "current train of thought",
 "reasoning": "reasoning",
 "plan": [
 "short bulleted",
@@ -156,8 +155,8 @@ class ActionRunner:
                     **kwargs: Any,
                     ) -> None:
                 if (new_action_input := output_parser.new_action_input):
-                    # Notify users
                     await outputq.put(RuntimeWarning(f"Action Input Rewritten: {new_action_input}"))
+                    # Notify users
                     output_parser.new_action_input = None
 
             async def on_tool_start(

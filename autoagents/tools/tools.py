@@ -12,10 +12,10 @@ search_description = """ Useful for when you need to ask with search. Use direct
 EXPLICIT in what you want to search. Do NOT use filler words.
 
 ## Examples of incorrect use
-1.  {
-         "action": "Tool_Search",
-         "action_input": "[name of bagel shop] menu"
-    }
+{
+     "action": "Tool_Search",
+     "action_input": "[name of bagel shop] menu"
+}
 
 The action_input cannot be None or empty.
 """
@@ -26,7 +26,7 @@ information you want to note-down in the action_input and all future prompts
 will remember it. This is the mandatory tool after using the Tool_Search.
 Using Tool_Notepad does not always lead to a final answer.
 
-## Exampels of using notepad tool
+## Examples of using Notepad tool
 {
     "action": "Tool_Notepad",
     "action_input": "(www.website.com) the information you want to note-down"
@@ -60,14 +60,20 @@ note_tool = Tool(name="Tool_Notepad",
 async def final(x: str):
     pass
 
-finish_description = """ Useful when you have enough information to produce
-final answer that achieves the original Goal. Provide citations for all facts
-in your final answer. These citations should be URLs to webpages.
+finish_description = """ Useful when you have enough information to produce a
+final answer that achieves the original Goal.
 
-## Exampels of using Finish tool
+You must also include this key in the output for the Tool_Finish action
+"citations": ["www.example.com/a/list/of/websites: what facts you got from the website",
+              "www.example.com/used/to/produce/the/action/and/action/input: "what facts you got from the website",
+              "www.webiste.com/include/the/citations/from/the/previous/steps/as/well: "what facts you got from the website",
+              "www.website.com": "this section is only needed for the final answer"]
+
+## Examples of using Finish tool
 {
     "action": "Tool_Finish",
-    "action_input": "final answer"
+    "action_input": "final answer",
+    "citations": ["www.example.com: what facts you got from the website"]
 }
 """
 
@@ -75,7 +81,6 @@ finish_tool = Tool(name="Tool_Finish",
                    func=lambda x: x,
                    coroutine=final,
                    description=finish_description)
-
 
 def rewrite_search_query(q: str, search_history, llm: BaseLanguageModel) -> str:
     history_string = '\n'.join(search_history)
@@ -86,4 +91,5 @@ def rewrite_search_query(q: str, search_history, llm: BaseLanguageModel) -> str:
     prompt = PromptTemplate(template=template,
                             input_variables=["action_input", "history_string"])
     llm_chain = LLMChain(prompt=prompt, llm=llm)
-    return llm_chain.predict(action_input=q, history_string=history_string)
+    result = llm_chain.predict(action_input=q, history_string=history_string)
+    return result
