@@ -65,9 +65,9 @@ final answer that achieves the original Goal.
 
 You must also include this key in the output for the Tool_Finish action
 "citations": ["www.example.com/a/list/of/websites: what facts you got from the website",
-              "www.example.com/used/to/produce/the/action/and/action/input: "what facts you got from the website",
-              "www.webiste.com/include/the/citations/from/the/previous/steps/as/well: "what facts you got from the website",
-              "www.website.com": "this section is only needed for the final answer"]
+"www.example.com/used/to/produce/the/action/and/action/input: "what facts you got from the website",
+"www.webiste.com/include/the/citations/from/the/previous/steps/as/well: "what facts you got from the website",
+"www.website.com": "this section is only needed for the final answer"]
 
 ## Examples of using Finish tool
 {

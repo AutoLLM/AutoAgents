@@ -22,8 +22,8 @@ from pprint import pprint
 import json
 
 # Set up the base template
-template = """ We are working together to satisfy the user's original goal
-step-by-step. Play to your strengths as an LLM.  Make sure the plan is
+template = """We are working together to satisfy the user's original goal
+step-by-step. Play to your strengths as an LLM. Make sure the plan is
 achievable using the available tools. The final answer should be descriptive,
 and should include all relevant details.
 
