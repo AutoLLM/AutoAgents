@@ -36,6 +36,10 @@ OUTPUT_FILE: str = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     f"hotpot_predict_{MODEL_NAME}.json"
 )
+WRONG_ANS_OUTPUT_FILE: str = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    f"wrong_answers_{MODEL_NAME}.json"
+)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(level=logging.DEBUG)
@@ -47,10 +51,7 @@ log_filehandler.setFormatter(
 logger.addHandler(log_filehandler)
 
 
-async def work(data, pred_dict):
-    outputq = asyncio.Queue()
-    user_input = data["question"]
-
+def get_llms():
     if MODEL_NAME not in OPENAI_MODEL_NAMES:
         llm = CustomLLM(
             model_name=MODEL_NAME,
@@ -73,13 +74,20 @@ async def work(data, pred_dict):
         model=EVAL_MODEL_NAME,
         request_timeout=AWAIT_TIMEOUT
     )
+    return llm, evalllm
 
+
+async def work(data, pred_dict):
+    outputq = asyncio.Queue()
+    user_input = data["question"]
+
+    llm, evalllm = get_llms()
     runner = WikiActionRunner(outputq, llm=llm)
     task = asyncio.create_task(runner.run(user_input, outputq))
 
     titles = []
     statistics = {
-        "steps": 0, "equivalency": 0, "rewritten": 0, "search_invoked": 0, "notepad_invoked": 0, "multi_tools": 0, "parse_error": 0, "invalid_tool": 0, "context_len_err": 0
+        "steps": 0, "equivalency": 0, "reasoning": '', "question": user_input, "gt_answer": data["answer"], "rewritten": 0, "search_invoked": 0, "notepad_invoked": 0, "multi_tools": 0, "parse_error": 0, "invalid_tool": 0, "context_len_err": 0
     }
     while True:
 
@@ -105,48 +113,19 @@ async def work(data, pred_dict):
                     statistics["context_len_err"] += 1
                 pred_dict["error"][data["_id"]] = str(output)
                 break
-        try:
-            obj = literal_eval(output)
-            logger.debug(f"Question: {user_input}\n{pformat(obj, indent=2)}")
-            if obj and isinstance(obj, list):
-                if isinstance(obj[0], str):
-                    statistics["notepad_invoked"] += 1
-                elif isinstance(obj[0], dict) and "title" in obj[0]:
-                    statistics["search_invoked"] += 1
-                    titles.append([doc["title"] for doc in obj])
-        except:
-            logger.debug(f"Question: {user_input}\n{output}")
-            ACTION_PATTERN = "\nAction Input:"
-            f_idx = output.find(ACTION_PATTERN)
-            if f_idx != -1 and output[f_idx + len(ACTION_PATTERN):].find(ACTION_PATTERN) != -1:
-                statistics["multi_tools"] += 1
-            pass
+        
+        process_step_output(output, user_input, statistics, titles)
 
         if "Final Answer:" in output:
             final_answer: str = output.split("Final Answer:")[-1].strip()
-            gt_answer: str = data["answer"]
-
             logger.info(f"Question: {user_input}\nFinal Output: {final_answer}\n")
 
-            try:
-                # Use GPT use determine if the final output is equivalent with the ground truth
-                resp = await evalllm.agenerate([[HumanMessage(
-                    content=f"Given a question and a pair of answers. Determine if the answers are equivalent. Do not add explanations. Format your answer in JSON with a boolean fields called 'is_equivalent' that can be loaded in python.\n\nQuestion: '{user_input}'\n\nAnswer1: '{gt_answer}'\n\nAnswer2: '{final_answer}'"
-                )]])
-                is_equivalent = json.loads(
-                    resp.generations[0][0].text.strip()
-                ).get("is_equivalent", 0)
-                statistics["equivalency"] = int(is_equivalent)
-
-                pred_dict["answer"][data["_id"]] = final_answer
-                if data["_id"] in pred_dict["error"]:
-                    del pred_dict["error"][data["_id"]]
-
-            except Exception as e:
-                logger.error(f"Question: {user_input}\nError: {e}\n")
-                pred_dict["error"][data["_id"]] = "Error during evalutaion."
+            await evaluate_final_answer(
+                final_answer, data, evalllm, statistics
+            )
 
             break
+
     if titles:
         pred_dict["sp"][data["_id"]] = json.dumps(titles)
     pred_dict["statistics"][data["_id"]] = json.dumps(statistics)
@@ -160,15 +139,78 @@ async def work(data, pred_dict):
         return
 
 
-def main(data, pred_dict):
-    asyncio.run(work(data, pred_dict))
+async def evaluate_final_answer(final_answer, data, evalllm, statistics):
+
+    question: str = data["question"]
+    gt_answer: str = data["answer"]
+
+    try:
+        # Use GPT use determine if the final output is equivalent with the ground truth
+        resp = await evalllm.agenerate([[HumanMessage(
+            content=f"Given a question and a pair of answers. Determine if Answer1 can be strictly infered from Answer2. Return False if given the information in Answer2, we cannot determine whether Answer1 is right. Add detailed explaination and reasioning. Format your answer in JSON with a boolean field called 'is_inferable' and a string field 'reasoning' that can be loaded in python.\n\nQuestion: '{question}'\n\nAnswer1: '{gt_answer}'\n\nAnswer2: '{final_answer}'"
+        )]])
+        resp_obj = json.loads(resp.generations[0][0].text.strip())
+        statistics["equivalency"] = int(resp_obj.get("is_inferable", 0))
+        statistics["reasoning"] = resp_obj.get("reasoning", '')
+
+        pred_dict["answer"][data["_id"]] = final_answer
+        if data["_id"] in pred_dict["error"]:
+            del pred_dict["error"][data["_id"]]
+
+    except Exception as e:
+        logger.error(f"Question: {question}\nError: {e}\n")
+        pred_dict["error"][data["_id"]] = "Error during evalutaion."
 
 
-if __name__ == "__main__":
+def process_step_output(output, user_input, statistics, titles):
 
-    manager = Manager()
+    try:
+        obj = literal_eval(output)
+        logger.debug(f"Question: {user_input}\n{pformat(obj, indent=2)}")
+        if obj and isinstance(obj, list):
+            if isinstance(obj[0], str):
+                statistics["notepad_invoked"] += 1
+            elif isinstance(obj[0], dict) and "title" in obj[0]:
+                statistics["search_invoked"] += 1
+                titles.append([doc["title"] for doc in obj])
+    except:
+        logger.debug(f"Question: {user_input}\n{output}")
+        ACTION_PATTERN = "\nAction Input:"
+        f_idx = output.find(ACTION_PATTERN)
+        if f_idx != -1 and output[f_idx + len(ACTION_PATTERN):].find(ACTION_PATTERN) != -1:
+            statistics["multi_tools"] += 1
 
-    pred_dict = manager.dict()
+
+def save_output():
+
+    output_dict = dict(pred_dict)
+    for k in list(output_dict.keys()):
+        output_dict[k] = dict(output_dict[k])
+        if k in ("sp", "statistics"):
+            for qid in output_dict[k]:
+                output_dict[k][qid] = json.loads(output_dict[k][qid])
+                if isinstance(output_dict[k][qid], str):
+                    output_dict[k][qid] = json.loads(output_dict[k][qid])
+
+    logger.info(pformat(output_dict, indent=2))
+    with open(OUTPUT_FILE, 'w') as f:
+        json.dump(output_dict, f)
+
+    wrong_ans = []
+    for qid, stat in output_dict["statistics"].items():
+        if stat["equivalency"] == 0:
+            wrong_ans.append({
+                "question": stat["question"],
+                "gt_answer": stat["gt_answer"],
+                "prediction": output_dict["answer"].get(qid, ''),
+                "reasoning": stat["reasoning"]
+            })
+    with open(WRONG_ANS_OUTPUT_FILE, 'w') as f:
+        json.dump(wrong_ans, f)
+
+
+def prepare_dataset():
+
     pred_dict["answer"] = manager.dict()
     pred_dict["statistics"] = manager.dict()
     pred_dict["sp"] = manager.dict()
@@ -203,11 +245,10 @@ if __name__ == "__main__":
             elif data["_id"] in cur_dict.get("error", []):
                 dataset.append(data)
 
-    with Pool(processes=10) as pool:
-        for _ in tqdm(pool.imap_unordered(
-            partial(main, pred_dict=pred_dict), dataset
-        ), total=len(dataset)):
-            pass
+    return dataset
+
+
+def retry(dataset):
 
     # Retry until we get all the final answers
     round = 0
@@ -234,17 +275,27 @@ if __name__ == "__main__":
 
         round += 1
 
-    output_dict = dict(pred_dict)
-    for k in list(output_dict.keys()):
-        output_dict[k] = dict(output_dict[k])
-        if k in ("sp", "statistics"):
-            for qid in output_dict[k]:
-                output_dict[k][qid] = json.loads(output_dict[k][qid])
-                if isinstance(output_dict[k][qid], str):
-                    output_dict[k][qid] = json.loads(output_dict[k][qid])
 
-    logger.info(pformat(output_dict, indent=2))
-    with open(OUTPUT_FILE, 'w') as f:
-        json.dump(output_dict, f)
+def main(data, pred_dict):
+    asyncio.run(work(data, pred_dict))
+
+
+if __name__ == "__main__":
+
+    manager = Manager()
+
+    pred_dict = manager.dict()
+
+    dataset = prepare_dataset()
+
+    with Pool(processes=10) as pool:
+        for _ in tqdm(pool.imap_unordered(
+            partial(main, pred_dict=pred_dict), dataset
+        ), total=len(dataset)):
+            pass
+
+    retry(dataset=dataset)
+
+    save_output()
 
     eval(OUTPUT_FILE, GT_FILE)
