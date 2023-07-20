@@ -25,16 +25,16 @@ GT_URL: str = "http://curtis.ml.cmu.edu/datasets/hotpot/hotpot_dev_fullwiki_v1.j
 MODEL_NAME: str = "gpt-4"
 EVAL_MODEL_NAME: str = "gpt-3.5-turbo"
 TEMPERATURE: int = 0
-NUM_SAMPLES_TOTAL: int = 10
+NUM_SAMPLES_TOTAL: int = 200
 AWAIT_TIMEOUT: int = 120
 ROUND_WAITTIME: int = 60
-MAX_RETRY_ROUND: int = 1
+MAX_RETRY_ROUND: int = 2
 
 OPENAI_MODEL_NAMES = {"gpt-3.5-turbo", "gpt-4"}
 
 OUTPUT_FILE: str = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
-    f"hotpot_predict_{MODEL_NAME}.json"
+    f"prediction_{MODEL_NAME}.json"
 )
 WRONG_ANS_OUTPUT_FILE: str = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -87,7 +87,7 @@ async def work(data, pred_dict):
 
     titles = []
     statistics = {
-        "steps": 0, "equivalency": 0, "reasoning": '', "question": user_input, "gt_answer": data["answer"], "rewritten": 0, "search_invoked": 0, "notepad_invoked": 0, "multi_tools": 0, "parse_error": 0, "invalid_tool": 0, "context_len_err": 0
+        "steps": 0, "equivalency": 0, "reasoning": '', "question": user_input, "gt_answer": data["answer"], "citations": {}, "rewritten": 0, "search_invoked": 0, "notepad_invoked": 0, "multi_tools": 0, "parse_error": 0, "invalid_tool": 0, "context_len_err": 0
     }
     while True:
 
@@ -120,6 +120,14 @@ async def work(data, pred_dict):
             final_answer: str = parsed["action_input"]
             logger.info(f"Question: {user_input}\nFinal Output: {final_answer}\n")
 
+            # Get list of citations
+            citations = []
+            for citation in parsed.get("citations", []):
+                url = citation.split(": ")[0]
+                if url in statistics["citations"]:
+                    citations.append(statistics["citations"].get(url))
+            statistics["citations"] = citations
+
             await evaluate_final_answer(final_answer, data, evalllm, statistics)
 
             break
@@ -140,9 +148,9 @@ def get_parsed_output(user_input, output, statistics, titles):
     try:
         parsed = json.loads(output)
         logger.debug(f"Question: {user_input}\n{json.dumps(parsed, indent=2)}")
-        if parsed["action"] == "Wikipedia":
+        if parsed["action"] == "Tool_Wikipedia":
             statistics["search_invoked"] += 1
-        elif parsed["action"] == "Notepad":
+        elif parsed["action"] == "Tool_Notepad":
             statistics["notepad_invoked"] += 1
     except:
         try:
@@ -150,6 +158,8 @@ def get_parsed_output(user_input, output, statistics, titles):
             logger.debug(f"Question: {user_input}\n{json.dumps(parsed, indent=2)}")
             if isinstance(parsed, list) and isinstance(parsed[0], dict) and "title" in parsed[0]:
                 titles.append([doc["title"] for doc in parsed])
+                for doc in parsed:
+                    statistics["citations"][doc["url"]] = doc["title"]
         except:
             logger.debug(f"Question: {user_input}\n{output}")
     return parsed

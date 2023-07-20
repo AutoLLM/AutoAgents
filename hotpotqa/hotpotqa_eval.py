@@ -3,9 +3,6 @@ import ujson as json
 import re
 import string
 from collections import Counter
-from tqdm import tqdm
-
-from autoagents.tools.tools import vector_search
 
 
 METRIC_TO_STATISTICS: dict = {
@@ -118,20 +115,11 @@ def update_sp(metrics, prediction, gold, statistics):
 
     return em, prec, recall
 
-def update_last_sp(metrics, prediction, gold):
+def update_last_sp(metrics, statistics, gold):
 
     # Only match titles
-    cur_sp_pred = set(re.findall(
-        "(?P<url>https?://[^\s^,^\)^\]]+)", prediction
-    ))
-
-    # Get all the URLs of ground truth pages
-    gold_sp_pred = set()
-    for gt_title in set(x[0] for x in gold):
-        for obj in vector_search(gt_title, max_candidates=10):
-            if obj["sources"][0]["title"] == gt_title:
-                gold_sp_pred.add(obj["sources"][0]["url"])
-                break
+    cur_sp_pred = set(title for title in statistics.get("citations", []))
+    gold_sp_pred = set(x[0] for x in gold)
 
     tp, fp, fn = 0, 0, 0
     for e in cur_sp_pred:
@@ -170,7 +158,7 @@ def eval(prediction_file, gold_file):
         'joint_em': 0, 'joint_f1': 0, 'joint_prec': 0, 'joint_recall': 0,
         "max_mrr": 0, "first_mrr": 0, "last_mrr": 0, "wrong_infer": 0}
     metrics.update({metric: 0 for metric in METRIC_TO_STATISTICS})
-    for dp in tqdm(gold):
+    for dp in gold:
         cur_id = dp['_id']
         can_eval_joint = True
         if cur_id not in prediction['answer']:
@@ -188,9 +176,9 @@ def eval(prediction_file, gold_file):
         else:
             sp_em, sp_prec, sp_recall = update_sp(
                 metrics, prediction['sp'][cur_id], dp['supporting_facts'], prediction['statistics'][cur_id])
-            # update_last_sp(
-            #     metrics, prediction['answer'].get(cur_id, ''), dp['supporting_facts']
-            # )
+            update_last_sp(
+                metrics, prediction['statistics'].get(cur_id, {}), dp['supporting_facts']
+            )
 
         if can_eval_joint:
             joint_prec = prec * sp_prec
