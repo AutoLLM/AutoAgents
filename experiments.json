@@ -1,0 +1,33 @@
+{
+    "action_v1_llama_7b": {
+        "wandb": null,
+        "dataset": "s3://autollm/datasets/action_data/v1/action_data_3135.json",
+        "weights": "s3://autollm/weights/action_models/action_v1_llama_7b/"
+    },
+    "action_v1_vicuna_7b": {
+        "wandb": null,
+        "dataset": "s3://autollm/datasets/action_data/v1/action_data_3135.json",
+        "weights": "s3://autollm/weights/action_models/action_v1_vicuna_7b/"
+    },
+    "action_v1_openllama_7b": {
+        "wandb": null,
+        "dataset": "s3://autollm/datasets/action_data/v1/action_data_3135.json",
+        "weights": "s3://autollm/weights/action_models/action_v1_openllama_7b/"
+    },
+    "action_v2_longchat_7b": {
+        "wandb": null,
+        "dataset": "s3://autollm/datasets/action_data/v2/transformed.json",
+        "weights": "s3://autollm/weights/action_models/action_v2_longchat_7b/"
+    },
+    "action_v2_vicuna_7b": {
+        "wandb": "https://wandb.ai/autollm/action_v2_vicuna_7b/runs/kxth7dkq?workspace=user-autollm-project",
+        "dataset": "s3://autollm/datasets/action_data/v2/transformed.json",
+        "weights": ""
+    },
+    "action_v3_longchat_7b": {
+        "wandb": null,
+        "dataset": "s3://autollm/datasets/action_data/v3/transformed.json",
+        "weights": "s3://autollm/weights/action_models/action_v3_longchat_7b/"
+    }
+    
+}
