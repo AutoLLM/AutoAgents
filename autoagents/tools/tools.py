@@ -42,6 +42,19 @@ Using Tool_Notepad does not always lead to a final answer.
 }
 """
 
+wiki_notepad_description = """ Useful for when you need to note-down specific
+information for later reference. Please provide the website and full
+information you want to note-down in the action_input and all future prompts
+will remember it. This is the mandatory tool after using the Tool_Wikipedia.
+Using Tool_Notepad does not always lead to a final answer.
+
+## Examples of using Notepad tool
+{
+    "action": "Tool_Notepad",
+    "action_input": "(www.website.com) the information you want to note-down"
+}
+"""
+
 wiki_search_description = """ Useful for when you need to get some information about a certain entity. Use direct language and be
 concise about what you want to retrieve. Note: the action input MUST be a wikipedia entity instead of a long sentence.
                         
@@ -150,6 +163,11 @@ note_tool = Tool(name="Tool_Notepad",
                    func=lambda x: x,
                    coroutine=notepad,
                    description=notepad_description)
+
+wiki_note_tool = Tool(name="Tool_Notepad",
+                   func=lambda x: x,
+                   coroutine=notepad,
+                   description=wiki_notepad_description)
 
 wiki_search_tool = Tool(
         name="Tool_Wikipedia",
