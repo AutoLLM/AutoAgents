@@ -1,6 +1,6 @@
 from langchain.base_language import BaseLanguageModel
 from autoagents.agents.search import ActionRunner
-from autoagents.tools.tools import wiki_dump_search_tool, note_tool
+from autoagents.tools.tools import wiki_dump_search_tool, wiki_note_tool
 
 
 # Set up the base template
@@ -38,7 +38,7 @@ only output or when you have no Action to do next.
 {agent_scratchpad}
 
 Do not repeat any past actions in History, because you will not get additional information.
-If the last action is search, then you should use notepad to keep critical information.
+If the last action is Wikipedia, then you should use Notepad to keep critical information.
 If you have gathered all information in your plannings to satisfy the user's original goal, then respond immediately as the Final Answer.
 """
 
@@ -50,6 +50,6 @@ class WikiActionRunner(ActionRunner):
         super().__init__(
             outputq, llm, persist_logs,
             prompt_template=template,
-            tools=[wiki_dump_search_tool, note_tool],
+            tools=[wiki_dump_search_tool, wiki_note_tool],
             search_tool_name="Wikipedia"
         )
