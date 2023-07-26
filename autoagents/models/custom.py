@@ -20,6 +20,8 @@ class CustomLLM(LLM):
                 "stop": stop
             },
         )
+        if r.status_code != 200:
+            raise RuntimeError(f"{r.status_code}: {r.content}")
         result = r.json()
         try:
             return result["choices"][0]["message"]["content"]
