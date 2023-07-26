@@ -136,11 +136,11 @@ class CustomOutputParser(AgentOutputParser):
     action_history = defaultdict(set)
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
+        self.ialogger.add_ai(llm_output)
         parsed = json.loads(llm_output)
         if not check_valid(parsed):
             raise ValueError(f"Could not parse LLM output: `{llm_output}`")
 
-        self.ialogger.add_ai(llm_output)
         # Parse out the action and action input
         action = parsed["action"]
         action_input = parsed["action_input"]

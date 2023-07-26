@@ -4,30 +4,31 @@ from langchain.llms.base import LLM
 
 
 class CustomLLM(LLM):
+    model_name: str
+    completions_url: str = "http://localhost:8000/v1/chat/completions"
+    temperature: float = 0.
+    max_tokens: int = 1024
+
     @property
     def _llm_type(self) -> str:
         return "custom"
 
     def _call(self, prompt: str, stop=None) -> str:
         r = requests.post(
-            "http://localhost:8000/v1/chat/completions",
+            self.completions_url,
             json={
-                "model": "283-vicuna-7b",
+                "model": self.model_name,
                 "messages": [{"role": "user", "content": prompt}],
-                "stop": stop
+                "stop": stop,
+                "temperature": self.temperature,
+                "max_tokens": self.max_tokens
             },
         )
         result = r.json()
-        return result["choices"][0]["message"]["content"]
+        try:
+            return result["choices"][0]["message"]["content"]
+        except:
+            raise RuntimeError(result)
 
     async def _acall(self, prompt: str, stop=None) -> str:
-        r = requests.post(
-            "http://localhost:8000/v1/chat/completions",
-            json={
-                "model": "283-vicuna-7b",
-                "messages": [{"role": "user", "content": prompt}],
-                "stop": stop
-            },
-        )
-        result = r.json()
-        return result["choices"][0]["message"]["content"]
+        return self._call(prompt, stop)
