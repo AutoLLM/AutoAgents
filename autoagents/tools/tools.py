@@ -8,30 +8,9 @@ from langchain.base_language import BaseLanguageModel
 
 MAX_SEARCH_RESULTS = 20  # Number of search results to observe at a time
 
-search_description = """ Useful for when you need to ask with search. Use direct language and be
-EXPLICIT in what you want to search. Do NOT use filler words.
+search_description = """Useful for when you need to ask with search."""
 
-## Examples of incorrect use
-{
-     "action": "Tool_Search",
-     "action_input": "[name of bagel shop] menu"
-}
-
-The action_input cannot be None or empty.
-"""
-
-notepad_description = """ Useful for when you need to note-down specific
-information for later reference. Please provide the website and full
-information you want to note-down in the action_input and all future prompts
-will remember it. This is the mandatory tool after using the Tool_Search.
-Using Tool_Notepad does not always lead to a final answer.
-
-## Examples of using Notepad tool
-{
-    "action": "Tool_Notepad",
-    "action_input": "(www.website.com) the information you want to note-down"
-}
-"""
+notepad_description = """ Useful for when you need to note-down specific information for later reference."""
 
 
 async def ddg(query: str):
@@ -60,22 +39,8 @@ note_tool = Tool(name="Tool_Notepad",
 async def final(x: str):
     pass
 
-finish_description = """ Useful when you have enough information to produce a
-final answer that achieves the original Goal.
-
-You must also include this key in the output for the Tool_Finish action
-"citations": ["www.example.com/a/list/of/websites: what facts you got from the website",
-"www.example.com/used/to/produce/the/action/and/action/input: "what facts you got from the website",
-"www.webiste.com/include/the/citations/from/the/previous/steps/as/well: "what facts you got from the website",
-"www.website.com": "this section is only needed for the final answer"]
-
-## Examples of using Finish tool
-{
-    "action": "Tool_Finish",
-    "action_input": "final answer",
-    "citations": ["www.example.com: what facts you got from the website"]
-}
-"""
+finish_description = """Useful when you have enough information to produce a
+final answer that achieves the original Goal."""
 
 finish_tool = Tool(name="Tool_Finish",
                    func=lambda x: x,

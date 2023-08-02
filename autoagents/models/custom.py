@@ -1,11 +1,12 @@
 import requests
+import json
 
 from langchain.llms.base import LLM
 
 
 class CustomLLM(LLM):
     model_name: str
-    completions_url: str = "http://localhost:8000/v1/chat/completions"
+    completions_url: str = "http://localhost:8004/v1/completions"
     temperature: float = 0.
     max_tokens: int = 1024
 
@@ -18,7 +19,7 @@ class CustomLLM(LLM):
             self.completions_url,
             json={
                 "model": self.model_name,
-                "messages": [{"role": "user", "content": prompt}],
+                "prompt": json.loads(prompt),
                 "stop": stop,
                 "temperature": self.temperature,
                 "max_tokens": self.max_tokens
@@ -26,7 +27,7 @@ class CustomLLM(LLM):
         )
         result = r.json()
         try:
-            return result["choices"][0]["message"]["content"]
+            return json.loads(r.json()["choices"][0]["text"])
         except:
             raise RuntimeError(result)
 
