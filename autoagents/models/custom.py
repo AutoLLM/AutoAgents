@@ -27,7 +27,7 @@ class CustomLLM(LLM):
         )
         result = r.json()
         try:
-            return json.loads(r.json()["choices"][0]["text"])
+            return r.json()["choices"][0]["text"]
         except:
             raise RuntimeError(result)
 
