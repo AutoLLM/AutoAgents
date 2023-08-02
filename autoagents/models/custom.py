@@ -20,7 +20,7 @@ class CustomLLM(LLM):
             json={
                 "model": self.model_name,
                 "prompt": json.loads(prompt),
-                "stop": stop,
+                "stop": "\n\n",
                 "temperature": self.temperature,
                 "max_tokens": self.max_tokens
             },
