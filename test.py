@@ -1,37 +1,44 @@
 import os
 import asyncio
 import json
+import argparse
 
 from autoagents.agents.search import ActionRunner
 from autoagents.agents.wiki_agent import WikiActionRunner
 from langchain.chat_models import ChatOpenAI
 from autoagents.models.custom import CustomLLM
-import json
 from pprint import pprint
 
 
-USE_WIKIAGENT: bool = False
+OPENAI_MODEL_NAMES = {"gpt-3.5-turbo", "gpt-4"}
+AWAIT_TIMEOUT: int = 120
 
 
-from autoagents.agents.search import ActionRunner
-from langchain.chat_models import ChatOpenAI
-
-
-USE_WIKIAGENT: bool = False
-
-
-async def work(user_input):
+async def work(user_input, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
     outputq = asyncio.Queue()
-    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"),
-                     openai_organization=os.getenv("OPENAI_API_ORG"),
-                     temperature=0.,
-                     model_name="gpt-4")
-    runner = ActionRunner(outputq, llm=llm, persist_logs=False) if not USE_WIKIAGENT \
-        else WikiActionRunner(outputq, llm=llm, persist_logs=False)
+    if model not in OPENAI_MODEL_NAMES:
+        llm = CustomLLM(
+            model_name=model,
+            temperature=temperature,
+            request_timeout=AWAIT_TIMEOUT
+        )
+    else:
+        llm = ChatOpenAI(
+            openai_api_key=os.getenv("OPENAI_API_KEY"),
+            openai_organization=os.getenv("OPENAI_API_ORG"),
+            temperature=temperature,
+            model_name=model,
+            request_timeout=AWAIT_TIMEOUT
+        )
+    runner = ActionRunner(outputq, llm=llm, persist_logs=persist_logs) if not use_wikiagent \
+        else WikiActionRunner(outputq, llm=llm, persist_logs=persist_logs)
     task = asyncio.create_task(runner.run(user_input, outputq))
 
     while True:
-        output = await outputq.get()
+        try:
+            output = await asyncio.wait_for(outputq.get(), AWAIT_TIMEOUT)
+        except asyncio.TimeoutError:
+            break
         if isinstance(output, RuntimeWarning):
             print(f"Question: {user_input}")
             print(output)
@@ -95,10 +102,32 @@ HF = [(0, "Recommend me a movie in theater now to watch with kids."),
       ]
 
 
-def main(q):
-    return asyncio.run(work(q))
+async def main(questions, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
+    await asyncio.gather(*[work(q, model, temperature, use_wikiagent, persist_logs) for q in questions])
 
 if __name__ == "__main__":
-    for i, q in (HF if not USE_WIKIAGENT else Q_HOTPOTQA):
-        if i == 5:
-            main(q)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", type=str, default="gpt-3.5-turbo")
+    parser.add_argument("--temperature", type=int, default=0)
+    parser.add_argument("--agent",
+        default="ddg",
+        const="ddg",
+        nargs="?",
+        choices=("ddg", "wiki"),
+        help='which action agent we want to interact with(default: ddg)'
+    )
+    parser.add_argument("--data-json", type=str)
+    parser.add_argument("--persist-logs", action='store_true')
+    args = parser.parse_args()
+    print(args)
+    use_wikiagent = False if args.agent == "ddg" else True
+    questions = []
+    if use_wikiagent:
+        questions = [q for _, q in Q_HOTPOTQA]
+    else:
+        questions = [q for _, q in HF]
+    if args.data_json:
+        # TODO: prepare dataset
+        pass
+    persist_logs = True if args.persist_logs else False
+    asyncio.run(main(questions, args.model, args.temperature, use_wikiagent, persist_logs))
