@@ -102,8 +102,10 @@ HF = [(0, "Recommend me a movie in theater now to watch with kids."),
       ]
 
 
-async def main(questions, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
-    await asyncio.gather(*[work(q, model, temperature, use_wikiagent, persist_logs) for q in questions])
+async def main(questions, args):
+    use_wikiagent = False if args.agent == "ddg" else True
+    persist_logs = True if args.persist_logs else False
+    await asyncio.gather(*[work(q, args.model, args.temperature, use_wikiagent, persist_logs) for q in questions])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -116,8 +118,7 @@ if __name__ == "__main__":
         choices=("ddg", "wiki"),
         help='which action agent we want to interact with(default: ddg)'
     )
-    parser.add_argument("--data-json", type=str)
-    parser.add_argument("--persist-logs", action='store_true')
+    parser.add_argument("--persist-logs", action="store_true")
     args = parser.parse_args()
     print(args)
     use_wikiagent = False if args.agent == "ddg" else True
@@ -126,8 +127,4 @@ if __name__ == "__main__":
         questions = [q for _, q in Q_HOTPOTQA]
     else:
         questions = [q for _, q in HF]
-    if args.data_json:
-        # TODO: prepare dataset
-        pass
-    persist_logs = True if args.persist_logs else False
-    asyncio.run(main(questions, args.model, args.temperature, use_wikiagent, persist_logs))
+    asyncio.run(main(questions, args))
