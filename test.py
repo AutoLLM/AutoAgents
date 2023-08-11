@@ -91,13 +91,13 @@ if __name__ == "__main__":
     use_wikiagent = False if args.agent == "ddg" else True
     questions = []
     if args.dataset == "ft":
-        questions = FT
+        questions = [q for _, q in FT]
     elif args.dataset == "hf":
-        questions = HF
+        questions = [q for _, q in HF]
     elif args.dataset == "hotpot":
-        questions = Q_HOTPOTQA
+        questions = [q for _, q in Q_HOTPOTQA]
     elif args.dataset == "bamboogle":
         questions = BAMBOOGLE["questions"]
     else:
-        questions = DEFAULT_Q
+        questions = [q for _, q in DEFAULT_Q]
     asyncio.run(main(questions, args))
