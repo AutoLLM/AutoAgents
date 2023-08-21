@@ -38,6 +38,7 @@ async def work(user_input, model: str, temperature: int, use_wikiagent: bool, pe
     while True:
         try:
             output = await asyncio.wait_for(outputq.get(), AWAIT_TIMEOUT)
+            print(output)
         except asyncio.TimeoutError:
             break
         if isinstance(output, RuntimeWarning):
@@ -61,10 +62,18 @@ async def work(user_input, model: str, temperature: int, use_wikiagent: bool, pe
     return await task
 
 
+
+
 async def main(questions, args):
+    sem = asyncio.Semaphore(10)
+    
+    async def safe_work(user_input, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
+        async with sem:
+            return await work(user_input, model, temperature, use_wikiagent, persist_logs)
+    
     use_wikiagent = False if args.agent == "ddg" else True
     persist_logs = True if args.persist_logs else False
-    await asyncio.gather(*[work(q, args.model, args.temperature, use_wikiagent, persist_logs) for q in questions])
+    await asyncio.gather(*[safe_work(q, args.model, args.temperature, use_wikiagent, persist_logs) for q in questions])
 
 
 if __name__ == "__main__":
@@ -91,13 +100,13 @@ if __name__ == "__main__":
     use_wikiagent = False if args.agent == "ddg" else True
     questions = []
     if args.dataset == "ft":
-        questions = FT
+        questions = [q for _, q in FT]
     elif args.dataset == "hf":
-        questions = HF
+        questions = [q for _, q in HF]
     elif args.dataset == "hotpot":
-        questions = Q_HOTPOTQA
+        questions = [q for _, q in Q_HOTPOTQA]
     elif args.dataset == "bamboogle":
         questions = BAMBOOGLE["questions"]
     else:
-        questions = DEFAULT_Q
+        questions = [q for _, q in DEFAULT_Q]
     asyncio.run(main(questions, args))
