@@ -22,12 +22,13 @@ GT_FILE: str = os.path.join(
 )
 GT_URL: str = "http://curtis.ml.cmu.edu/datasets/hotpot/hotpot_dev_fullwiki_v1.json"
 
-MODEL_NAME: str = "gpt-4"
+MODEL_NAME: str = "sharegpt-90k-llama-v2-13b-vicuna-reduced-lr-v3-2-epochs"
+PERSIST_LOGS: bool = True
 EVAL_MODEL_NAME: str = "gpt-3.5-turbo"
 TEMPERATURE: int = 0
 NUM_SAMPLES_TOTAL: int = 200
-AWAIT_TIMEOUT: int = 120
-ROUND_WAITTIME: int = 60
+AWAIT_TIMEOUT: int = 360
+ROUND_WAITTIME: int = 10
 MAX_RETRY_ROUND: int = 2
 
 OPENAI_MODEL_NAMES = {"gpt-3.5-turbo", "gpt-4"}
@@ -82,12 +83,12 @@ async def work(data, pred_dict):
     user_input = data["question"]
 
     llm, evalllm = get_llms()
-    runner = WikiActionRunner(outputq, llm=llm)
+    runner = WikiActionRunner(outputq, llm=llm, persist_logs=PERSIST_LOGS)
     task = asyncio.create_task(runner.run(user_input, outputq))
 
     titles = []
     statistics = {
-        "steps": 0, "equivalency": 0, "reasoning": '', "question": user_input, "gt_answer": data["answer"], "citations": {}, "rewritten": 0, "search_invoked": 0, "notepad_invoked": 0, "multi_tools": 0, "parse_error": 0, "invalid_tool": 0, "context_len_err": 0
+        "steps": 0, "equivalency": 0, "reasoning": '', "question": user_input, "gt_answer": data["answer"], "raw_citation_urls": [], "citations": {}, "rewritten": 0, "search_invoked": 0, "notepad_invoked": 0, "multi_tools": 0, "parse_error": 0, "invalid_tool": 0, "context_len_err": 0
     }
     while True:
 
@@ -123,7 +124,10 @@ async def work(data, pred_dict):
             # Get list of citations
             citations = []
             for citation in parsed.get("citations", []):
+                if ": " not in citation:
+                    continue
                 url = citation.split(": ")[0]
+                statistics["raw_citation_urls"].append(url)
                 if url in statistics["citations"]:
                     citations.append(statistics["citations"].get(url))
             statistics["citations"] = citations

@@ -124,7 +124,7 @@ async def wikidumpsearch_es(x: str) -> str:
                 "url": doc["url"]
             }]
     return res
-        
+
 async def wikidumpsearch_embed(x: str) -> str:
     res = []
     for obj in vector_search(x):
