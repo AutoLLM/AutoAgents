@@ -18,4 +18,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://omkarenator:$HF_TOKEN@huggingface.co/spaces/AutoLLM/AutoAgents hf-active:test
+        run: git push -u https://omkarenator:$HF_TOKEN@huggingface.co/spaces/AutoLLM/AutoAgents hf-active:test
