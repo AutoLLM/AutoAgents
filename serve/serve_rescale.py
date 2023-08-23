@@ -7,9 +7,9 @@ from fastchat.train.llama_flash_attn_monkey_patch import (
 import os
 
 # TODO: change from env var to proper args (passing the rest of the args to create_model_worker)
-rescale = os.environ.get("CONDENSE_RESCALE", 1)
+rescale = int(os.environ.get("CONDENSE_RESCALE", 1))
 if rescale > 1:
-    from longchat.train.monkey_patch.llama_condense_monkey_patch import replace_llama_with_condense
+    longchat.train.monkey_patch.llama_condense_monkey_patch import replace_llama_with_condense
     replace_llama_with_condense(rescale)
 
 
