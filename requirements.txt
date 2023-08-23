@@ -3,3 +3,5 @@ langchain>=0.0.193
 duckpy
 huggingface_hub
 pytz
+fastchat
+longchat
