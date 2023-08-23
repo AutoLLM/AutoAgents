@@ -3,5 +3,5 @@ langchain>=0.0.193
 duckpy
 huggingface_hub
 pytz
-fastchat
-longchat
+fschat==0.2.13
+git+https://github.com/DachengLi1/LongChat
