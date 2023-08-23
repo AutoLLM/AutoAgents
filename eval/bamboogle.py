@@ -25,7 +25,7 @@ async def eval():
     print(f"Found {len(files)} log files! Starts to analyze......")
     common_stats = get_common_stats(files)
     print(common_stats)
-    accuracy, success_total = 0, 0
+    accuracy = 0
     correct_res_dir, wrong_res_dir, err_res_dir = f"{eval_results_path}-eval/correct", f"{eval_results_path}-eval/wrong", f"{eval_results_path}-eval/error"
     os.makedirs(correct_res_dir, exist_ok=True)
     os.makedirs(wrong_res_dir, exist_ok=True)
@@ -43,7 +43,6 @@ async def eval():
                     if output["action"] == "Tool_Finish":
                         finish = True
                         action_input = output["action_input"]
-                        success_total += 1
                         for i in range(len(BAMBOOGLE["questions"])):
                             if question == BAMBOOGLE["questions"][i]:
                                 answer = BAMBOOGLE["answers"][i]
@@ -58,13 +57,12 @@ async def eval():
                                     shutil.copy2(file, wrong_res_dir)
                                 accuracy += is_correct
             if not finish:
-                common_stats["average_answer_missing"] += 1
                 shutil.copy2(file, wrong_res_dir)
     print(f'accuracy overall is {accuracy}/{common_stats["total_samples"]}={accuracy/common_stats["total_samples"]}')
-    print(f"accuracy on successful runs is {accuracy}/{success_total}={accuracy/success_total}")
-    common_stats["accuracy on successful runs"] = accuracy/success_total
+    print(f'accuracy on finished samples is {accuracy}/{common_stats["finished_samples"]}={accuracy/common_stats["finished_samples"]}')
+    common_stats["accuracy on finished samples"] = accuracy/common_stats["finished_samples"]
     common_stats["accuracy"] = accuracy/common_stats["total_samples"]
-    common_stats["average_answer_missing"] = common_stats["average_answer_missing"]/common_stats["total_samples"]
+    common_stats["average_answer_missing"] = (common_stats["total_samples"] - common_stats["finished_samples"]) / common_stats["total_samples"]
     with open(f"{eval_results_path}-eval/stats.json", "w") as f:
         json.dump(common_stats, f)
 

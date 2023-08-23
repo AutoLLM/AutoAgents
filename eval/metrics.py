@@ -10,12 +10,17 @@ def get_common_stats(log_files):
             "average_steps": 0,
             "parse_error": 0,
             "context_len_err": 0,
-            "total_samples": len(log_files),
-            "average_answer_missing": 0
+            "total_samples": 0,
+            "average_answer_missing": 0,
+            "finished_samples": 0
     }
+    samples = set()
+    finished_samples = set()
     for file in log_files:
         with open(file, "r") as f:
             log_data = json.load(f)
+            question = log_data[0]["goal"]
+            samples.add(question)
             for entry in log_data:
                 if "query_rewrite" in entry:
                     stats["average_rewritten"] += 1
@@ -34,8 +39,12 @@ def get_common_stats(log_files):
                         stats["average_search_invoked"] += 1
                     elif action == "Tool_Notepad":
                         stats["average_notepad_invoked"] += 1
-    stats["average_steps"] = stats["average_steps"] / stats["total_samples"]
-    stats["average_rewritten"] = stats["average_rewritten"] / stats["total_samples"]
-    stats["average_search_invoked"] = stats["average_search_invoked"] / stats["total_samples"]
-    stats["average_notepad_invoked"] = stats["average_notepad_invoked"] / stats["total_samples"]
+                    elif action == "Tool_Finish":
+                        finished_samples.add(question)
+    stats["total_samples"] = len(samples)
+    stats["finished_samples"] = len(finished_samples)
+    stats["average_steps"] = stats["average_steps"] / len(log_files)
+    stats["average_rewritten"] = stats["average_rewritten"] / len(log_files)
+    stats["average_search_invoked"] = stats["average_search_invoked"] / len(log_files)
+    stats["average_notepad_invoked"] = stats["average_notepad_invoked"] / len(log_files)
     return stats

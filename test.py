@@ -13,10 +13,10 @@ from pprint import pprint
 
 OPENAI_MODEL_NAMES = {"gpt-3.5-turbo", "gpt-4"}
 AWAIT_TIMEOUT: int = 120
+MAX_RETRIES: int = 10
 
 
 async def work(user_input, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
-    outputq = asyncio.Queue()
     if model not in OPENAI_MODEL_NAMES:
         llm = CustomLLM(
             model_name=model,
@@ -31,38 +31,41 @@ async def work(user_input, model: str, temperature: int, use_wikiagent: bool, pe
             model_name=model,
             request_timeout=AWAIT_TIMEOUT
         )
-    runner = ActionRunner(outputq, llm=llm, persist_logs=persist_logs) if not use_wikiagent \
-        else WikiActionRunner(outputq, llm=llm, persist_logs=persist_logs)
-    task = asyncio.create_task(runner.run(user_input, outputq))
 
-    while True:
-        try:
-            output = await asyncio.wait_for(outputq.get(), AWAIT_TIMEOUT)
-            print(output)
-        except asyncio.TimeoutError:
-            break
-        if isinstance(output, RuntimeWarning):
-            print(f"Question: {user_input}")
-            print(output)
-            continue
-        elif isinstance(output, Exception):
-            print(f"Question: {user_input}")
-            print(output)
-            return
-        try:
-            parsed = json.loads(output)
-            print(json.dumps(parsed, indent=2))
-            print("-----------------------------------------------------------")
-            if parsed["action"] == "Tool_Finish":
+    retry_count = 0
+    while retry_count < MAX_RETRIES:
+        outputq = asyncio.Queue()
+        runner = ActionRunner(outputq, llm=llm, persist_logs=persist_logs) if not use_wikiagent \
+            else WikiActionRunner(outputq, llm=llm, persist_logs=persist_logs)
+        task = asyncio.create_task(runner.run(user_input, outputq))
+        while True:
+            try:
+                output = await asyncio.wait_for(outputq.get(), AWAIT_TIMEOUT)
+            except asyncio.TimeoutError:
+                task.cancel()
+                retry_count += 1
                 break
-        except:
-            print(f"Question: {user_input}")
-            print(output)
-            print("-----------------------------------------------------------")
-    return await task
-
-
-
+            if isinstance(output, RuntimeWarning):
+                print(f"Question: {user_input}")
+                print(output)
+                continue
+            elif isinstance(output, Exception):
+                task.cancel()
+                print(f"Question: {user_input}")
+                print(output)
+                retry_count += 1
+                break
+            try:
+                parsed = json.loads(output)
+                print(json.dumps(parsed, indent=2))
+                print("-----------------------------------------------------------")
+                if parsed["action"] == "Tool_Finish":
+                    return await task
+            except:
+                print(f"Question: {user_input}")
+                print(output)
+                print("-----------------------------------------------------------")
+    
 
 async def main(questions, args):
     sem = asyncio.Semaphore(10)
