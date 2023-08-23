@@ -82,7 +82,7 @@ async def main(questions, args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", type=str, default="gpt-3.5-turbo")
-    parser.add_argument("--temperature", type=int, default=0)
+    parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--agent",
         default="ddg",
         const="ddg",
