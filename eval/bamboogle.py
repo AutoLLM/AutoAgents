@@ -13,7 +13,7 @@ from eval.metrics import get_common_stats
 
 
 async def eval():
-    eval_results_path = sys.argv[1]
+    eval_results_path = "./data"
     files = glob.glob(f"{eval_results_path}/*.json")
     evalllm = ChatOpenAI(
         openai_api_key=os.getenv("OPENAI_API_KEY"),
@@ -65,6 +65,3 @@ async def eval():
     common_stats["average_answer_missing"] = (common_stats["total_samples"] - common_stats["finished_samples"]) / common_stats["total_samples"]
     with open(f"{eval_results_path}-eval/stats.json", "w") as f:
         json.dump(common_stats, f)
-
-asyncio.run(eval())
-

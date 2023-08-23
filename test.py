@@ -5,6 +5,9 @@ import argparse
 
 from autoagents.agents.search import ActionRunner
 from autoagents.agents.wiki_agent import WikiActionRunner
+from eval.bamboogle import eval as eval_bamboogle
+from eval.hotpotqa.hotpotqa_eval import eval as eval_hotpotqa
+from eval.hotpotqa.constants import GT_FILE, LOG_DATA_DIR
 from dataset import BAMBOOGLE, DEFAULT_Q, Q_HOTPOTQA, FT, HF
 from langchain.chat_models import ChatOpenAI
 from autoagents.models.custom import CustomLLM
@@ -98,6 +101,7 @@ if __name__ == "__main__":
         choices=("default", "hotpotqa", "ft", "hf", "bamboogle"),
         help='which dataset we want to interact with(default: default)'
     )
+    parser.add_argument("--eval", action="store_true")
     args = parser.parse_args()
     print(args)
     use_wikiagent = False if args.agent == "ddg" else True
@@ -106,10 +110,15 @@ if __name__ == "__main__":
         questions = [q for _, q in FT]
     elif args.dataset == "hf":
         questions = [q for _, q in HF]
-    elif args.dataset == "hotpot":
+    elif args.dataset == "hotpotqa":
         questions = [q for _, q in Q_HOTPOTQA]
     elif args.dataset == "bamboogle":
         questions = BAMBOOGLE["questions"]
     else:
         questions = [q for _, q in DEFAULT_Q]
     asyncio.run(main(questions, args))
+    if args.eval:
+        if args.dataset == "bamboogle":
+            asyncio.run(eval_bamboogle())
+        elif args.dataset == "hotpotqa":
+            eval_hotpotqa(OUTPUT_FILE, GT_FILE)
