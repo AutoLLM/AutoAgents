@@ -1,6 +1,6 @@
 python3 -m torch.distributed.run --nproc_per_node=8 \
     --master_port=20005 --nnodes=1 --node_rank=$RANK --master_addr=127.0.0.1 \
-    train/train_mem.py \
+    autoagents/train/train_mem.py \
     --model_name_or_path input-model \
     --data_path json-data.json \
     --bf16 True \
