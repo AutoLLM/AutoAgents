@@ -1,6 +1,6 @@
 CONDENSE_RESCALE=4 python3 -m torch.distributed.run --nproc_per_node=8 \
     --master_port=20005 --nnodes=1 --node_rank=$RANK --master_addr=127.0.0.1 \
-    autoagents/train/train_mem.py \
+    autoagents/train/train.py \
     --model_name_or_path meta-llama/Llama-2-13b-hf \
     --data_path path-to-sharegpt-data.json \
     --bf16 True \
