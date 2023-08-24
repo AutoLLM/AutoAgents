@@ -4,8 +4,10 @@ from langchain.llms.base import LLM
 
 
 class CustomLLM(LLM):
-
-    model_name: str = "action_longchat_7b"
+    model_name: str
+    completions_url: str = "http://localhost:8000/v1/chat/completions"
+    temperature: float = 0.
+    max_tokens: int = 1024
 
     @property
     def _llm_type(self) -> str:
@@ -13,20 +15,20 @@ class CustomLLM(LLM):
 
     def _call(self, prompt: str, stop=None) -> str:
         r = requests.post(
-            "http://localhost:8000/v1/chat/completions",
+            self.completions_url,
             json={
                 "model": self.model_name,
                 "messages": [{"role": "user", "content": prompt}],
-                "stop": stop
+                "stop": stop,
+                "temperature": self.temperature,
+                "max_tokens": self.max_tokens
             },
         )
-        if r.status_code != 200:
-            raise RuntimeError(f"{r.status_code}: {r.content}")
         result = r.json()
         try:
             return result["choices"][0]["message"]["content"]
-        except Exception as e:
-            raise RuntimeError(result) from e
+        except:
+            raise RuntimeError(result)
 
     async def _acall(self, prompt: str, stop=None) -> str:
-        return self._call(prompt=prompt, stop=stop)
+        return self._call(prompt, stop)

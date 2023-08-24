@@ -8,8 +8,8 @@ from ast import literal_eval
 import streamlit as st
 import openai
 
-from autoagents.utils.constants import MAIN_HEADER, MAIN_CAPTION, SAMPLE_QUESTIONS
-from autoagents.agents.search import ActionRunner
+from autoagents.agents.utils.constants import MAIN_HEADER, MAIN_CAPTION, SAMPLE_QUESTIONS
+from autoagents.agents.agents.search import ActionRunner
 
 from langchain.chat_models import ChatOpenAI
 

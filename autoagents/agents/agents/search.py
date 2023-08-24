@@ -18,8 +18,42 @@ from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.callbacks.manager import AsyncCallbackManager
 from langchain.base_language import BaseLanguageModel
 
-from autoagents.tools.tools import search_tool, note_tool, rewrite_search_query, finish_tool
-from autoagents.utils.logger import InteractionsLogger
+from autoagents.agents.tools.tools import search_tool, note_tool, rewrite_search_query, finish_tool
+from autoagents.agents.utils.logger import InteractionsLogger
+
+from pydantic import BaseModel, ValidationError, Extra  # pydantic==1.10.11
+
+
+class InterOutputSchema(BaseModel):
+    thought: str
+    reasoning: str
+    plan: List[str]
+    action: str
+    action_input: str
+    class Config:
+        extra = Extra.forbid
+
+
+class FinalOutputSchema(BaseModel):
+    thought: str
+    reasoning: str
+    plan: List[str]
+    action: str
+    action_input: str
+    citations: List[str]
+    class Config:
+        extra = Extra.forbid
+
+
+def check_valid(o):
+    try:
+        if o.get("action") == "Tool_Finish":
+            FinalOutputSchema(**o)
+        else:
+            InterOutputSchema(**o)
+    except ValidationError:
+        return False
+    return True
 
 from pydantic import BaseModel, ValidationError, Extra  # pydantic==1.10.11
 
@@ -143,6 +177,10 @@ class CustomOutputParser(AgentOutputParser):
             raise ValueError(f"Could not parse LLM output: `{llm_output}`")
 
         self.ialogger.add_ai(llm_output)
+        parsed = json.loads(llm_output)
+        if not check_valid(parsed):
+            raise ValueError(f"Could not parse LLM output: `{llm_output}`")
+
         # Parse out the action and action input
         action = parsed["action"]
         action_input = parsed["action_input"]
@@ -173,12 +211,11 @@ class ActionRunner:
                  tools: List[Tool] = [search_tool, note_tool, finish_tool],
                  search_tool_name: str = "Search"):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
-        prompt = CustomPromptTemplate(
-                template=prompt_template,
-                tools=tools,
-                input_variables=["input", "intermediate_steps"],
-                ialogger=self.ialogger,
-                search_tool_name=search_tool_name)
+        tools = [search_tool, note_tool, finish_tool]
+        prompt = CustomPromptTemplate(template=template,
+                                      tools=tools,
+                                      input_variables=["input", "intermediate_steps"],
+                                      ialogger=self.ialogger)
 
         output_parser = CustomOutputParser(ialogger=self.ialogger, llm=llm, search_tool_name=search_tool_name)
         self.model_name = llm.model_name
