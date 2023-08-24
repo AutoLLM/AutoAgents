@@ -18,8 +18,8 @@ from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.callbacks.manager import AsyncCallbackManager
 from langchain.base_language import BaseLanguageModel
 
-from autoagents.tools.tools import search_tool, note_tool, rewrite_search_query, finish_tool
-from autoagents.utils.logger import InteractionsLogger
+from autoagents.agents.tools.tools import search_tool, note_tool, rewrite_search_query, finish_tool
+from autoagents.agents.utils.logger import InteractionsLogger
 
 from pydantic import BaseModel, ValidationError, Extra  # pydantic==1.10.11
 

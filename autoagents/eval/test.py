@@ -7,7 +7,7 @@ from multiprocessing import Pool, TimeoutError
 from autoagents.agents.search import ActionRunner
 from langchain.callbacks import get_openai_callback
 from langchain.chat_models import ChatOpenAI
-from autoagents.models.custom import CustomLLM
+from autoagents.agents.models.custom import CustomLLM
 import json
 from pprint import pprint
 
