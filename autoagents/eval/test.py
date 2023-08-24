@@ -4,7 +4,7 @@ import asyncio
 from ast import literal_eval
 from multiprocessing import Pool, TimeoutError
 
-from autoagents.agents.search import ActionRunner
+from autoagents.agents.agents.search import ActionRunner
 from langchain.callbacks import get_openai_callback
 from langchain.chat_models import ChatOpenAI
 from autoagents.agents.models.custom import CustomLLM
