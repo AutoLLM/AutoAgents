@@ -6,9 +6,8 @@ import argparse
 from autoagents.agents.search import ActionRunner
 from autoagents.agents.wiki_agent import WikiActionRunner
 from eval.bamboogle import eval as eval_bamboogle
-from eval.hotpotqa.hotpotqa_eval import eval as eval_hotpotqa
-from eval.hotpotqa.constants import GT_FILE, LOG_DATA_DIR
-from dataset import BAMBOOGLE, DEFAULT_Q, Q_HOTPOTQA, FT, HF
+from eval.hotpotqa.eval_async import HotpotqaAsyncEval
+from dataset import BAMBOOGLE, DEFAULT_Q, FT, HF
 from langchain.chat_models import ChatOpenAI
 from autoagents.models.custom import CustomLLM
 from pprint import pprint
@@ -16,7 +15,7 @@ from pprint import pprint
 
 OPENAI_MODEL_NAMES = {"gpt-3.5-turbo", "gpt-4"}
 AWAIT_TIMEOUT: int = 120
-MAX_RETRIES: int = 10
+MAX_RETRIES: int = 2
 
 
 async def work(user_input, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
@@ -111,7 +110,8 @@ if __name__ == "__main__":
     elif args.dataset == "hf":
         questions = [q for _, q in HF]
     elif args.dataset == "hotpotqa":
-        questions = [q for _, q in Q_HOTPOTQA]
+        hotpotqa_eval = HotpotqaAsyncEval(model=args.model)
+        questions = hotpotqa_eval.dataset.keys()
     elif args.dataset == "bamboogle":
         questions = BAMBOOGLE["questions"]
     else:
@@ -121,4 +121,4 @@ if __name__ == "__main__":
         if args.dataset == "bamboogle":
             asyncio.run(eval_bamboogle())
         elif args.dataset == "hotpotqa":
-            eval_hotpotqa(OUTPUT_FILE, GT_FILE)
+            hotpotqa_eval.run()

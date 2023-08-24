@@ -7,20 +7,23 @@ import logging
 from autoagents.agents.wiki_agent import WikiActionRunner
 from autoagents.models.custom import CustomLLM
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage
 from pprint import pformat
 from ast import literal_eval
 from multiprocessing import Pool, Manager
 from functools import partial
 from tqdm import tqdm
 
-from hotpotqa_eval import eval
-from constants import *
+from eval.hotpotqa.eval_async import evaluate_final_answer
+from eval.hotpotqa.hotpotqa_eval import eval
+from eval.hotpotqa.constants import *
 
+
+if not os.path.isdir(RESULTS_DIR):
+    os.mkdir(RESULTS_DIR)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(level=logging.DEBUG)
-log_filehandler = logging.FileHandler("run_eval.log")
+log_filehandler = logging.FileHandler(RUN_EVAL_LOG_FILE)
 log_filehandler.setLevel(logging.DEBUG)
 log_filehandler.setFormatter(
     logging.Formatter('%(asctime)s - %(name)s - %(levelname)s \n%(message)s')
@@ -66,7 +69,7 @@ async def work(data, pred_dict):
     statistics = {
         "steps": 0, "equivalency": 0, "reasoning": '', "question": user_input, "gt_answer": data["answer"], "raw_citation_urls": [], "citations": {}, "rewritten": 0, "search_invoked": 0, "notepad_invoked": 0, "multi_tools": 0, "parse_error": 0, "invalid_tool": 0, "context_len_err": 0
     }
-    while True:
+    for _ in range(runner.agent_executor.max_iterations or MAX_ROUND_STEPS):
 
         try:
             output = await asyncio.wait_for(outputq.get(), AWAIT_TIMEOUT)
@@ -108,12 +111,16 @@ async def work(data, pred_dict):
                     citations.append(statistics["citations"].get(url))
             statistics["citations"] = citations
 
-            await evaluate_final_answer(final_answer, data, evalllm, statistics)
+            await evaluate_final_answer(final_answer, data, evalllm, pred_dict, statistics)
 
             break
     if titles:
         pred_dict["sp"][data["_id"]] = json.dumps(titles)
+    if isinstance(statistics["citations"], dict):
+        statistics["citations"] = []
     pred_dict["statistics"][data["_id"]] = json.dumps(statistics)
+    if data["_id"] not in pred_dict["answer"] and data["_id"] not in pred_dict["error"]:
+        pred_dict["error"][data["_id"]] = json.dumps(statistics, indent=2)
 
     # await task
     try:
@@ -145,30 +152,15 @@ def get_parsed_output(user_input, output, statistics, titles):
     return parsed
 
 
-async def evaluate_final_answer(final_answer, data, evalllm, statistics):
-
-    question: str = data["question"]
-    gt_answer: str = data["answer"]
-
-    try:
-        # Use GPT use determine if the final output is equivalent with the ground truth
-        resp = await evalllm.agenerate([[HumanMessage(
-            content=f"Given a question and a pair of answers. Determine if Answer1 can be strictly infered from Answer2. Return False if given the information in Answer2, we cannot determine whether Answer1 is right. Add detailed explaination and reasioning. Format your answer in JSON with a boolean field called 'is_inferable' and a string field 'reasoning' that can be loaded in python.\n\nQuestion: '{question}'\n\nAnswer1: '{gt_answer}'\n\nAnswer2: '{final_answer}'"
-        )]])
-        resp_obj = json.loads(resp.generations[0][0].text.strip())
-        statistics["equivalency"] = int(resp_obj.get("is_inferable", 0))
-        statistics["reasoning"] = resp_obj.get("reasoning", '')
-
-        pred_dict["answer"][data["_id"]] = final_answer
-        if data["_id"] in pred_dict["error"]:
-            del pred_dict["error"][data["_id"]]
-
-    except Exception as e:
-        logger.error(f"Question: {question}\nError: {e}\n")
-        pred_dict["error"][data["_id"]] = "Error during evalutaion."
-
-
 def save_output():
+
+    if PERSIST_LOGS:
+        for log_file in os.listdir(LOG_DATA_DIR):
+            os.rename(
+                src=os.path.join(LOG_DATA_DIR, log_file),
+                dst=os.path.join(NEW_LOG_DIR, log_file)
+            )
+        os.rmdir(LOG_DATA_DIR)
 
     output_dict = dict(pred_dict)
     for k in list(output_dict.keys()):
@@ -181,7 +173,7 @@ def save_output():
 
     logger.info(pformat(output_dict, indent=2))
     with open(OUTPUT_FILE, 'w') as f:
-        json.dump(output_dict, f)
+        json.dump(output_dict, f, indent=2)
 
     wrong_ans = []
     for qid, stat in output_dict["statistics"].items():
@@ -193,7 +185,7 @@ def save_output():
                 "reasoning": stat["reasoning"]
             })
     with open(WRONG_ANS_OUTPUT_FILE, 'w') as f:
-        json.dump(wrong_ans, f)
+        json.dump(wrong_ans, f, indent=2)
 
 
 def prepare_dataset():
@@ -274,6 +266,12 @@ if __name__ == "__main__":
     pred_dict = manager.dict()
     
     dataset = prepare_dataset()
+
+    if PERSIST_LOGS:
+        if not os.path.isdir(LOG_DATA_DIR):
+            os.mkdir(LOG_DATA_DIR)
+        if not os.path.isdir(NEW_LOG_DIR):
+            os.mkdir(NEW_LOG_DIR)
 
     with Pool(processes=10) as pool:
         for _ in tqdm(pool.imap_unordered(

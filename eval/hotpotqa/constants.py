@@ -13,9 +13,9 @@ PERSIST_LOGS: bool = True
 
 EVAL_MODEL_NAME: str = "gpt-3.5-turbo"
 
-TEMPERATURE: int = 0
+TEMPERATURE: float = 0
 
-NUM_SAMPLES_TOTAL: int = 10
+NUM_SAMPLES_TOTAL: int = 200
 
 AWAIT_TIMEOUT: int = 360
 
@@ -23,16 +23,22 @@ ROUND_WAITTIME: int = 10
 
 MAX_RETRY_ROUND: int = 1
 
+MAX_ROUND_STEPS: int = 30
+
 OPENAI_MODEL_NAMES = {"gpt-3.5-turbo", "gpt-4"}
 
 PARENT_DIRECTORY: str = os.path.dirname(os.path.abspath(__file__))
 
-OUTPUT_FILE: str = os.path.join(
-    PARENT_DIRECTORY, f"prediction_{MODEL_NAME}.json"
-)
+RESULTS_DIR: str = os.path.join(PARENT_DIRECTORY, f"results_{MODEL_NAME}")
+
+OUTPUT_FILE: str = os.path.join(RESULTS_DIR, f"prediction.json")
+
+RUN_EVAL_LOG_FILE: str = os.path.join(RESULTS_DIR, "run_eval.log")
 
 WRONG_ANS_OUTPUT_FILE: str = os.path.join(
-    PARENT_DIRECTORY, f"wrong_answers_{MODEL_NAME}.json"
+    RESULTS_DIR, f"wrong_answers.json"
 )
 
 LOG_DATA_DIR: str = os.path.join(os.getcwd(), "data")
+
+NEW_LOG_DIR: str = os.path.join(RESULTS_DIR, "data")

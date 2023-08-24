@@ -21,15 +21,6 @@ DEFAULT_Q = [
     (12, "Who are some top researchers in the field of machine learning systems nowadays?"),
      ]
 
-Q_HOTPOTQA = [
-    (0, "What science fantasy young adult series, told in first person, has a set of companion books narrating the stories of enslaved worlds and alien species?"),
-    (1, "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?"),
-    (2, "Were Scott Derrickson and Ed Wood of the same nationality?"),
-    (3, "Who won the last NBA championship and what's the series score?"),
-    (4, "Who is the current CEO of Apple Inc and what has been done by him?"),
-    (5, "Who is indicted after a special counsel investigation charges him with mishandling classified documents and how old is him?")
-]
-
 FT = [
     (0, "Briefly explain the current global climate change adaptation strategy and its effectiveness."),
     (1, "What steps should be taken to prepare a backyard garden for spring planting?"),

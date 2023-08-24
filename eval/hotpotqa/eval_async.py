@@ -1,29 +1,89 @@
-import sys
 import os
 import json
-import time
 import asyncio
 import requests
-from dataclasses import dataclass
+from langchain.schema import HumanMessage
 from langchain.chat_models import ChatOpenAI
 
-from constants import *
-from hotpotqa_eval import eval
-from run_eval import evaluate_final_answer
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(PARENT_DIRECTORY)))
-from test import main
+from eval.hotpotqa.constants import *
+from eval.hotpotqa.hotpotqa_eval import eval
 
 
-@dataclass
-class WorkerArgs:
-    agent: str = "wiki"
-    model: str = MODEL_NAME
-    temperature: float = TEMPERATURE
-    persist_logs: bool = PERSIST_LOGS
+class HotpotqaAsyncEval:
+
+    def __init__(self, model: str, total: int = NUM_SAMPLES_TOTAL):
+
+        self.pred_dict = {"answer": {}, "statistics": {}, "sp": {}, "error": {}}
+        
+        results_dir: str = os.path.join(PARENT_DIRECTORY, f"results_{model}")
+        if not os.path.isdir(results_dir):
+            os.mkdir(results_dir)
+
+        self.pred_file = os.path.join(results_dir, "prediction.json")
+        if os.path.isfile(self.pred_file):
+            with open(self.pred_file, 'r') as f:
+                self.pred_dict = json.load(f)
+
+        if not os.path.isdir(LOG_DATA_DIR):
+            os.mkdir(LOG_DATA_DIR)
+
+        self.new_log_dir = os.path.join(results_dir, "data")
+        self.wrong_ans_file = os.path.join(results_dir, "wrong_ans.json")
+        
+        self.dataset = prepare_dataset(self.pred_dict, total)
+
+    def run(self):
+
+        asyncio.run(collect_metrics(
+            pred_dict=self.pred_dict, dataset=self.dataset, log_files=[
+                os.path.join(LOG_DATA_DIR, file)
+                for file in os.listdir(LOG_DATA_DIR)
+            ]
+        ))
+
+        self.save_output()
+
+        eval(self.pred_file, GT_FILE)
+
+    def save_output(self):
+        
+        if not os.path.isdir(self.new_log_dir):
+            os.mkdir(self.new_log_dir)
+        for log_file in os.listdir(LOG_DATA_DIR):
+            os.rename(
+                src=os.path.join(LOG_DATA_DIR, log_file),
+                dst=os.path.join(self.new_log_dir, log_file)
+            )
+        os.rmdir(LOG_DATA_DIR)
+
+        with open(self.pred_file, 'w') as f:
+            json.dump(self.pred_dict, f, indent=2)
+
+        wrong_ans = []
+        for qid, stat in self.pred_dict["statistics"].items():
+            if stat["equivalency"] == 0:
+                wrong_ans.append({
+                    "question": stat["question"],
+                    "gt_answer": stat["gt_answer"],
+                    "prediction": self.pred_dict["answer"].get(qid, ''),
+                    "reasoning": stat["reasoning"]
+                })
+        with open(self.wrong_ans_file, 'w') as f:
+            json.dump(wrong_ans, f, indent=2)
 
 
-def prepare_dataset(pred_dict: dict):
+def initialize_pred_dict():
+
+    pred_dict = {"answer": {}, "statistics": {}, "sp": {}, "error": {}}
+
+    if os.path.isfile(OUTPUT_FILE):
+        with open(OUTPUT_FILE, 'r') as f:
+            pred_dict = json.load(f)
+    
+    return pred_dict
+
+
+def prepare_dataset(pred_dict: dict, total: int = NUM_SAMPLES_TOTAL):
 
     if not os.path.isfile(GT_FILE):
         response = requests.get(GT_URL)
@@ -36,7 +96,7 @@ def prepare_dataset(pred_dict: dict):
         num_new_ids = 0
         for data in full_dataset:
             if data["_id"] not in pred_dict["statistics"]:
-                if len(pred_dict["statistics"]) + num_new_ids >= NUM_SAMPLES_TOTAL:
+                if len(pred_dict["statistics"]) + num_new_ids >= total:
                     break
                 dataset[data["question"]] = data
                 num_new_ids += 1
@@ -59,8 +119,6 @@ async def collect_metrics(pred_dict: dict, dataset: dict, log_files: list):
     await asyncio.gather(*[
         process_log_file(log_file) for log_file in log_files
     ])
-
-    save_output(pred_dict=pred_dict)
 
 
 async def evaluate_log_data(
@@ -102,18 +160,20 @@ async def evaluate_log_data(
 
         if "conversations" in entry:
             await process_conversation_log(
-                entry["conversations"], statistics, titles, gt
+                entry["conversations"], pred_dict, statistics, titles, gt
             )
 
     if titles:
         pred_dict["sp"][qid] = titles
+    if isinstance(statistics["citations"], dict):
+        statistics["citations"] = []
     pred_dict["statistics"][qid] = statistics
     if qid not in pred_dict["answer"] and qid not in pred_dict["error"]:
         pred_dict["error"][qid] = json.dumps(statistics, indent=2)
 
 
 async def process_conversation_log(
-    conversations: list, statistics: dict, titles: list, gt: dict
+    conversations: list, pred_dict: dict, statistics: dict, titles: list, gt: dict
 ):
 
     statistics["steps"] += 1
@@ -154,76 +214,28 @@ async def process_conversation_log(
             request_timeout=AWAIT_TIMEOUT
         )
 
-        await evaluate_final_answer(final_answer, gt, evalllm, statistics)
+        await evaluate_final_answer(final_answer, gt, evalllm, pred_dict, statistics)
 
 
-def save_output(pred_dict: dict):
+async def evaluate_final_answer(
+    final_answer: str, data: dict, evalllm, pred_dict, statistics
+):
 
-    with open(OUTPUT_FILE, 'w') as f:
-        json.dump(pred_dict, f)
+    question: str = data["question"]
+    gt_answer: str = data["answer"]
 
-    wrong_ans = []
-    for qid, stat in pred_dict["statistics"].items():
-        if stat["equivalency"] == 0:
-            wrong_ans.append({
-                "question": stat["question"],
-                "gt_answer": stat["gt_answer"],
-                "prediction": pred_dict["answer"].get(qid, ''),
-                "reasoning": stat["reasoning"]
-            })
-    with open(WRONG_ANS_OUTPUT_FILE, 'w') as f:
-        json.dump(wrong_ans, f)
+    try:
+        # Use GPT use determine if the final output is equivalent with the ground truth
+        resp = await evalllm.agenerate([[HumanMessage(
+            content=f"Given a question and a pair of answers. Determine if Answer1 can be strictly infered from Answer2. Return False if given the information in Answer2, we cannot determine whether Answer1 is right. Add detailed explaination and reasioning. Format your answer in JSON with a boolean field called 'is_inferable' and a string field 'reasoning' that can be loaded in python.\n\nQuestion: '{question}'\n\nAnswer1: '{gt_answer}'\n\nAnswer2: '{final_answer}'"
+        )]])
+        resp_obj = json.loads(resp.generations[0][0].text.strip())
+        statistics["equivalency"] = int(resp_obj.get("is_inferable", 0))
+        statistics["reasoning"] = resp_obj.get("reasoning", '')
 
+        pred_dict["answer"][data["_id"]] = final_answer
+        if data["_id"] in pred_dict["error"]:
+            del pred_dict["error"][data["_id"]]
 
-def run():
-
-    pred_dict = {"answer": {}, "statistics": {}, "sp": {}, "error": {}}
-
-    if os.path.isfile(OUTPUT_FILE):
-        with open(OUTPUT_FILE, 'r') as f:
-            pred_dict = json.load(f)
-
-    if not os.path.isdir(LOG_DATA_DIR):
-        os.mkdir(LOG_DATA_DIR)
-    new_log_dir: str = os.path.join(PARENT_DIRECTORY, f"data-{MODEL_NAME}")
-    if not os.path.isdir(new_log_dir):
-        os.mkdir(new_log_dir)
-    
-    dataset = prepare_dataset(pred_dict)
-
-    # Retry until we get all the final answers or until the limit of rounds
-    for round in range(MAX_RETRY_ROUND + 1):
-
-        asyncio.run(main(dataset.keys(), WorkerArgs()))
-
-        asyncio.run(collect_metrics(
-            pred_dict=pred_dict, dataset=dataset, log_files=[
-                os.path.join(LOG_DATA_DIR, file)
-                for file in os.listdir(LOG_DATA_DIR)
-            ]
-        ))
-
-        for file in os.listdir(LOG_DATA_DIR):
-            os.rename(
-                src=os.path.join(LOG_DATA_DIR, file),
-                dst=os.path.join(new_log_dir, file)
-            )
-
-        if round == MAX_RETRY_ROUND or not pred_dict["error"]:
-            break
-
-        retry_data = {}
-        for data in dataset.values():
-            if data["_id"] in pred_dict["error"]:
-                retry_data[data["question"]] = data
-        dataset = retry_data
-
-        time.sleep(ROUND_WAITTIME)
-
-    os.rmdir(LOG_DATA_DIR)
-
-    eval(OUTPUT_FILE, GT_FILE)
-
-
-if __name__ == "__main__":
-    run()
+    except Exception as e:
+        pred_dict["error"][data["_id"]] = f"Error during evalutaion: {e}"
