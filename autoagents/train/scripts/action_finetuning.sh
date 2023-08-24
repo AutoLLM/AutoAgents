@@ -1,6 +1,6 @@
-CONDENSE_RESCALE=4 python3 -m torch.distributed.run --nproc_per_node=8 \
+python3 -m torch.distributed.run --nproc_per_node=8 \
     --master_port=20005 --nnodes=1 --node_rank=$RANK --master_addr=127.0.0.1 \
-    train/train_mem.py \
+    autoagents/train/train.py \
     --model_name_or_path input-model \
     --data_path json-data.json \
     --bf16 True \
@@ -23,4 +23,4 @@ CONDENSE_RESCALE=4 python3 -m torch.distributed.run --nproc_per_node=8 \
     --tf32 True \
     --model_max_length 4096 \
     --gradient_checkpointing True \
-    --lazy_preprocess True \
+    --lazy_preprocess True
