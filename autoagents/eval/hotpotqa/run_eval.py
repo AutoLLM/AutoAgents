@@ -4,8 +4,6 @@ import requests
 import asyncio
 import json
 import logging
-from autoagents.agents.wiki_agent import WikiActionRunner
-from autoagents.models.custom import CustomLLM
 from langchain.chat_models import ChatOpenAI
 from pprint import pformat
 from ast import literal_eval
@@ -13,9 +11,11 @@ from multiprocessing import Pool, Manager
 from functools import partial
 from tqdm import tqdm
 
-from eval.hotpotqa.eval_async import evaluate_final_answer
-from eval.hotpotqa.hotpotqa_eval import eval
-from eval.hotpotqa.constants import *
+from autoagents.agents.agents.wiki_agent import WikiActionRunner
+from autoagents.agents.models.custom import CustomLLM
+from autoagents.eval.hotpotqa.eval_async import evaluate_final_answer
+from autoagents.eval.hotpotqa.hotpotqa_eval import eval
+from autoagents.eval.hotpotqa.constants import *
 
 
 if not os.path.isdir(RESULTS_DIR):

@@ -1,15 +1,13 @@
 import glob
 import json
 import os
-import asyncio
-import sys
 import shutil
 
-from dataset import BAMBOOGLE
+from autoagents.data.dataset import BAMBOOGLE
+from autoagents.eval.metrics import get_common_stats
 from tqdm import tqdm
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage
-from eval.metrics import get_common_stats
 
 
 async def eval():

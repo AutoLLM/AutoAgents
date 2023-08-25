@@ -5,8 +5,8 @@ import requests
 from langchain.schema import HumanMessage
 from langchain.chat_models import ChatOpenAI
 
-from eval.hotpotqa.constants import *
-from eval.hotpotqa.hotpotqa_eval import eval
+from autoagents.eval.hotpotqa.constants import *
+from autoagents.eval.hotpotqa.hotpotqa_eval import eval
 
 
 class HotpotqaAsyncEval:

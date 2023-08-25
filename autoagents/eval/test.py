@@ -1,83 +1,124 @@
 import os
 import asyncio
-
-from ast import literal_eval
-from multiprocessing import Pool, TimeoutError
+import json
+import argparse
 
 from autoagents.agents.agents.search import ActionRunner
-from langchain.callbacks import get_openai_callback
-from langchain.chat_models import ChatOpenAI
+from autoagents.agents.agents.wiki_agent import WikiActionRunner
+from autoagents.data.dataset import BAMBOOGLE, DEFAULT_Q, FT, HF
 from autoagents.agents.models.custom import CustomLLM
-import json
+from autoagents.eval.bamboogle import eval as eval_bamboogle
+from autoagents.eval.hotpotqa.eval_async import HotpotqaAsyncEval
+from langchain.chat_models import ChatOpenAI
 from pprint import pprint
 
 
-async def work(user_input):
-    outputq = asyncio.Queue()
-    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"),
-                     openai_organization=os.getenv("OPENAI_API_ORG"),
-                     temperature=0.,
-                     model_name="gpt-4")
-    runner = ActionRunner(outputq, llm=llm, persist_logs=False)
-    task = asyncio.create_task(runner.run(user_input, outputq))
+OPENAI_MODEL_NAMES = {"gpt-3.5-turbo", "gpt-4"}
+AWAIT_TIMEOUT: int = 120
+MAX_RETRIES: int = 2
 
-    while True:
-        output = await outputq.get()
-        if isinstance(output, RuntimeWarning):
-            print(output)
-            continue
-        elif isinstance(output, Exception):
-            print(output)
-            return
-        try:
-            parsed = json.loads(output)
-            print(json.dumps(parsed, indent=2))
-            print("-----------------------------------------------------------")
-            if parsed["action"] == "Tool_Finish":
+
+async def work(user_input, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
+    if model not in OPENAI_MODEL_NAMES:
+        llm = CustomLLM(
+            model_name=model,
+            temperature=temperature,
+            request_timeout=AWAIT_TIMEOUT
+        )
+    else:
+        llm = ChatOpenAI(
+            openai_api_key=os.getenv("OPENAI_API_KEY"),
+            openai_organization=os.getenv("OPENAI_API_ORG"),
+            temperature=temperature,
+            model_name=model,
+            request_timeout=AWAIT_TIMEOUT
+        )
+
+    retry_count = 0
+    while retry_count < MAX_RETRIES:
+        outputq = asyncio.Queue()
+        runner = ActionRunner(outputq, llm=llm, persist_logs=persist_logs) if not use_wikiagent \
+            else WikiActionRunner(outputq, llm=llm, persist_logs=persist_logs)
+        task = asyncio.create_task(runner.run(user_input, outputq))
+        while True:
+            try:
+                output = await asyncio.wait_for(outputq.get(), AWAIT_TIMEOUT)
+            except asyncio.TimeoutError:
+                task.cancel()
+                retry_count += 1
                 break
-        except:
-            print(output)
-            print("-----------------------------------------------------------")
-    return await task
+            if isinstance(output, RuntimeWarning):
+                print(f"Question: {user_input}")
+                print(output)
+                continue
+            elif isinstance(output, Exception):
+                task.cancel()
+                print(f"Question: {user_input}")
+                print(output)
+                retry_count += 1
+                break
+            try:
+                parsed = json.loads(output)
+                print(json.dumps(parsed, indent=2))
+                print("-----------------------------------------------------------")
+                if parsed["action"] == "Tool_Finish":
+                    return await task
+            except:
+                print(f"Question: {user_input}")
+                print(output)
+                print("-----------------------------------------------------------")
+    
 
-Q = [
-     (0, "list 3 cities and their current populations where Paramore is playing this year."),
-     (1, "Who is Leo DiCaprio's girlfriend? What is her current age raised to the 0.43 power?"),
-     (2, "How many watermelons can fit in a Tesla Model S?"),
-     (3, "Recommend me some laptops suitable for UI designers under $2000. Please include brand and price."),
-     (4, "Build me a vacation plan for Rome and Milan this summer for seven days. Include place to visit and hotels to stay. "),
-     (5, "What is the sum of ages of the wives of Barack Obama and Donald Trump?"),
-     (6, "Who is the most recent NBA MVP? Which team does he play for? What is his season stats?"),
-     (7, "What were the scores for the last three games for the Los Angeles Lakers? Provide the dates and opposing teams."),
-     (8, "Which team won in women's volleyball in the Summer Olympics that was held in London?"),
-     (9, "Provide a summary of the latest COVID-19 research paper published. Include the title, authors and abstract."),
-     (10, "What is the top grossing movie in theatres this week? Provide the movie title, director, and a brief synopsis of the movie's plot. Attach a review for this movie."),
-     (11, "Recommend a bagel shop near the Strip district in Pittsburgh that offer vegan food"),
-     (12, "Who are some top researchers in the field of machine learning systems nowadays?"),
-     ]
+async def main(questions, args):
+    sem = asyncio.Semaphore(10)
+    
+    async def safe_work(user_input, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
+        async with sem:
+            return await work(user_input, model, temperature, use_wikiagent, persist_logs)
+    
+    use_wikiagent = False if args.agent == "ddg" else True
+    persist_logs = True if args.persist_logs else False
+    await asyncio.gather(*[safe_work(q, args.model, args.temperature, use_wikiagent, persist_logs) for q in questions])
 
-FT = [(0, "Briefly explain the current global climate change adaptation strategy and its effectiveness."),
-      (1, "What steps should be taken to prepare a backyard garden for spring planting?"),
-      (2, "Report the critical reception of the latest superhero movie."),
-      (3, "When is the next NBA or NFL finals game scheduled?"),
-      (4, "Which national parks or nature reserves are currently open for visitors near Denver, Colorado?"),
-      (5, "Who are the most recent Nobel Prize winners in physics, chemistry, and medicine, and what are their respective contributions?"),
-      ]
-
-HF = [(0, "Recommend me a movie in theater now to watch with kids."),
-      (1, "Who is the most recent NBA MVP? Which team does he play for? What are his career stats?"),
-      (2, "Who is the head coach of AC Milan now? How long has he been coaching the team?"),
-      (3, "What is the mortgage rate right now and how does that compare to the past two years?"),
-      (4, "What is the weather like in San Francisco today? What about tomorrow?"),
-      (5, "When and where is the upcoming concert for Taylor Swift? Share a link to purchase tickets."),
-      (6, "Find me recent studies focusing on hallucination in large language models. Provide the link to each study found."),
-      ]
-
-
-def main(q):
-    return asyncio.run(work(q))
 
 if __name__ == "__main__":
-    for i, q in HF:
-        if i == 5:
-            main(q)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", type=str, default="gpt-3.5-turbo")
+    parser.add_argument("--temperature", type=float, default=0)
+    parser.add_argument("--agent",
+        default="ddg",
+        const="ddg",
+        nargs="?",
+        choices=("ddg", "wiki"),
+        help='which action agent we want to interact with(default: ddg)'
+    )
+    parser.add_argument("--persist-logs", action="store_true")
+    parser.add_argument("--dataset",
+        default="default",
+        const="default",
+        nargs="?",
+        choices=("default", "hotpotqa", "ft", "hf", "bamboogle"),
+        help='which dataset we want to interact with(default: default)'
+    )
+    parser.add_argument("--eval", action="store_true")
+    args = parser.parse_args()
+    print(args)
+    use_wikiagent = False if args.agent == "ddg" else True
+    questions = []
+    if args.dataset == "ft":
+        questions = [q for _, q in FT]
+    elif args.dataset == "hf":
+        questions = [q for _, q in HF]
+    elif args.dataset == "hotpotqa":
+        hotpotqa_eval = HotpotqaAsyncEval(model=args.model)
+        questions = hotpotqa_eval.dataset.keys()
+    elif args.dataset == "bamboogle":
+        questions = BAMBOOGLE["questions"]
+    else:
+        questions = [q for _, q in DEFAULT_Q]
+    asyncio.run(main(questions, args))
+    if args.eval:
+        if args.dataset == "bamboogle":
+            asyncio.run(eval_bamboogle())
+        elif args.dataset == "hotpotqa":
+            hotpotqa_eval.run()
