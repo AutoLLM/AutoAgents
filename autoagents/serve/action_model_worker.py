@@ -21,4 +21,6 @@ if __name__ == "__main__":
             )
     )
     args, model_worker.worker = model_worker.create_model_worker()
+    # hardcode the conv template
+    args.conv_template = "action"
     uvicorn.run(model_worker.app, host=args.host, port=args.port, log_level="info")

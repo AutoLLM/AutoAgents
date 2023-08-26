@@ -3,7 +3,7 @@
 - Completions
 
 Usage:
-python3 -m fastchat.serve.action_api_server
+python3 -m autoagents.serve.action_api_server
 """
 import asyncio
 import argparse
@@ -438,7 +438,7 @@ if __name__ == "__main__":
         description="FastChat ChatGPT-Compatible RESTful API server."
     )
     parser.add_argument("--host", type=str, default="localhost", help="host name")
-    parser.add_argument("--port", type=int, default=8000, help="port number")
+    parser.add_argument("--port", type=int, default=8004, help="port number")
     parser.add_argument(
         "--controller-address", type=str, default="http://localhost:21001"
     )
