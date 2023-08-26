@@ -8,9 +8,17 @@ from transformers.trainer_pt_utils import LabelSmoother
 from torch.utils.data import Dataset
 from typing import Dict
 
-from fastchat.conversation import SeparatorStyle
-from fastchat.model.model_adapter import get_conversation_template
+from fastchat.conversation import (
+        SeparatorStyle,
+        Conversation,
+        register_conv_template
+)
+from fastchat.model.model_adapter import (
+        get_conversation_template,
+        register_model_adapter
+)
 
+from train_v3 import ActionAdapter
 
 IGNORE_TOKEN_ID = LabelSmoother.ignore_index
 
@@ -159,4 +167,17 @@ def main(model_name_or_path, data_path, model_max_length):
     make_supervised_data_module(tokenizer=tokenizer, data_path=data_path)
 
 if __name__ == "__main__":
+    # Action LLM default template
+    register_conv_template(
+        Conversation(
+            name="action",
+            system_message="Below is a goal you need to achieve. Given the available tools and history of past actions provide the next action to perform.",
+            roles=("### Goal", "### Tools", "### History", "### Next action"),
+            messages=(),
+            offset=0,
+            sep_style=SeparatorStyle.ADD_COLON_SINGLE,
+            sep="\n\n",  # separator between roles
+            )
+    )
+    register_model_adapter(ActionAdapter)
     main()
