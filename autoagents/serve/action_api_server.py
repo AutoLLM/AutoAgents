@@ -186,7 +186,7 @@ async def get_gen_params(
     conv = await get_conv(model_name)
     conv = Conversation(
         name=conv["name"],
-        system=conv["system"],
+        system_message=conv["system_message"],
         roles=conv["roles"],
         messages=list(conv["messages"]),  # prevent in-place modification
         offset=conv["offset"],
