@@ -32,3 +32,34 @@ class CustomLLM(LLM):
 
     async def _acall(self, prompt: str, stop=None) -> str:
         return self._call(prompt, stop)
+
+
+class CustomLLMV3(LLM):
+    model_name: str
+    completions_url: str = "http://localhost:8004/v1/completions"
+    temperature: float = 0.
+    max_tokens: int = 1024
+
+    @property
+    def _llm_type(self) -> str:
+        return "custom"
+
+    def _call(self, prompt: str, stop=None) -> str:
+        r = requests.post(
+            self.completions_url,
+            json={
+                "model": self.model_name,
+                "prompt": json.loads(prompt),
+                "stop": "\n\n",
+                "temperature": self.temperature,
+                "max_tokens": self.max_tokens
+            },
+        )
+        result = r.json()
+        try:
+            return r.json()["choices"][0]["text"]
+        except:
+            raise RuntimeError(result)
+
+    async def _acall(self, prompt: str, stop=None) -> str:
+        return self._call(prompt, stop)
