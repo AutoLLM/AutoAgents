@@ -51,47 +51,8 @@ def check_valid(o):
     return True
 
 
-# Set up the base template
-template = """We are working together to satisfy the user's original goal
-step-by-step. Play to your strengths as an LLM. Make sure the plan is
-achievable using the available tools. The final answer should be descriptive,
-and should include all relevant details.
-
-Today is {today}.
-
-## Goal:
-{input}
-
-If you require assistance or additional information, you should use *only* one
-of the following tools: {tools}.
-
-## History
-{agent_scratchpad}
-
-Do not repeat any past actions in History, because you will not get additional
-information. If the last action is Tool_Search, then you should use Tool_Notepad to keep
-critical information. If you have gathered all information in your plannings
-to satisfy the user's original goal, then respond immediately with the Finish
-Action.
-
-## Output format
-You MUST produce JSON output with below keys:
-"thought": "current train of thought",
-"reasoning": "reasoning",
-"plan": [
-"short bulleted",
-"list that conveys",
-"next-step plan",
-],
-"action": "the action to take",
-"action_input": "the input to the Action",
-"""
-
-
 # Set up a prompt template
 class CustomPromptTemplate(StringPromptTemplate):
-    # The template to use
-    template: str
     # The list of tools available
     tools: List[Tool]
     ialogger: InteractionsLogger
@@ -154,8 +115,7 @@ class ActionRunner:
                  persist_logs: bool = False):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
         tools = [search_tool_v3, note_tool_v3, finish_tool_v3]
-        prompt = CustomPromptTemplate(template=template,
-                                      tools=tools,
+        prompt = CustomPromptTemplate(tools=tools,
                                       input_variables=["input", "intermediate_steps"],
                                       ialogger=self.ialogger)
 
