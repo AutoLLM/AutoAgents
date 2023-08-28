@@ -117,8 +117,6 @@ class CustomPromptTemplate(StringPromptTemplate):
         # Create a list of tool names for the tools provided
         kwargs["tool_names"] = ", ".join([tool.name for tool in self.tools])
         kwargs["today"] = date.today()
-        final_prompt = self.template.format(**kwargs)
-        self.ialogger.add_system(final_prompt)
         list_prompt =[]
         list_prompt.append({"role": "goal", "content": kwargs["input"]})
         list_prompt.append({"role": "tools", "content": [{tool.name: tool.description} for tool in self.tools]})
