@@ -7,7 +7,7 @@ from autoagents.agents.models.custom import CustomLLMV3
 
 async def work(user_input):
     outputq = asyncio.Queue()
-    llm = CustomLLMV3("data_sharegpt-90k-llama-v2-13b-vicuna-v3", max_tokens=1024)
+    llm = CustomLLMV3(model_name="action_vicuna_7b_withabort_v2_16k", max_tokens=1024)
     runner = ActionRunner(outputq, llm=llm, persist_logs=False)
     task = asyncio.create_task(runner.run(user_input, outputq))
 

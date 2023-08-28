@@ -1,4 +1,5 @@
 import requests
+import json
 
 from langchain.llms.base import LLM
 
@@ -56,10 +57,10 @@ class CustomLLMV3(LLM):
             },
         )
         result = r.json()
-        try:
-            return r.json()["choices"][0]["text"]
-        except:
-            raise RuntimeError(result)
+        if result.get("object") == "error":
+            raise RuntimeError(result.get("message"))
+        else:
+            return result["choices"][0]["text"]
 
     async def _acall(self, prompt: str, stop=None) -> str:
         return self._call(prompt, stop)
