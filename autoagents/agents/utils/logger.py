@@ -1,6 +1,6 @@
 import os
 import json
-from typing import Dict, Any
+from typing import Dict, Any, List
 import uuid
 from datetime import datetime
 import pytz
@@ -12,6 +12,7 @@ from huggingface_hub import Repository
 class InteractionsLogger:
     def __init__(self, name: str, persist=False):
         self.persist = persist
+        self.messages = []
         self.counter = 0
         self.name = name  # unique id
         HF_TOKEN = os.environ.get("HF_TOKEN")
@@ -24,13 +25,13 @@ class InteractionsLogger:
             self.repo = None
 
     def set_goal(self, goal: str):
-        self.messages = [{"goal": goal}]
+        self.messages.append({"goal": goal})
+
+    def set_tools(self, tools: List):
+        self.messages.append({"tools": tools})
 
     def add_history(self, hist: Dict):
         self.convos = [{"from": "history", "value": hist}]
-
-    def add_system(self, more: Dict):
-        self.convos.append({"from": "system", "value": more})
 
     def add_ai(self, msg: Dict):
         self.convos.append({"from": "ai", "value": msg})

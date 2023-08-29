@@ -1,6 +1,6 @@
+from datetime import date
 import json
 import uuid
-from datetime import date
 from collections import defaultdict
 from typing import List, Union, Any, Optional, Dict
 
@@ -16,39 +16,7 @@ from langchain.base_language import BaseLanguageModel
 from autoagents.agents.tools.tools import search_tool_v3, note_tool_v3, finish_tool_v3
 from autoagents.agents.utils.logger import InteractionsLogger
 
-from pydantic import BaseModel, ValidationError, Extra  # pydantic==1.10.11
-
-
-class InterOutputSchema(BaseModel):
-    thought: str
-    reasoning: str
-    plan: List[str]
-    action: str
-    action_input: str
-    class Config:
-        extra = Extra.forbid
-
-
-class FinalOutputSchema(BaseModel):
-    thought: str
-    reasoning: str
-    plan: List[str]
-    action: str
-    action_input: str
-    citations: List[str]
-    class Config:
-        extra = Extra.forbid
-
-
-def check_valid(o):
-    try:
-        if o.get("action") == "Tool_Finish":
-            FinalOutputSchema(**o)
-        else:
-            InterOutputSchema(**o)
-    except ValidationError:
-        return False
-    return True
+from .search import check_valid
 
 
 # Set up a prompt template
@@ -72,14 +40,10 @@ class CustomPromptTemplate(StringPromptTemplate):
                 parsed["observation"] = observation
             history.append(parsed)
         self.ialogger.add_history(history)
-        kwargs["agent_scratchpad"] = json.dumps(history)
-        # Create a tools variable from the list of tools provided
-        kwargs["tools"] = "\n".join([f"{tool.name}: {tool.description}" for tool in self.tools])
-        # Create a list of tool names for the tools provided
-        kwargs["tool_names"] = ", ".join([tool.name for tool in self.tools])
-        kwargs["today"] = date.today()
+        goal = kwargs["input"]
+        goal = f"Today is {date.today()}. {goal}"
         list_prompt =[]
-        list_prompt.append({"role": "goal", "content": kwargs["input"]})
+        list_prompt.append({"role": "goal", "content": goal})
         list_prompt.append({"role": "tools", "content": [{tool.name: tool.description} for tool in self.tools]})
         list_prompt.append({"role": "history", "content": history})
         return json.dumps(list_prompt)
@@ -115,6 +79,7 @@ class ActionRunner:
                  persist_logs: bool = False):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
         tools = [search_tool_v3, note_tool_v3, finish_tool_v3]
+        self.ialogger.set_tools([{tool.name: tool.description} for tool in tools])
         prompt = CustomPromptTemplate(tools=tools,
                                       input_variables=["input", "intermediate_steps"],
                                       ialogger=self.ialogger)
@@ -137,10 +102,7 @@ class ActionRunner:
                     parent_run_id: Optional[uuid.UUID] = None,
                     **kwargs: Any,
                     ) -> None:
-                if (new_action_input := output_parser.new_action_input):
-                    await outputq.put(RuntimeWarning(f"Action Input Rewritten: {new_action_input}"))
-                    # Notify users
-                    output_parser.new_action_input = None
+                pass
 
             async def on_tool_start(
                     self,
@@ -177,7 +139,6 @@ class ActionRunner:
                 allowed_tools=tool_names
                 )
         callback_manager = AsyncCallbackManager([handler])
-
         # Finally create the Executor
         self.agent_executor = AgentExecutor.from_agent_and_tools(agent=agent,
                                                                  tools=tools,
@@ -185,6 +146,7 @@ class ActionRunner:
                                                                  callback_manager=callback_manager)
 
     async def run(self, goal: str, outputq):
+        goal = f"Today is {date.today()}. {goal}"
         self.ialogger.set_goal(goal)
         try:
             with get_openai_callback() as cb:
