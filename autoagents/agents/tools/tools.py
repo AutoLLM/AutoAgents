@@ -1,7 +1,5 @@
-import os
-
 from duckpy import Client
-from langchain import PromptTemplate, OpenAI, LLMChain
+from langchain import PromptTemplate, LLMChain
 from langchain.agents import Tool
 from langchain.base_language import BaseLanguageModel
 
@@ -93,3 +91,25 @@ def rewrite_search_query(q: str, search_history, llm: BaseLanguageModel) -> str:
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     result = llm_chain.predict(action_input=q, history_string=history_string)
     return result
+
+
+### Prompt V3 tools
+
+search_description_v3 = """Useful for when you need to ask with search."""
+notepad_description_v3 = """ Useful for when you need to note-down specific information for later reference."""
+finish_description_v3 = """Useful when you have enough information to produce a final answer that achieves the original Goal."""
+
+search_tool_v3 = Tool(name="Tool_Search",
+                      func=lambda x: x,
+                      coroutine=ddg,
+                      description=search_description_v3)
+
+note_tool_v3 = Tool(name="Tool_Notepad",
+                    func=lambda x: x,
+                    coroutine=notepad,
+                    description=notepad_description_v3)
+
+finish_tool_v3 = Tool(name="Tool_Finish",
+                      func=lambda x: x,
+                      coroutine=final,
+                      description=finish_description_v3)
