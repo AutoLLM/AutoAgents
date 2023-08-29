@@ -16,7 +16,7 @@ from langchain.base_language import BaseLanguageModel
 from autoagents.agents.tools.tools import search_tool_v3, note_tool_v3, finish_tool_v3
 from autoagents.agents.utils.logger import InteractionsLogger
 
-from .search import check_valid
+from autoagents.agents.agents.search import check_valid
 
 
 # Set up a prompt template
@@ -72,18 +72,17 @@ class CustomOutputParser(AgentOutputParser):
         return AgentAction(tool=action, tool_input=action_input, log=llm_output)
 
 
-class ActionRunner:
+class ActionRunnerV3:
     def __init__(self,
                  outputq,
                  llm: BaseLanguageModel,
                  persist_logs: bool = False):
-        self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
         tools = [search_tool_v3, note_tool_v3, finish_tool_v3]
+        self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
         self.ialogger.set_tools([{tool.name: tool.description} for tool in tools])
         prompt = CustomPromptTemplate(tools=tools,
                                       input_variables=["input", "intermediate_steps"],
                                       ialogger=self.ialogger)
-
         output_parser = CustomOutputParser(ialogger=self.ialogger, llm=llm)
 
         class MyCustomHandler(AsyncCallbackHandler):
@@ -126,7 +125,6 @@ class ActionRunner:
                 await outputq.put(output)
 
         handler = MyCustomHandler()
-
         llm_chain = LLMChain(llm=llm, prompt=prompt, callbacks=[handler])
         tool_names = [tool.name for tool in tools]
         for tool in tools:

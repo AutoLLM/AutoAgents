@@ -38,6 +38,9 @@ class InteractionsLogger:
         self.messages.append({"id": f"{self.name}_{self.counter}", "conversations": self.convos})
         self.counter += 1
 
+    def add_system(self, more: Dict):
+        self.convos.append({"from": "system", "value": more})
+
     def add_message(self, data: Dict[str, Any]):
         self.messages.append(data)
 

@@ -1,14 +1,14 @@
 import asyncio
 import json
 
-from autoagents.agents.agents.search_v3 import ActionRunner
+from autoagents.agents.agents.search_v3 import ActionRunnerV3
 from autoagents.agents.models.custom import CustomLLMV3
 
 
 async def work(user_input):
     outputq = asyncio.Queue()
     llm = CustomLLMV3(model_name="action_vicuna_7b_withabort_v2_16k", max_tokens=1024)
-    runner = ActionRunner(outputq, llm=llm, persist_logs=False)
+    runner = ActionRunnerV3(outputq, llm=llm, persist_logs=False)
     task = asyncio.create_task(runner.run(user_input, outputq))
 
     while True:
