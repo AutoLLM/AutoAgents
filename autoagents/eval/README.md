@@ -1,8 +1,31 @@
 Use test.py to evaluate models:
 
 ```
-PYTHONPATH=`pwd` python autoagents/eval/test.py --model gpt-4  --temperature 0 --agent ddg --persist-logs --dataset bamboogle --eval
+PYTHONPATH=`pwd` python autoagents/eval/test.py --help
 ```
-This command will use gpt-4 as the model with 0 as the temperature, ddg as the search agent and bamboogle as the test dataset. It will also generate model logs under `data` folders automatically and run evaluation scripts on those logs.
+```
+usage: test.py [-h] [--model MODEL] [--temperature TEMPERATURE] [--agent [{ddg,wiki}]] [--persist-logs]
+               [--dataset [{default,hotpotqa,ft,hf,bamboogle}]] [--eval] [--prompt-version [{v2,v3}]] [--slice SLICE]
 
-More configuration can be found in the main function of the test.py file.
+optional arguments:
+  -h, --help            show this help message and exit
+  --model MODEL         model to be tested
+  --temperature TEMPERATURE
+                        model temperature
+  --agent [{ddg,wiki}]  which action agent we want to interact with(default: ddg)
+  --persist-logs        persist logs on disk, enable this feature for later eval purpose
+  --dataset [{default,hotpotqa,ft,hf,bamboogle}]
+                        which dataset we want to interact with(default: default)
+  --eval                enable automatic eval
+```
+
+Sample command to eval on hotpotqa dataset:
+```
+PYTHONPATH=`pwd` python autoagents/eval/test.py --model gpt-4 --temperature 0 --agent wiki --persist-logs --dataset hotpotqa --eval
+```
+
+Sample command to eval on bamboogle dataset:
+```
+PYTHONPATH=`pwd` python autoagents/eval/test.py --model gpt-4 --temperature 0 --agent ddg --persist-logs --dataset bamboogle --eval
+```
+These commands will generate model logs under `data` folders automatically and run evaluation scripts on those logs.
