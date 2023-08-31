@@ -208,8 +208,7 @@ class ActionRunner:
                  prompt_template: str = template,
                  tools: List[Tool] = [search_tool, note_tool, finish_tool]):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
-        tools = [search_tool, note_tool, finish_tool]
-        prompt = CustomPromptTemplate(template=template,
+        prompt = CustomPromptTemplate(template=prompt_template,
                                       tools=tools,
                                       input_variables=["input", "intermediate_steps"],
                                       ialogger=self.ialogger)
