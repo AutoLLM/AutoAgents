@@ -96,8 +96,8 @@ async def main(questions, args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="gpt-3.5-turbo")
-    parser.add_argument("--temperature", type=float, default=0)
+        parser.add_argument("--model", type=str, default="gpt-3.5-turbo", help="model to be tested")
+    parser.add_argument("--temperature", type=float, default=0, help="model temperature")
     parser.add_argument("--agent",
         default="ddg",
         const="ddg",
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         choices=("ddg", "wiki"),
         help='which action agent we want to interact with(default: ddg)'
     )
-    parser.add_argument("--persist-logs", action="store_true")
+    parser.add_argument("--persist-logs", action="store_true", help="persist logs on disk, enable this feature for later eval purpose")
     parser.add_argument("--dataset",
         default="default",
         const="default",
@@ -113,7 +113,7 @@ if __name__ == "__main__":
         choices=("default", "hotpotqa", "ft", "hf", "bamboogle"),
         help='which dataset we want to interact with(default: default)'
     )
-    parser.add_argument("--eval", action="store_true")
+    parser.add_argument("--eval", action="store_true", help="enable automatic eval")
     parser.add_argument("--prompt-version",
         default="v2",
         const="v3",
