@@ -96,7 +96,7 @@ async def main(questions, args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-        parser.add_argument("--model", type=str, default="gpt-3.5-turbo", help="model to be tested")
+    parser.add_argument("--model", type=str, default="gpt-3.5-turbo", help="model to be tested")
     parser.add_argument("--temperature", type=float, default=0, help="model temperature")
     parser.add_argument("--agent",
         default="ddg",
@@ -121,7 +121,7 @@ if __name__ == "__main__":
         choices=("v2", "v3"),
         help='which version of prompt to use(default: v2)'
     )
-    parser.add_argument("--slice", type=int)
+    parser.add_argument("--slice", type=int, help="slice the dataset from left, question list will start from index 0 to slice - 1")
     args = parser.parse_args()
     print(args)
     if args.prompt_version == "v3" and args.model in OPENAI_MODEL_NAMES:

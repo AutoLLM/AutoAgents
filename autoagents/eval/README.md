@@ -17,16 +17,17 @@ optional arguments:
   --dataset [{default,hotpotqa,ft,hf,bamboogle}]
                         which dataset we want to interact with(default: default)
   --eval                enable automatic eval
+  --prompt-version [{v2,v3}]
+                        which version of prompt to use(default: v2)
+  --slice SLICE         slice the dataset from left, question list will start from index 0 to slice - 1
 ```
-
 Sample command to eval on Hotpotqa dataset:
 ```
-PYTHONPATH=`pwd` python autoagents/eval/test.py --model gpt-4 --temperature 0 --agent wiki --persist-logs --dataset hotpotqa --eval
+PYTHONPATH=`pwd` python autoagents/eval/test.py --model gpt-4 --temperature 0 --agent wiki --persist-logs --dataset hotpotqa --prompt-version v2 --eval
 ```
 
 Sample command to eval on Bamboogle dataset:
 ```
-PYTHONPATH=`pwd` python autoagents/eval/test.py --model gpt-4 --temperature 0 --agent ddg --persist-logs --dataset bamboogle --eval
+PYTHONPATH=`pwd` python autoagents/eval/test.py --model gpt-4 --temperature 0 --agent ddg --persist-logs --dataset bamboogle --prompt-version v2 --eval
 ```
 These commands will generate model logs under `data` folders automatically and run evaluation scripts on those logs.
-
