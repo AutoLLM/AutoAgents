@@ -138,10 +138,6 @@ class CustomOutputParser(AgentOutputParser):
     search_tool_name: str = "Search"
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
-        parsed = json.loads(llm_output)
-        if not check_valid(parsed):
-            raise ValueError(f"Could not parse LLM output: `{llm_output}`")
-
         self.ialogger.add_ai(llm_output)
         parsed = json.loads(llm_output)
         if not check_valid(parsed):
