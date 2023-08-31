@@ -47,6 +47,5 @@ class WikiActionRunner(ActionRunner):
         super().__init__(
             outputq, llm, persist_logs,
             prompt_template=template,
-            tools=[wiki_dump_search_tool, wiki_note_tool, finish_tool],
-            search_tool_name="Tool_Wikipedia"
+            tools=[wiki_dump_search_tool, wiki_note_tool, finish_tool]
         )

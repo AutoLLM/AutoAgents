@@ -50,40 +50,6 @@ def check_valid(o):
         return False
     return True
 
-from pydantic import BaseModel, ValidationError, Extra  # pydantic==1.10.11
-
-
-class InterOutputSchema(BaseModel):
-    thought: str
-    reasoning: str
-    plan: List[str]
-    action: str
-    action_input: str
-    class Config:
-        extra = Extra.forbid
-
-
-class FinalOutputSchema(BaseModel):
-    thought: str
-    reasoning: str
-    plan: List[str]
-    action: str
-    action_input: str
-    citations: List[str]
-    class Config:
-        extra = Extra.forbid
-
-
-def check_valid(o):
-    try:
-        if o.get("action") == "Tool_Finish":
-            FinalOutputSchema(**o)
-        else:
-            InterOutputSchema(**o)
-    except ValidationError:
-        return False
-    return True
-
 
 # Set up the base template
 template = """We are working together to satisfy the user's original goal
@@ -166,10 +132,6 @@ class CustomOutputParser(AgentOutputParser):
     action_history = defaultdict(set)
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
-        parsed = json.loads(llm_output)
-        if not check_valid(parsed):
-            raise ValueError(f"Could not parse LLM output: `{llm_output}`")
-
         self.ialogger.add_ai(llm_output)
         parsed = json.loads(llm_output)
         if not check_valid(parsed):
@@ -204,8 +166,7 @@ class ActionRunner:
                  prompt_template: str = template,
                  tools: List[Tool] = [search_tool, note_tool, finish_tool]):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
-        tools = [search_tool, note_tool, finish_tool]
-        prompt = CustomPromptTemplate(template=template,
+        prompt = CustomPromptTemplate(template=prompt_template,
                                       tools=tools,
                                       input_variables=["input", "intermediate_steps"],
                                       ialogger=self.ialogger)
