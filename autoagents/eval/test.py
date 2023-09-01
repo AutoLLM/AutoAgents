@@ -2,6 +2,7 @@ import argparse
 import asyncio
 import json
 import os
+from tqdm.asyncio import tqdm_asyncio
 
 from autoagents.agents.agents.search import ActionRunner
 from autoagents.agents.agents.wiki_agent import WikiActionRunner
@@ -9,7 +10,7 @@ from autoagents.agents.agents.search_v3 import ActionRunnerV3
 from autoagents.agents.models.custom import CustomLLM, CustomLLMV3
 from autoagents.data.dataset import BAMBOOGLE, DEFAULT_Q, FT, HF
 from autoagents.eval.bamboogle import eval as eval_bamboogle
-from autoagents.eval.hotpotqa.eval_async import HotpotqaAsyncEval
+from autoagents.eval.hotpotqa.eval_async import HotpotqaAsyncEval, NUM_SAMPLES_TOTAL
 from langchain.chat_models import ChatOpenAI
 from pprint import pprint
 
@@ -91,7 +92,7 @@ async def main(questions, args):
             return await work(user_input, model, temperature, agent, prompt_version, persist_logs)
     
     persist_logs = True if args.persist_logs else False
-    await asyncio.gather(*[safe_work(q, args.model, args.temperature, args.agent, args.prompt_version, persist_logs) for q in questions])
+    await tqdm_asyncio.gather(*[safe_work(q, args.model, args.temperature, args.agent, args.prompt_version, persist_logs) for q in questions])
 
 
 if __name__ == "__main__":
@@ -135,12 +136,12 @@ if __name__ == "__main__":
         questions = [q for _, q in HF]
     elif args.dataset == "hotpotqa":
         hotpotqa_eval = HotpotqaAsyncEval(model=args.model)
-        questions = hotpotqa_eval.dataset.keys()
+        questions = hotpotqa_eval.get_questions(args.slice or NUM_SAMPLES_TOTAL)
     elif args.dataset == "bamboogle":
         questions = BAMBOOGLE["questions"]
     else:
         questions = [q for _, q in DEFAULT_Q]
-    if args.slice:
+    if args.slice and args.dataset != "hotpotqa":
         questions = questions[:args.slice]
     asyncio.run(main(questions, args))
     if args.eval:
