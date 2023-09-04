@@ -1,6 +1,5 @@
 import os
 import time
-import requests
 import asyncio
 import json
 import logging
@@ -13,7 +12,9 @@ from tqdm import tqdm
 
 from autoagents.agents.agents.wiki_agent import WikiActionRunner
 from autoagents.agents.models.custom import CustomLLM
-from autoagents.eval.hotpotqa.eval_async import evaluate_final_answer
+from autoagents.eval.hotpotqa.eval_async import (
+    evaluate_final_answer, prepare_dataset
+)
 from autoagents.eval.hotpotqa.hotpotqa_eval import eval
 from autoagents.eval.hotpotqa.constants import *
 
@@ -188,7 +189,7 @@ def save_output():
         json.dump(wrong_ans, f, indent=2)
 
 
-def prepare_dataset():
+def initialize_pred_dict():
 
     pred_dict["answer"] = manager.dict()
     pred_dict["statistics"] = manager.dict()
@@ -204,27 +205,6 @@ def prepare_dataset():
                 pred_dict["sp"][_id] = json.dumps(sp)
             for _id, stat in cur_dict["statistics"].items():
                 pred_dict["statistics"][_id] = json.dumps(stat)
-
-    if not os.path.isfile(GT_FILE):
-        logger.info(f"Download ground truth file from {GT_URL} ...")
-        response = requests.get(GT_URL)
-        with open(GT_FILE, 'wb') as f:
-            f.write(response.content)
-
-    with open(GT_FILE, 'r') as f:
-        full_dataset = json.load(f)
-        dataset = []
-        num_new_ids = 0
-        for data in full_dataset:
-            if data["_id"] not in pred_dict["statistics"]:
-                if len(pred_dict["statistics"]) + num_new_ids >= NUM_SAMPLES_TOTAL:
-                    break
-                dataset.append(data)
-                num_new_ids += 1
-            elif data["_id"] in cur_dict.get("error", []):
-                dataset.append(data)
-
-    return dataset
 
 
 def retry(dataset):
@@ -264,8 +244,10 @@ if __name__ == "__main__":
     manager = Manager()
 
     pred_dict = manager.dict()
-    
-    dataset = prepare_dataset()
+
+    initialize_pred_dict()
+
+    dataset = prepare_dataset(total=NUM_SAMPLES_TOTAL, pred_ckpt=pred_dict)
 
     if PERSIST_LOGS:
         if not os.path.isdir(LOG_DATA_DIR):

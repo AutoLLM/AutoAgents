@@ -2,6 +2,8 @@ import os
 import json
 import asyncio
 import requests
+from typing import Optional, Union
+from tqdm.asyncio import tqdm_asyncio
 from langchain.schema import HumanMessage
 from langchain.chat_models import ChatOpenAI
 
@@ -11,99 +13,157 @@ from autoagents.eval.hotpotqa.hotpotqa_eval import eval
 
 class HotpotqaAsyncEval:
 
-    def __init__(self, model: str, total: int = NUM_SAMPLES_TOTAL):
+    def __init__(
+        self,
+        model: str,
+        ckpt_dir: Optional[str] = None,
+        pred_file: Optional[str] = None
+    ):
 
-        self.pred_dict = {"answer": {}, "statistics": {}, "sp": {}, "error": {}}
-        
-        results_dir: str = os.path.join(PARENT_DIRECTORY, f"results_{model}")
-        if not os.path.isdir(results_dir):
-            os.mkdir(results_dir)
+        if ckpt_dir is None:
+            ckpt_dir = os.path.join(PARENT_DIRECTORY, f"results_{model}")
 
-        self.pred_file = os.path.join(results_dir, "prediction.json")
-        if os.path.isfile(self.pred_file):
-            with open(self.pred_file, 'r') as f:
-                self.pred_dict = json.load(f)
+        if not os.path.isdir(ckpt_dir):
+            os.mkdir(ckpt_dir)
+
+        self.pred_file = pred_file or os.path.join(ckpt_dir, "prediction.json")
+        self.new_log_dir = os.path.join(ckpt_dir, "data")
+        self.wrong_ans_file = os.path.join(ckpt_dir, "wrong_ans.json")
 
         if not os.path.isdir(LOG_DATA_DIR):
             os.mkdir(LOG_DATA_DIR)
 
-        self.new_log_dir = os.path.join(results_dir, "data")
-        self.wrong_ans_file = os.path.join(results_dir, "wrong_ans.json")
-        
-        self.dataset = prepare_dataset(self.pred_dict, total)
+    def get_questions(self, total: Optional[int] = None):
+        dataset = prepare_dataset(total=total, pred_ckpt=self.pred_file)
+        return [data["question"] for data in dataset]
 
-    def run(self):
+    def run(self, log_dir: Optional[str] = None):
 
-        asyncio.run(collect_metrics(
-            pred_dict=self.pred_dict, dataset=self.dataset, log_files=[
-                os.path.join(LOG_DATA_DIR, file)
-                for file in os.listdir(LOG_DATA_DIR)
-            ]
-        ))
+        if log_dir is None:
+            if not os.path.isdir(self.new_log_dir):
+                os.mkdir(self.new_log_dir)
+            if os.path.isdir(LOG_DATA_DIR):
+                for log_file in os.listdir(LOG_DATA_DIR):
+                    os.rename(
+                        src=os.path.join(LOG_DATA_DIR, log_file),
+                        dst=os.path.join(self.new_log_dir, log_file)
+                    )
+                os.rmdir(LOG_DATA_DIR)
+            log_dir = self.new_log_dir
 
-        self.save_output()
+        pred_dict = predict_log_dir(log_dir=log_dir, pred_ckpt=self.pred_file)
+
+        self.save_output(pred_dict=pred_dict)
 
         eval(self.pred_file, GT_FILE)
 
-    def save_output(self):
-        
-        if not os.path.isdir(self.new_log_dir):
-            os.mkdir(self.new_log_dir)
-        for log_file in os.listdir(LOG_DATA_DIR):
-            os.rename(
-                src=os.path.join(LOG_DATA_DIR, log_file),
-                dst=os.path.join(self.new_log_dir, log_file)
-            )
-        os.rmdir(LOG_DATA_DIR)
+    def save_output(self, pred_dict: dict):
 
         with open(self.pred_file, 'w') as f:
-            json.dump(self.pred_dict, f, indent=2)
+            json.dump(pred_dict, f, indent=2)
 
         wrong_ans = []
-        for qid, stat in self.pred_dict["statistics"].items():
+        for qid, stat in pred_dict["statistics"].items():
             if stat["equivalency"] == 0:
                 wrong_ans.append({
                     "question": stat["question"],
                     "gt_answer": stat["gt_answer"],
-                    "prediction": self.pred_dict["answer"].get(qid, ''),
+                    "prediction": pred_dict["answer"].get(qid, ''),
                     "reasoning": stat["reasoning"]
                 })
         with open(self.wrong_ans_file, 'w') as f:
             json.dump(wrong_ans, f, indent=2)
 
 
-def initialize_pred_dict():
+def get_pred_dict(pred_ckpt: Optional[str] = None):
 
-    pred_dict = {"answer": {}, "statistics": {}, "sp": {}, "error": {}}
-
-    if os.path.isfile(OUTPUT_FILE):
-        with open(OUTPUT_FILE, 'r') as f:
-            pred_dict = json.load(f)
+    if pred_ckpt is not None and os.path.isfile(pred_ckpt):
+        with open(pred_ckpt, 'r') as f:
+            return json.load(f)
     
-    return pred_dict
+    return {"answer": {}, "statistics": {}, "sp": {}, "error": {}}
 
 
-def prepare_dataset(pred_dict: dict, total: int = NUM_SAMPLES_TOTAL):
+def prepare_dataset(
+    total: Optional[int] = None,
+    pred_ckpt: Optional[Union[str, dict]] = None,
+    log_dir: Optional[str] = None
+):
 
-    if not os.path.isfile(GT_FILE):
-        response = requests.get(GT_URL)
-        with open(GT_FILE, 'wb') as f:
-            f.write(response.content)
+    full_dataset = get_hotpotqa_fullwiki_devset()
 
-    with open(GT_FILE, 'r') as f:
-        full_dataset = json.load(f)
-        dataset = {}
-        num_new_ids = 0
-        for data in full_dataset:
-            if data["_id"] not in pred_dict["statistics"]:
-                if len(pred_dict["statistics"]) + num_new_ids >= total:
-                    break
-                dataset[data["question"]] = data
-                num_new_ids += 1
-            elif data["_id"] in pred_dict.get("error", []):
-                dataset[data["question"]] = data
+    if total is None:
+        total = len(full_dataset)
+
+    if log_dir is not None and os.path.isdir(log_dir):
+        goal_set: set = set()
+        for log_file in os.listdir(log_dir):
+            with open(os.path.join(log_dir, log_file), 'r') as f:
+                log_data = json.load(f)
+                if log_data and isinstance(log_data, list):
+                    goal = log_data[0].get("goal")
+                    if goal:
+                        goal_set.add(goal)
+        return [data for data in full_dataset if data["question"] in goal_set]
+
+    if isinstance(pred_ckpt, dict):
+        pred_dict = pred_ckpt
+    else:
+        pred_dict = get_pred_dict(pred_ckpt=pred_ckpt)
+
+    dataset = []
+    num_new_ids = 0
+    for data in full_dataset:
+        if data["_id"] not in pred_dict["statistics"]:
+            if len(pred_dict["statistics"]) + num_new_ids >= total:
+                break
+            dataset.append(data)
+            num_new_ids += 1
+        elif data["_id"] in pred_dict.get("error", []):
+            dataset.append(data)
 
     return dataset
+
+
+def get_hotpotqa_fullwiki_devset(file: str = GT_FILE, url: str = GT_URL):
+
+    if not os.path.isfile(file):
+        response = requests.get(url)
+        with open(file, 'wb') as f:
+            f.write(response.content)
+
+    with open(file, 'r') as f:
+        return json.load(f)
+
+
+def evaluate_log_dir(
+    log_dir: str = LOG_DATA_DIR,
+    pred_ckpt: Optional[str] = None
+):
+    pred_ckpt = pred_ckpt or os.path.join(PARENT_DIRECTORY, "prediction.json")
+    pred_dict = predict_log_dir(log_dir=log_dir, pred_ckpt=pred_ckpt)
+    with open(pred_ckpt, 'w') as f:
+        json.dump(pred_dict, f, indent=2)
+    eval(pred_ckpt, GT_FILE)
+
+
+def predict_log_dir(
+    log_dir: str = LOG_DATA_DIR,
+    pred_ckpt: Optional[str] = None
+):
+    dataset = {
+        data["question"]: data for data in prepare_dataset(log_dir=log_dir)
+    }
+
+    pred_dict = get_pred_dict(pred_ckpt=pred_ckpt)
+
+    asyncio.run(collect_metrics(
+        pred_dict=pred_dict, dataset=dataset, log_files=[
+            os.path.join(log_dir, file) for file in os.listdir(log_dir)
+        ]
+    ))
+
+    return pred_dict
 
 
 async def collect_metrics(pred_dict: dict, dataset: dict, log_files: list):
@@ -116,7 +176,7 @@ async def collect_metrics(pred_dict: dict, dataset: dict, log_files: list):
                 log_data = json.load(f)
                 await evaluate_log_data(log_data, pred_dict, dataset)
 
-    await asyncio.gather(*[
+    await tqdm_asyncio.gather(*[
         process_log_file(log_file) for log_file in log_files
     ])
 
@@ -179,14 +239,18 @@ async def process_conversation_log(
     statistics["steps"] += 1
 
     history = conversations[0]["value"]
-    if history and "observation" in history[0]:
-        observation = history[0].get("observation")
+    if history and "observation" in history[-1]:
+        observation = history[-1].get("observation")
         if isinstance(observation, list) and isinstance(observation[0], dict) and "title" in observation[0]:
             titles.append([doc["title"] for doc in observation])
             for doc in observation:
                 statistics["citations"][doc["url"]] = doc["title"]
 
-    prediction = json.loads(conversations[-1]["value"])
+    try:
+        prediction = json.loads(conversations[-1]["value"])
+    except:
+        statistics["parse_error"] += 1
+        return
     action = prediction["action"]
     if action == "Tool_Wikipedia":
         statistics["search_invoked"] += 1
