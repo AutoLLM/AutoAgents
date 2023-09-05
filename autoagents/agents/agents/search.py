@@ -106,7 +106,7 @@ class CustomPromptTemplate(StringPromptTemplate):
             parsed = json.loads(action.log)
             if i == len(intermediate_steps) - 1:
                 # Add observation only for the last action
-                if action.tool == "Tool_Search":
+                if action.tool == "Tool_Search" or "Tool_Wikipedia":
                     kwargs["observation"] = observation
                 elif action.tool == "Tool_Notepad":
                     kwargs["notepad"] = observation
