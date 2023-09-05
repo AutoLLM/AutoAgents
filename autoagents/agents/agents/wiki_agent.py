@@ -1,5 +1,6 @@
 from langchain.base_language import BaseLanguageModel
 from autoagents.agents.agents.search import ActionRunner
+from autoagents.agents.agents.search_v3 import ActionRunnerV3
 from autoagents.agents.tools.tools import wiki_dump_search_tool, wiki_note_tool, finish_tool
 
 
@@ -47,5 +48,13 @@ class WikiActionRunner(ActionRunner):
         super().__init__(
             outputq, llm, persist_logs,
             prompt_template=template,
+            tools=[wiki_dump_search_tool, wiki_note_tool, finish_tool]
+        )
+
+class WikiActionRunnerV3(ActionRunnerV3):
+    def __init__(self, outputq, llm: BaseLanguageModel, persist_logs: bool = False):
+
+        super().__init__(
+            outputq, llm, persist_logs,
             tools=[wiki_dump_search_tool, wiki_note_tool, finish_tool]
         )
