@@ -58,11 +58,13 @@ class CustomOutputParser(AgentOutputParser):
     action_history = defaultdict(set)
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
-        self.ialogger.add_ai(llm_output)
-        parsed = json.loads(llm_output)
+        try:
+            parsed = json.loads(llm_output)
+        except json.decoder.JSONDecodeError:
+            raise ValueError(f"Could not parse LLM output: `{llm_output}`")
         if not check_valid(parsed):
             raise ValueError(f"Could not parse LLM output: `{llm_output}`")
-
+        self.ialogger.add_ai(llm_output)
         # Parse out the action and action input
         action = parsed["action"]
         action_input = parsed["action_input"]
@@ -76,8 +78,8 @@ class ActionRunnerV3:
     def __init__(self,
                  outputq,
                  llm: BaseLanguageModel,
-                 persist_logs: bool = False):
-        tools = [search_tool_v3, note_tool_v3, finish_tool_v3]
+                 persist_logs: bool = False,
+                 tools = [search_tool_v3, note_tool_v3, finish_tool_v3]):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
         self.ialogger.set_tools([{tool.name: tool.description} for tool in tools])
         prompt = CustomPromptTemplate(tools=tools,

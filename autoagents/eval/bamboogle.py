@@ -32,8 +32,9 @@ async def eval():
         finish = False
         with open(file, "r") as f:
             log_data = json.load(f)
-            question = log_data[0]["goal"]
             for entry in log_data:
+                if "goal" in entry:
+                    question = entry["goal"]
                 if "error" in entry:
                     shutil.copy2(file, err_res_dir)
                 elif "conversations" in entry:
