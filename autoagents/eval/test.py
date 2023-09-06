@@ -5,7 +5,7 @@ import os
 from tqdm.asyncio import tqdm_asyncio
 
 from autoagents.agents.agents.search import ActionRunner
-from autoagents.agents.agents.wiki_agent import WikiActionRunner
+from autoagents.agents.agents.wiki_agent import WikiActionRunner, WikiActionRunnerV3
 from autoagents.agents.agents.search_v3 import ActionRunnerV3
 from autoagents.agents.models.custom import CustomLLM, CustomLLMV3
 from autoagents.data.dataset import BAMBOOGLE, DEFAULT_Q, FT, HF
@@ -54,6 +54,8 @@ async def work(user_input: str, model: str, temperature: int, agent: str, prompt
         elif agent == "wiki":
             if prompt_version == "v2":
                 runner = WikiActionRunner(outputq, llm=llm, persist_logs=persist_logs)
+            elif prompt_version == "v3":
+                runner = WikiActionRunnerV3(outputq, llm=llm, persist_logs=persist_logs)
         task = asyncio.create_task(runner.run(user_input, outputq))
         while True:
             try:

@@ -91,6 +91,7 @@ def prepare_dataset(
 ):
 
     full_dataset = get_hotpotqa_fullwiki_devset()
+    filtered_dataset = []
 
     if total is None:
         total = len(full_dataset)
@@ -101,10 +102,17 @@ def prepare_dataset(
             with open(os.path.join(log_dir, log_file), 'r') as f:
                 log_data = json.load(f)
                 if log_data and isinstance(log_data, list):
-                    goal = log_data[0].get("goal")
+                    for entry in log_data:
+                        if "goal" in entry:
+                            goal = entry["goal"]
+                            break
                     if goal:
                         goal_set.add(goal)
-        return [data for data in full_dataset if data["question"] in goal_set]
+        for data in full_dataset:
+            for goal in goal_set:
+                if data["question"] in goal:
+                    filtered_dataset.append(data)
+        return filtered_dataset
 
     if isinstance(pred_ckpt, dict):
         pred_dict = pred_ckpt
@@ -187,11 +195,16 @@ async def evaluate_log_data(
     
     if not log_data or not isinstance(log_data, list):
         return
-    question: str = log_data[0].get("goal")
-    gt = dataset.get(question)
+    for entry in log_data:
+        if "goal" in entry:
+            question: str = entry["goal"]
+            break
+    for q in dataset:
+        if q in question:
+            gt = dataset[q]
+            break
     if gt is None:
         return
-
     qid = gt["_id"]
     if qid in pred_dict["answer"]:
         return
