@@ -1,0 +1,15 @@
+{"name": "autogpt_adoption", "goal": "What are the main reasons AutoGPT hasn't been adopted by the general public?", "task_id": "7bc03fce036e4302"}
+{"name": "tax_rate", "goal": "Find the latest local income tax rate for an individual working in the City of Pittsburgh. What is the deadline for tax return filing this year?", "task_id": "61b6dd397931404a"}
+{"name": "female_gymnast", "goal": "I love the Olympics and Women's Gymnastics is my favorite event. Which female gymnast alive today has the most medals?", "task_id": "ff3a57e32a324060"}
+{"name": "columbus_physicians", "goal": "Who are the top 5 primary care physicians in Columbus, OH? Include a detailed list for each physician and their expertise.", "task_id": "a42c239a3b8a44df"}
+{"name": "sangiovese_wine", "goal": "Suggest a couple of good, budget-friendly wines for someone who likes Sangiovese.", "task_id": "9fc48092050e4fef"}
+{"name": "khaleesi_dragons", "goal": "Name Khaleesi's three dragons and their character development throughout the seasons of Game of Thrones.", "task_id": "38a57d996ffc4d01"}
+{"name": "remote_worker", "goal": "If I am making \u00a3100000 working remotely in London, how much more spare money would I have if I had the same remote job in Bath?", "task_id": "ba5a3e97724f44fc"}
+{"name": "llama2_service", "goal": "I would like to deploy an inference service of LLAMA 2 for a week. Which cloud platforms should I choose and what are the price plans for different options?", "task_id": "e9db9ae025f84c8b"}
+{"name": "netflix_movie", "goal": "Provide a list of top-rated movies released this year from Netflix. Summarize their plots and reviews.", "task_id": "71cd3750f6854f61"}
+{"name": "civic_driver", "goal": "Suppose that I get my 2023 Honda Civic serviced, and then drive from Maine to San Diego. How many more miles should I drive before getting my car serviced again?", "task_id": "e41ab586a6294cc0"}
+{"name": "tbill_yield", "goal": "What is the current estimated yield for the treasury bills issued recently? Compare it with the yields of the treasury bills issued last month.", "task_id": "66898415ed24453a"}
+{"name": "book_reader", "goal": "Find me a book that explores similar themes to Spain's highest grossing movie in 2022. Why should I read it?", "task_id": "c1a7411b35544256"}
+{"name": "car_renter", "goal": "I plan to rent a car to drive from San Jose, CA to Los Angeles, CA with two friends. Recommend three economical options from different car rental companies and provide the estimated budget for each of the options.", "task_id": "2404514031784c7c"}
+{"name": "pittsburgh_events", "goal": "List 3 popular events happening in the city of Pittsburgh over the labor day weekend. Also provide entry fee, accessibility, bag policy, parking information etc about each of the events. Please try to include events involving food.", "task_id": "ff9f418eb3424e7a"}
+{"name": "nfl_team", "goal": "Which NFL team has the youngest opening day roster in history? What was that teams record at the end of the year?", "task_id": "bdd0b5aafac6442c"}

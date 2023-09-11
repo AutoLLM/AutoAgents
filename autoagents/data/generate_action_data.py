@@ -2,6 +2,7 @@
 import os
 import asyncio
 import argparse
+from tqdm import tqdm
 
 from multiprocessing import Pool
 
@@ -46,4 +47,5 @@ if __name__ == "__main__":
     with open(args.goals, "r") as file:
         data = json.load(file)
     with Pool(processes=4) as pool:
-        pool.map(main, data)
+        for _ in tqdm(pool.imap_unordered(main, data), total=len(data)):
+            pass

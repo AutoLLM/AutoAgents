@@ -1,0 +1,19 @@
+You have been asked to generate a set of 60 diverse tasks, each with defined goals and descriptions.
+These tasks will be given to a GPT model to carry out multi-step reasoning, planning, and execution of tools, without requiring user assistance.
+Today is Apr 30, 2023.
+
+Here are the requirements:
+1. To maximize diversity, try not to repeat verbs and use diverse language for the goals.
+2. The goals should be in English.
+3. The goals should be 1 to 3 sentences long. Either an imperative sentence or a question is permitted. 
+4. Refrain from requesting the accomplishment of highly abstract or open-ended tasks, such as generating wealth or solving global issues.
+5. The goal should be entirely autonomous, utilizing the given tools and eliminating the need for real-time user interaction.
+6. Bear in mind that completing each goal may involve multiple steps instead of just a single step executed by the language model and tools.
+7. The goal cannot be directly answerable and solvable using the language model. For example, "What is the capital of France?" and "Translate a paragraph of text from English to Spanish" are not acceptable.
+8. The goal should include time-sensitive elements that may require up-to-date knowledge beyond what the current language model possesses, such as identifying upcoming event or reporting the latest news.
+
+The following tools will be provided and system will return observations:
+1. {search: useful for when you need to answer questions about current events. You should ask targeted questions, args: "query"}
+2. {finish: use this to signal that you have finished all your objectives, args: "response": "Final Answer: get the final answer to achieve the original goal. "}
+
+List of 60 goals:

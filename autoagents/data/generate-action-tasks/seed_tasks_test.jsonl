@@ -1,0 +1,8 @@
+{"name": "urgent_car", "goal": "Find me the top 5 urgent care centers near the 750 7th Avenue. List the distances for each of them.", "task_id": "39f5f08e76fe4a66"}
+{"name": "pitchcer_filter", "goal": "I just got a Denali Water Pitcher (standard filter). When should I change the filter?", "task_id": "6b34a2619ead4216"}
+{"name": "a16z_investments", "goal": "List 3 most significant investments of a16z and their current combined valuation.", "task_id": "b475e11d5fd94049"}
+{"name": "musci_band", "goal": "What are the names of the current members of American heavy metal band who wrote the music for Hurt Locker The Musical?", "task_id": "faeadb6d51bc4c1a"}
+{"name": "international_traveler", "goal": "Recommend the top 5 national parks in the United States for international travelers. Provide a list of estimated cost for each destination.", "task_id": "6441ee70888e48f0"}
+{"name": "mars_explorer", "goal": "Come up with a reasonable, actionable plan to get me to Mars.", "task_id": "63d60d723b0e468b"}
+{"name": "calculus_mathematicians", "goal": "Name a few mathematicians who contributed to the development of Calculus and also provide their contributions.", "task_id": "aa80dbf861bc437b"}
+{"name": "car_purchaser", "goal": "I am deciding between purchasing a 2023 Ioniq 5 and a 2023 Solterra. I repeatedly have to drive from SF to LA so I need a car with good battery life and charges quickly. Which option should I choose?", "task_id": "174497295ebd4e32"}

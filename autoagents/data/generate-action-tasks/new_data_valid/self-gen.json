@@ -1,0 +1,4652 @@
+[
+    {
+        "name": "bitcoin_investment",
+        "goal": "Tell me about the recent market performance of Bitcoin over last month. Detail the prominent highs and lows.",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "cyclone_alert",
+        "goal": "Report any approaching cyclones that coastal cities in Australia should be wary of in the next week.",
+        "max_similarity_score": 0.3636363636363636,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "proctor_software",
+        "goal": "Investigate the most widely used proctoring software for online exams. Discuss their benefits and drawbacks.",
+        "max_similarity_score": 0.26666666666666666,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "kubernetes_usability",
+        "goal": "Analyze the potential advantages of Kubernetes for businesses. Are there any prominent industries where this tool is favored?",
+        "max_similarity_score": 0.2580645161290323,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "animal_rescue",
+        "goal": "Determine the most recent, significant animal rescue operation conducted by an NGO globally. Describe the chronicle of the event.",
+        "max_similarity_score": 0.3225806451612903,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "monalisa_vanish",
+        "goal": "Outline the story surrounding the theft of the Mona Lisa in 1911 and subsequent events that led to its recovery.",
+        "max_similarity_score": 0.2926829268292683,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "macaroni_recipe",
+        "goal": "Discover an authentic Italian recipe for macaroni pasta and detail the cooking procedure.",
+        "max_similarity_score": 0.2580645161290323,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "math_hacker",
+        "goal": "What recent advancements or findings have been introduced in the field of number theory? Provide details of the latest research paper submitted to a reputable mathematics journal.",
+        "max_similarity_score": 0.3902439024390244,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "cyberattack_news",
+        "goal": "Document any significant cyberattacks that have occurred over this week. Report the consequences and targeted entities.",
+        "max_similarity_score": 0.30303030303030304,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "noble_awardees",
+        "goal": "Who are the latest Nobel laureates in Literature and Peace? Briefly discuss their achievements that led them to the awards.",
+        "max_similarity_score": 0.3636363636363637,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "wimbledon_update",
+        "goal": "Update the list of Wimbledon champions for the last ten years in both men and women's singles.",
+        "max_similarity_score": 0.303030303030303,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "architectural_marvel",
+        "goal": "Define the major architectural innovations inherent in the construction of \"The Shard\" in London.",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "space_mission",
+        "goal": "Outline the main objectives of NASA's next planned space mission. Describe its significance in further detail.",
+        "max_similarity_score": 0.3846153846153846,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "zoonotic_disease",
+        "goal": "Discuss the latest zoonotic disease outbreak and its spread across the globe.",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "angela_merkel",
+        "goal": "Provide a brief political career overview of Angela Merkel, focusing on her time as the Chancellor of Germany.",
+        "max_similarity_score": 0.28571428571428575,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "vegan_delight",
+        "goal": "Recommend three popular vegan dishes that are easy to prepare and require less than 30 minutes cooking time.",
+        "max_similarity_score": 0.2962962962962963,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "ipo_watch",
+        "goal": "Detail any new IPOs set to launch in Wall Street during the first week of May 2023. What are the expected returns?",
+        "max_similarity_score": 0.3,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "bitcoin_hacker",
+        "goal": "Narrate the tale of the biggest Bitcoin heist in history. Who was responsible and how much was stolen?",
+        "max_similarity_score": 0.2962962962962963,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "nft_purchase",
+        "goal": "Who holds the record for purchasing the most expensive NFT? What is the NFT and its current valuation?",
+        "max_similarity_score": 0.3902439024390244,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "reactor_technology",
+        "goal": "Explain the functioning of the latest nuclear reactor technology used in power plants. What advancements render it safer and more efficient?",
+        "max_similarity_score": 0.2777777777777778,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "android_developer",
+        "goal": "Identify the most frequently used frameworks for Android mobile application development as per a recent survey.",
+        "max_similarity_score": 0.2580645161290323,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "linguist_challenge",
+        "goal": "Describe the most difficult or intriguing language to learn according to linguistic experts. What makes it so?",
+        "max_similarity_score": 0.24390243902439027,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "e-waste_solution",
+        "goal": "Present a solution to the rising e-waste problem that has been proposed by environmental scientists recently.",
+        "max_similarity_score": 0.29411764705882354,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "diamond_mine",
+        "goal": "Identify the largest active diamond mine in the world. How many carats are produced annually?",
+        "max_similarity_score": 0.2962962962962963,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "venomous_creatures",
+        "goal": "List the top three most venomous animals found in nature. In which regions are they predominantly found?",
+        "max_similarity_score": 0.3448275862068966,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "heritage_site",
+        "goal": "Detail the history and cultural significance of the latest UNESCO World Heritage Site.",
+        "max_similarity_score": 0.3636363636363637,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "pandora_papers",
+        "goal": "Summarize the major revelations of the Pandora Papers. Who are the notable figures involved?",
+        "max_similarity_score": 0.3529411764705882,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "martian_exploration",
+        "goal": "Report on the most recent Martian exploratory mission. What noteworthy discoveries have been made?",
+        "max_similarity_score": 0.3684210526315789,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "mythical_creatures",
+        "goal": "List three mythical creatures originating from Aztec mythology and describe their roles.",
+        "max_similarity_score": 0.37499999999999994,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "music_technology",
+        "goal": "Identify the latest technological advancements that are reshaping the way we create and consume music.",
+        "max_similarity_score": 0.2962962962962963,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "AI_in_banking",
+        "goal": "How are artificial intelligence and machine learning being utilized in the banking industry to increase efficiency and security?",
+        "max_similarity_score": 0.27027027027027023,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "sporting_history",
+        "goal": "Who has hit the most home runs in a single season in the history of Major League Baseball?",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "epic_poem",
+        "goal": "Detail the storyline of the epic poem \"Beowulf\". Who are the main characters and what are the key events?",
+        "max_similarity_score": 0.3684210526315789,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "endangered_birds",
+        "goal": "Create a detailed list of the top 5 most endangered bird species in the world, along with reasons for their declining populations.",
+        "max_similarity_score": 0.30769230769230765,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "climate_anomaly",
+        "goal": "What are recent climate anomalies noted by meteorologists? How does climate change contribute to these anomalies?",
+        "max_similarity_score": 0.3125,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "sushi_making",
+        "goal": "Find an authentic Japanese recipe for sushi that beginners can easily follow. Include detailed instructions for sushi rice and roll preparation.",
+        "max_similarity_score": 0.2941176470588235,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "food_preservation",
+        "goal": "Describe the process for safely preserving fruits and vegetables using the latest food preservation technology.",
+        "max_similarity_score": 0.28571428571428575,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "space_tourism",
+        "goal": "Outline the most recent space tourism venture. Who is the company behind it, and what are their future plans?",
+        "max_similarity_score": 0.3684210526315789,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "water_cleaning_tech",
+        "goal": "Define the process of the latest water-cleaning technology. How is it implemented, and what contaminants can it tackle?",
+        "max_similarity_score": 0.35,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "bacteria_most_dangerous",
+        "goal": "Name the deadliest bacterial strain to humans current known. Provide known preventative measures against this bacteria.",
+        "max_similarity_score": 0.2,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "supercomputer_ranking",
+        "goal": "Identify the fastest supercomputer in the world as of April 2023. Describe its computing power and primary applications.",
+        "max_similarity_score": 0.39999999999999997,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "microprocessor_evolution",
+        "goal": "Describe the latest advancement in microprocessor technology. How does it have an edge over previous generation processors?",
+        "max_similarity_score": 0.28571428571428575,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "literature_awards",
+        "goal": "List all literature awards won by author Margaret Atwood. What were the books and what did the panel say to justify the awards?",
+        "max_similarity_score": 0.26315789473684204,
+        "seed_tasks": [
+            "7bc03fce036e4302",
+            "9fc48092050e4fef",
+            "71cd3750f6854f61",
+            "c1a7411b35544256",
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "mars_rover",
+        "goal": "Which Mars rover first discovered water and when was it? What was its main contribution to space exploration?",
+        "max_similarity_score": 0.2580645161290323,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "lightning_medusa",
+        "goal": "Explain the natural phenomenon of \"Medusa\" lightning. When and where was the last recorded sighting?",
+        "max_similarity_score": 0.30769230769230765,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "beethoven_5th",
+        "goal": "What was the cultural significance of Beethoven's 5th Symphony when it premiered? What impact did it have on classical music?",
+        "max_similarity_score": 0.25641025641025644,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "europa_moon",
+        "goal": "Find out some latest discoveries or observations made about Jupiter's moon Europa in the last year.",
+        "max_similarity_score": 0.29629629629629634,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "chess_next_move",
+        "goal": "Given a chessboard with specific arrangements, calculate the best next move for black or white.",
+        "max_similarity_score": 0.24,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "presidential_pub",
+        "goal": "Find a published biography that primarily focuses on a US president's early life.",
+        "max_similarity_score": 0.31250000000000006,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "review_microsoft_surface",
+        "goal": "Find top 3 latest reviews of the Microsoft Surface Pro 8 and provide a summary of each.",
+        "max_similarity_score": 0.39999999999999997,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "cheetah_speed",
+        "goal": "What's the top speed of a Cheetah? Who officially recorded this speed and when?",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "alexa_programming",
+        "goal": "List ways to program Amazon's Alexa to do specific tasks.",
+        "max_similarity_score": 0.19999999999999998,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "locke_philosopher",
+        "goal": "Which work of John Locke is most influential? What concepts did he introduce or develop in this work?",
+        "max_similarity_score": 0.26666666666666666,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "managing_stress",
+        "goal": "Find the most recommended modern techniques for managing stress according to recent medical studies.",
+        "max_similarity_score": 0.2727272727272727,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "seven_wonders",
+        "goal": "Identify the Seven Wonders of the Ancient World and present a brief historical background of each.",
+        "max_similarity_score": 0.37837837837837834,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "iceberg_sinking",
+        "goal": "Explain the process of how large icebergs sink and what implications it can have on the environment.",
+        "max_similarity_score": 0.3888888888888889,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "coral_reef_damage",
+        "goal": "Find the most recent study on damage to the Great Barrier Reef and summarize its findings.",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "titanic_shipwreck_discovery",
+        "goal": "Who discovered the wreck of the Titanic, when, and how were they able to locate it?",
+        "max_similarity_score": 0.33333333333333326,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "echolocation_in_bats",
+        "goal": "Identify the biological process of echolocation in bats and how it benefits their survival.",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "code_decryption",
+        "goal": "Decrypt a given coded message using a provided cipher.",
+        "max_similarity_score": 0.2222222222222222,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "palm_oil_production",
+        "goal": "Outline the main countries involved in palm oil production and their impacts on global environmental change.",
+        "max_similarity_score": 0.3076923076923077,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "leopard_seals",
+        "goal": "Discuss the hunting behavior of leopard seals and how they capture their prey.",
+        "max_similarity_score": 0.3703703703703704,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "cooking_ramen",
+        "goal": "Find an authentic recipe for cooking Japanese ramen with a focus on the broth.",
+        "max_similarity_score": 0.3703703703703704,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "blockchain_technology",
+        "goal": "Elucidate the principle mechanisms of a blockchain network and its role in cryptocurrency.",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "opera_house_sydney",
+        "goal": "Describe the architectural elements that make the Sydney Opera House an iconic structure.",
+        "max_similarity_score": 0.23076923076923078,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "tallest_tree",
+        "goal": "What is the tallest tree species on earth? Where is the tallest known specimen of this species located?",
+        "max_similarity_score": 0.35294117647058826,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "global_warming",
+        "goal": "Synthesize the latest research on the effects of human activity on global warming.",
+        "max_similarity_score": 0.3571428571428571,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "fair_trade_chocolate",
+        "goal": "Enumerate some of the top companies offering fair-trade chocolate.",
+        "max_similarity_score": 0.2857142857142857,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "tech_startups",
+        "goal": "Find the five most promising tech startups of this year and their breakthrough innovations.",
+        "max_similarity_score": 0.32,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "world_cup_winner",
+        "goal": "Which team won the latest FIFA World Cup and what was the score in the final match?",
+        "max_similarity_score": 0.3636363636363636,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "electric_cars",
+        "goal": "Identify the fastest electric car currently in production, including its top speed and range.",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "cooking_sushi",
+        "goal": "Find an easy recipe for making homemade sushi, including ingredients and step-by-step instructions.",
+        "max_similarity_score": 0.34285714285714286,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "suduko_solver",
+        "goal": "Complete a given Sudoku puzzle using logical methods.",
+        "max_similarity_score": 0.35294117647058826,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "mountain_everest",
+        "goal": "Who was the oldest person to climb Mount Everest and when did they do it?",
+        "max_similarity_score": 0.3225806451612903,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "hidden_figures_movie",
+        "goal": "Who are the real-life women whose stories are depicted in the movie 'Hidden Figures' and what were their contributions to NASA?",
+        "max_similarity_score": 0.3902439024390244,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "electric_guitar",
+        "goal": "Who is recognized as the person who invented the first solid-body electric guitar?",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "pacific_trash_vortex",
+        "goal": "Summarize the environmental problems posed by the Great Pacific garbage patch or the Pacific trash vortex.",
+        "max_similarity_score": 0.26666666666666666,
+        "seed_tasks": [
+            "61b6dd397931404a",
+            "bdd0b5aafac6442c",
+            "9fc48092050e4fef",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "award_winner",
+        "goal": "Unearth the recipient of the 'Best Actor' award at the Golden Globes for the current year. Present a brief description of their acting career including accolades they\u2019ve previously won.",
+        "max_similarity_score": 0.3448275862068965,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "historic_landmark",
+        "goal": "Locate the three latest historic landmarks recognized by UNESCO in the current year.",
+        "max_similarity_score": 0.3448275862068966,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "entrepreneur_innovations",
+        "goal": "Share the innovations by top tech entrepreneurs within this year.",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "recycling_efforts",
+        "goal": "Describe recent significant efforts in plastic recycling in European countries.",
+        "max_similarity_score": 0.28571428571428564,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "marathon_update",
+        "goal": "Present the winner of the latest Boston Marathon, including their race completion time.",
+        "max_similarity_score": 0.38461538461538464,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "musical_trend",
+        "goal": "Uncover the current trend in the pop music scene, including popular tracks and artists.",
+        "max_similarity_score": 0.3870967741935484,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "wildlife_conservation",
+        "goal": "Detail the latest successful wildlife conservation attempts by any country this year.",
+        "max_similarity_score": 0.3636363636363636,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "pandemic_update",
+        "goal": "Share the most recent updates on the COVID-19 pandemic, especially vaccination progress worldwide.",
+        "max_similarity_score": 0.3846153846153846,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "mars_mission",
+        "goal": "Retrieve details of the latest Mars exploration mission and its current status.",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "beijing_skyscraper",
+        "goal": "Which new skyscraper in Beijing was completed recently and what are its unique features?",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "automotive_innovation",
+        "goal": "Relay the latest key developments in electric car technology showcased by leading automotive manufacturers this year.",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "fintech_development",
+        "goal": "Uncover the most recent trends and breakthroughs within the FinTech industry.",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "hospitality_shifts",
+        "goal": "Enumerate the recent trends transforming the hospitality industry in the aftermath of the COVID pandemic.",
+        "max_similarity_score": 0.3846153846153846,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "architecture_award",
+        "goal": "Who received the coveted Pritzker Architecture Prize in 2023, and why?",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "climate_talks",
+        "goal": "Share the important points from the last global climate talks.",
+        "max_similarity_score": 0.2727272727272727,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "green_energy",
+        "goal": "Describe a recently-started green energy initiative by any country.",
+        "max_similarity_score": 0.2727272727272727,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "gene_editing",
+        "goal": "Throw light on the latest progress in CRISPR gene-editing technology.",
+        "max_similarity_score": 0.32,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "space_telescope",
+        "goal": "Give details about any newly-launched space telescope this year and it's mission.",
+        "max_similarity_score": 0.2580645161290323,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "waste_management",
+        "goal": "Share the recent successful model of waste management adopted by a city.",
+        "max_similarity_score": 0.3125,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "automobile_safety",
+        "goal": "Detail the latest safety features added in cars by major automobile companies.",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "tech_takeover",
+        "goal": "Is there any major tech company acquisition announced recently?",
+        "max_similarity_score": 0.39999999999999997,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "future_movie",
+        "goal": "Uncover the list of upcoming movies of Christopher Nolan, including their release dates and plotlines.",
+        "max_similarity_score": 0.3125,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "electric_bike",
+        "goal": "Detail the best electric bike available in the market right now and compare it to the best model from last year.",
+        "max_similarity_score": 0.35,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "tech_startup",
+        "goal": "Who's the latest unicorn tech startup and what do they do?",
+        "max_similarity_score": 0.3703703703703704,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "human_rights",
+        "goal": "Illustrate the current major international human rights issue.",
+        "max_similarity_score": 0.31999999999999995,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "evehicle_report",
+        "goal": "Report the recent numbers of electric vehicle sales in Europe comparing to the last year.",
+        "max_similarity_score": 0.3888888888888889,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "driverless_trends",
+        "goal": "Share the most recent developments in autonomous vehicle technology.",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "market_analysis",
+        "goal": "Analyze the recent performance of the Silicon Valley tech firms in the stock market.",
+        "max_similarity_score": 0.3846153846153846,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "social_media",
+        "goal": "Who is the current most followed person on Instagram, and what makes them popular?",
+        "max_similarity_score": 0.36363636363636365,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "youth_music",
+        "goal": "Enumerate the top 5 trending songs among teenagers in the US.",
+        "max_similarity_score": 0.34782608695652173,
+        "seed_tasks": [
+            "ff3a57e32a324060",
+            "66898415ed24453a",
+            "e41ab586a6294cc0",
+            "a42c239a3b8a44df",
+            "ff9f418eb3424e7a",
+            "ba5a3e97724f44fc",
+            "7bc03fce036e4302",
+            "c1a7411b35544256"
+        ]
+    },
+    {
+        "name": "earthquake_aftermath",
+        "goal": "What have been the primary challenges to the recovery operations in the wake of the earthquake that occurred yesterday?",
+        "max_similarity_score": 0.35294117647058826,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "election_outcome",
+        "goal": "What factors are being attributed to the unexpected outcome of the recent mayoral election in Chicago?",
+        "max_similarity_score": 0.35294117647058826,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "latest_space_mission",
+        "goal": "Provide details for NASA's most recently launched space mission. Why is it significant?",
+        "max_similarity_score": 0.2857142857142857,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "plant_care",
+        "goal": "Determine the optimal care routine for a home-grown Venus Flytrap plant. Why are these methods recommended?",
+        "max_similarity_score": 0.22857142857142856,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "coffee_price",
+        "goal": "What's the current average prices for a pound of raw and roasted coffee beans? Why are they currently at this level?",
+        "max_similarity_score": 0.3870967741935484,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "AI_in_medical",
+        "goal": "Which groundbreaking AI innovations are transforming dermatology the most, as of today's date? Summarize their impacts.",
+        "max_similarity_score": 0.2926829268292683,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "car_polution",
+        "goal": "Find out what car company has released the lowest CO2 emission model this year. What features make it environmentally friendly?",
+        "max_similarity_score": 0.3043478260869565,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "tuition_increase",
+        "goal": "What reasons have been given for the 5% increase in average college tuition costs this year? How is the public reacting to this news?",
+        "max_similarity_score": 0.3157894736842105,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "nasa_discovery",
+        "goal": "Review the major scientific discoveries made by NASA in the past six months. Why are these significant?",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "pandemic_recovery",
+        "goal": "What measures have been imposed by Japan to ensure a sustainable economic recovery from the COVID-19 Pandemic?",
+        "max_similarity_score": 0.34285714285714286,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "egypt_airport",
+        "goal": "Research the latest updates on the development of the new international airport in Sharm El Sheikh, Egypt. Why is this project considered important?",
+        "max_similarity_score": 0.358974358974359,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "covid_variant",
+        "goal": "What are the health implications of the latest detected COVID-19 variant? How is it affecting the global response to the pandemic?",
+        "max_similarity_score": 0.358974358974359,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "local_produce",
+        "goal": "Demonstrate the benefits for a consumer to purchase produce from their local farmers market rather than large supermarkets. Where can they find these markets in their area?",
+        "max_similarity_score": 0.2325581395348837,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "electric_grid",
+        "goal": "Discuss the potential consequences for the United States if their aging electrical grid is not upgraded in the next decade.",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "volcano_eruption",
+        "goal": "Share the recent developments and the state of the ongoing volcanic eruption posing threats to nearby settlements.",
+        "max_similarity_score": 0.3225806451612903,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "e_sports_revenue",
+        "goal": "Provide information on which e-sport was responsible for the majority of gaming revenue in the past year. How did they do it?",
+        "max_similarity_score": 0.31578947368421056,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "global_inflation",
+        "goal": "Delve into the reasons underpinning the current global inflation trend and what effects it might have on the average consumer.",
+        "max_similarity_score": 0.37837837837837834,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "fashion_trend",
+        "goal": "Explain the latest global fashion trend for the coming summer. Why is it considered trendy?",
+        "max_similarity_score": 0.31578947368421056,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "green_bond",
+        "goal": "What are the major applications of the proceeds from green bonds issued recently by the European Central Bank?",
+        "max_similarity_score": 0.36842105263157887,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "wildlife_environment",
+        "goal": "Investigate the local impacts of recent deforestation in the Amazon rainforest. How is deforestation affecting wildlife and their habitats?",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "agri_tech",
+        "goal": "Outline the latest advancements in agriculture technology and their potential implications for small farmers.",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "oil_spill",
+        "goal": "Present an update on the recent oil spill in the Gulf of Mexico and the clean-up efforts taken.",
+        "max_similarity_score": 0.4,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "gene_editing",
+        "goal": "Reveal the recent progress in gene-editing technologies. How are these technologies being utilized in global healthcare?",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "automotive_innovation",
+        "goal": "Discover the recent innovation in the automotive sector. What has been the consumer's response to this innovation?",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "refugee_crisis",
+        "goal": "Compile recent developments on the ongoing refugee crisis in Afghanistan. What measures have been taken to support them?",
+        "max_similarity_score": 0.31250000000000006,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "ict_security",
+        "goal": "Assess the recent challenges in the cybersecurity industry. What are the recommended countermeasures to tackle these challenges?",
+        "max_similarity_score": 0.39999999999999997,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "space_tourism",
+        "goal": "Detail the recent developments in space tourism. How is it making space exploration accessible to the general public?",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "coral_rehab",
+        "goal": "Describe the newest methods utilized for coral reef rehabilitation. How are these methods helping the coral reefs?",
+        "max_similarity_score": 0.29411764705882354,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "seafood_sustainability",
+        "goal": "Analyze the recent news about seafood sustainability. What measures are being taken to ensure seafood sustainability globally?",
+        "max_similarity_score": 0.29411764705882354,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "world_hunger",
+        "goal": "What's the recent progress in the ongoing fight against world hunger? What countries are most successful and why?",
+        "max_similarity_score": 0.358974358974359,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "drug_development",
+        "goal": "Give insights into the latest drug developments for Alzheimer's disease. How is the new drug looking promising?",
+        "max_similarity_score": 0.2777777777777778,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "genome_sequencing",
+        "goal": "Accumulate the recent advances in genome sequencing. How is it helping in combating hereditary diseases?",
+        "max_similarity_score": 0.3636363636363636,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "future_mobility",
+        "goal": "Note down the developments by leading companies in the field of future mobility. How are these new technologies changing commuting?",
+        "max_similarity_score": 0.358974358974359,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "wildfire_update",
+        "goal": "Provide an account on the latest wildfire and the efforts applied for its containment. Who all and what areas are being affected?",
+        "max_similarity_score": 0.2926829268292683,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "sustainable_fashion",
+        "goal": "Observe the emerging trends in sustainable fashion. How are these trends changing the fashion industry?",
+        "max_similarity_score": 0.3703703703703704,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "vegan_trend",
+        "goal": "Compilation of the latest vegan food trend and why it's gaining popularity.",
+        "max_similarity_score": 0.3571428571428571,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "china_trade",
+        "goal": "Follow the recent developments on China-U.S. trade relations. How are these developments impacting the global market?",
+        "max_similarity_score": 0.34285714285714286,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "cybersecurity_threat",
+        "goal": "Address the recent cybersecurity threats and how they are being managed.",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "migration_policy",
+        "goal": "What are the changes in Canada's recent immigration policy? What are the public opinions on these changes?",
+        "max_similarity_score": 0.36842105263157887,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "telemedicine_growth",
+        "goal": "Explore the recent growth in telemedicine and its impact on global healthcare.",
+        "max_similarity_score": 0.36363636363636365,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "water_conservation",
+        "goal": "Give a detailed account of the recent water conservation techniques and their efficacy.",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "fintech_implementation",
+        "goal": "Gather information on the latest fintech implementations and their effects on the banking industry.",
+        "max_similarity_score": 0.32,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "genetic_disorder",
+        "goal": "What's the newest research on genetic disorders and their treatments?",
+        "max_similarity_score": 0.39999999999999997,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "66898415ed24453a",
+            "ba5a3e97724f44fc",
+            "71cd3750f6854f61",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "c1a7411b35544256",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "olympia_camping",
+        "goal": "Provide information about campsites near Olympia, WA that are pet-friendly and have availability for the 4th of July weekend. Include any additional fees, amenities, and attractions.",
+        "max_similarity_score": 0.22222222222222224,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "emergency_preparedness",
+        "goal": "What are the best ways to prepare for a hurricane if I live in Florida? Include a checklist of items needed for an emergency kit.",
+        "max_similarity_score": 0.28571428571428564,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "covid_stats",
+        "goal": "Provide recent COVID-19 statistics in the United States both in terms of total cases and death rate per population. How have these numbers changed compared to the same date last year?",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "book_authors",
+        "goal": "Generate a list of authors who have published a science fiction novel in the past 6 months.",
+        "max_similarity_score": 0.36842105263157887,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "investment_tips",
+        "goal": "What are the best sources to monitor for investment tips or profitable market trends?",
+        "max_similarity_score": 0.4,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "recipes_vegan",
+        "goal": "Find 3 vegan-friendly, gluten-free recipes using strawberries and detail their preparation steps.",
+        "max_similarity_score": 0.2941176470588235,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "pain_remedy",
+        "goal": "What is a home remedy for reducing lower back pain?",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "wildlife_protection",
+        "goal": "Describe any recent changes in laws and regulations relating to wildlife protection in Yellowstone National Park?",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "climate_change",
+        "goal": "What were the significant events that happened at the global level relating to climate change policy this past year?",
+        "max_similarity_score": 0.3870967741935484,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "mars_exploration",
+        "goal": "Detail any recent successful Mars exploration missions and their key findings.",
+        "max_similarity_score": 0.2608695652173913,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "it_scandals",
+        "goal": "Detail any recent major scandals involving IT companies and the consequences they faced.",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "cryptocurrency_news",
+        "goal": "Are there any notable new cryptocurrencies launched this year and their performance to date?",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "online_conference",
+        "goal": "Outline any upcoming international conferences related to environmental science that can be attended virtually?",
+        "max_similarity_score": 0.21428571428571427,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "art_exhibition",
+        "goal": "List upcoming art exhibitions in London that are featuring works from emerging artists.",
+        "max_similarity_score": 0.3571428571428571,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "ecommerce_trends",
+        "goal": "Discuss new trends and forecasts currently shaping the ecommerce industry.",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "vr_game",
+        "goal": "Which new VR games have been released this year and how are they rated by users?",
+        "max_similarity_score": 0.35294117647058826,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "mobile_security",
+        "goal": "What are some new mobile security threats that have emerged recently and how to combat them?",
+        "max_similarity_score": 0.3157894736842105,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "biodiversity_conservation",
+        "goal": "Detail any major global initiatives taken this year to promote biodiversity conservation.",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "start_ups",
+        "goal": "Identify the most promising start-ups in the ed-tech sector that have shown rapid growth this year.",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "space_tourism",
+        "goal": "What are the available options for space tourism currently being offered, and their basic requirements?",
+        "max_similarity_score": 0.35294117647058826,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "music_concert",
+        "goal": "Identify any upcoming concerts by Taylor Swift, including locations, dates and ticket information.",
+        "max_similarity_score": 0.28571428571428575,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "podcaster",
+        "goal": "Who are some influential podcasters in the realm of true crime storytelling and what are their latest episodes?",
+        "max_similarity_score": 0.37837837837837834,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "hybrid_working",
+        "goal": "Discuss recent changes in policies that major companies have established for hybrid working due to Covid-19.",
+        "max_similarity_score": 0.29411764705882354,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "tennis_tournament",
+        "goal": "Provide results of the latest Grand Slam tennis tournament including men's, women's and doubles.",
+        "max_similarity_score": 0.29411764705882354,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "mental_health",
+        "goal": "What are measures taken by health authorities to address mental health issues due to the pandemic in the last year?",
+        "max_similarity_score": 0.33333333333333326,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "darknet_monitoring",
+        "goal": "Detail any recent detection techniques developed for monitoring illegal activities in the darknet.",
+        "max_similarity_score": 0.32,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "food_contamination",
+        "goal": "Detail recent food contamination incidents and preventive measures taken.",
+        "max_similarity_score": 0.3,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "hiking_trail",
+        "goal": "Provide details about new hiking trails opened in the Rocky Mountain National Park this year.",
+        "max_similarity_score": 0.3448275862068965,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "cryptocurrency_regulation",
+        "goal": "What are the latest regulations affecting cryptocurrency trading globally?",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "organic_farming",
+        "goal": "Discuss new practices introduced this year that have increased the efficiency of organic farming.",
+        "max_similarity_score": 0.25,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "71cd3750f6854f61",
+            "ba5a3e97724f44fc",
+            "e9db9ae025f84c8b",
+            "7bc03fce036e4302",
+            "9fc48092050e4fef"
+        ]
+    },
+    {
+        "name": "salsa_sauce",
+        "goal": "Compare the five most famous Salsa Sauce recipes and list the ingredients unique to each recipe. Which is the most spicy one?",
+        "max_similarity_score": 0.2926829268292683,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "aerobics_instruction",
+        "goal": "Create a beginner-friendly step by step guide to do water aerobics at home with no equipment.",
+        "max_similarity_score": 0.34285714285714286,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "inflation_economics",
+        "goal": "Investigate the average global inflation rate for the last five years. Which countries have seen the biggest increases in their inflation rates?",
+        "max_similarity_score": 0.3,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "mulching_garden",
+        "goal": "Explain how to apply mulch to a succulent garden without harming the plants. Why is mulching important for these types of gardens?",
+        "max_similarity_score": 0.2285714285714286,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "tea_improvement",
+        "goal": "Suggest five ways to make my morning matcha tea taste better without adding excessive sugar or cream.",
+        "max_similarity_score": 0.14285714285714285,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "comet_observation",
+        "goal": "Find out which comets will be visible from Earth in the northern hemisphere during the next six months. What are the best times to observe them?",
+        "max_similarity_score": 0.3157894736842105,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "planet_discovery",
+        "goal": "Are there any newly discovered exoplanets still being studied? I'm curious about the information available about their composition, size, and possible habitability.",
+        "max_similarity_score": 0.2608695652173913,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "AI_use_cases",
+        "goal": "Identify five interesting use cases of Artificial Intelligence not involved in the tech industry. Can you cite a few successful examples?",
+        "max_similarity_score": 0.25641025641025644,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "renowned_architecture",
+        "goal": "List three renowned architectural works from the last five years. What are the special characteristics of these buildings and who are the architects?",
+        "max_similarity_score": 0.3404255319148936,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "wind_turbine_energy",
+        "goal": "Estimate the amount of energy a wind turbine can produce on a particularly windy day. What factors affect its efficiency and energy production?",
+        "max_similarity_score": 0.27906976744186046,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "coding_introduction",
+        "goal": "Compile a beginner\u2019s guide on getting started with Python programming language. This should cover installing Python, choosing an IDE, writing the first program, and understanding basic syntax.",
+        "max_similarity_score": 0.26666666666666666,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "vegetable_growth",
+        "goal": "Identify three vegetables that thrive in colder climates. What are the best methods for planting and taking care of these vegetables?",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "furniture_assembly",
+        "goal": "Provide detailed steps on how to assemble a standard IKEA bookshelf. What tools will I need to complete the assembly?",
+        "max_similarity_score": 0.27027027027027023,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "pet_adoption",
+        "goal": "Recommend five pet adoption organizations that have good reputations and allow online adoption applications. What is their adoption process like?",
+        "max_similarity_score": 0.1951219512195122,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "camping_adventure",
+        "goal": "Suggest a secluded camping area in Northern California that allows campfires and provide a beginner's gear list for a 3-day camping trip.",
+        "max_similarity_score": 0.2926829268292683,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "allergy_testing",
+        "goal": "Put together a step-by-step plan for someone looking to get allergy tested for the first time. What can they expect during the procedure?",
+        "max_similarity_score": 0.2727272727272727,
+        "seed_tasks": [
+            "e9db9ae025f84c8b",
+            "ff3a57e32a324060",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0",
+            "61b6dd397931404a",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "38a57d996ffc4d01"
+        ]
+    },
+    {
+        "name": "olympic_record",
+        "goal": "What is the current record for the men's 200 metres sprint in the Summer Olympics? Who set this record and when?",
+        "max_similarity_score": 0.4,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "wormhole_theory",
+        "goal": "Find a comprehensive explanation on wormhole theories and how these phenomena can theoretically be used for time travel.",
+        "max_similarity_score": 0.26666666666666666,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "bread_recipe",
+        "goal": "Discover a recipe that replicates the taste and texture of the best selling bread loaf in France. Include the ingredients and method.",
+        "max_similarity_score": 0.3243243243243243,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "insignia_history",
+        "goal": "Unveil the history and symbolism behind the insignia of the Royal Air Force.",
+        "max_similarity_score": 0.38461538461538464,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "galaxy_discovery",
+        "goal": "Identify the most recently discovered galaxy, detailing its distance from Earth and any unique characteristics.",
+        "max_similarity_score": 0.2777777777777778,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "erasmus_funding",
+        "goal": "Uncover the sources of funding for the Erasmus Program. Include a brief elaboration on each source.",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "juventus_recovery",
+        "goal": "How did Juventus recover from the setback they faced in the 2022 season? Explain their tactics and strategy.",
+        "max_similarity_score": 0.3,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "climate_change_ecosystem",
+        "goal": "Spell out the impact of climate change on the Great Barrier Reef's ecosystem over the last five years.",
+        "max_similarity_score": 0.34285714285714286,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "accounting_standards",
+        "goal": "Teach me about the latest changes in International Financial Reporting Standards (IFRS) in 2023 and their implications.",
+        "max_similarity_score": 0.3870967741935484,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "quantum_computing",
+        "goal": "Find and summarize the most remarkable advancement in quantum computing in 2023.",
+        "max_similarity_score": 0.4,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "french_cuisine",
+        "goal": "Identify the most recommended dish from French cuisine in 2023 along with its preparation method.",
+        "max_similarity_score": 0.303030303030303,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "pandemic_recovery",
+        "goal": "Document how the global economy has been recovering from the COVID-19 pandemic in 2023.",
+        "max_similarity_score": 0.3636363636363636,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "smart_home",
+        "goal": "Investigate the must-have smart home device of 2023. Why is it a game changer?",
+        "max_similarity_score": 0.26666666666666666,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "green_energy",
+        "goal": "Offer insight into the fastest-growing green energy technology of 2023.",
+        "max_similarity_score": 0.36363636363636365,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "soccer_upset",
+        "goal": "Detail the biggest upset in the 2023 UEFA Champions League. Who was involved and what were the implications?",
+        "max_similarity_score": 0.37837837837837834,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "space_tourism",
+        "goal": "Describe advancements in space tourism in 2023.",
+        "max_similarity_score": 0.38095238095238093,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "cyber_security",
+        "goal": "Report the most significant cyber attack of 2023, how was it executed, and its effect.",
+        "max_similarity_score": 0.2962962962962963,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "digital_currency",
+        "goal": "Highlight the most successful new digital currency launched in 2023.",
+        "max_similarity_score": 0.3636363636363636,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "3d_printing",
+        "goal": "Explain the most innovative use of 3D printing technology in 2023.",
+        "max_similarity_score": 0.3846153846153846,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "scientific_journal",
+        "goal": "Unearth the most cited scientific journal article of 2023.",
+        "max_similarity_score": 0.39999999999999997,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "stock_market",
+        "goal": "Evaluate the best performing S&P 500 stock of 2023 and the reasons behind its performance.",
+        "max_similarity_score": 0.3684210526315789,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "architectural_landmark",
+        "goal": "Present information on the most significant architectural landmark built in 2023.",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "climate_legislation",
+        "goal": "Pinpoint the most substantial climate legislation passed in 2023. Why was it adopted?",
+        "max_similarity_score": 0.3571428571428571,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "e-commerce_trends",
+        "goal": "Identify e-commerce shopping trends among millennials in 2023.",
+        "max_similarity_score": 0.26666666666666666,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "aquatic_preservation",
+        "goal": "Find details about the most successful aquatic life preservation project of 2023.",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "wildlife_documentary",
+        "goal": "Which wildlife documentary, released in 2023, got the highest rating? Discuss why it was well-received.",
+        "max_similarity_score": 0.28571428571428575,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "ancient_artifact",
+        "goal": "Uncover the most unique ancient artifact discovered in 2023. Describe its significance.",
+        "max_similarity_score": 0.3703703703703704,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "A.I_ethics",
+        "goal": "Discuss the key highlights from the International summit on AI Ethics held in 2023.",
+        "max_similarity_score": 0.3448275862068965,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "endangered_species",
+        "goal": "Identify the species, previously classified as endangered, that was declared \"recovered\" in 2023.",
+        "max_similarity_score": 0.29629629629629634,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "international_exhibit",
+        "goal": "Provide insights about a must-see international art exhibit held in 2023.",
+        "max_similarity_score": 0.30769230769230765,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "labor_market",
+        "goal": "Which industry emerged as the largest employer globally in 2023?",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "wildlife_recovery",
+        "goal": "Name a wildlife species that made a substantial recovery in 2023.",
+        "max_similarity_score": 0.36363636363636365,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "game_release",
+        "goal": "What game, released in 2023, achieved the highest sales record? Describe its key features.",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "bdd0b5aafac6442c",
+            "7bc03fce036e4302",
+            "38a57d996ffc4d01",
+            "c1a7411b35544256",
+            "71cd3750f6854f61",
+            "a42c239a3b8a44df",
+            "9fc48092050e4fef",
+            "e41ab586a6294cc0"
+        ]
+    },
+    {
+        "name": "pets_guests",
+        "goal": "Compose guidelines for guests with pets who are checking into a 5-star hotel.",
+        "max_similarity_score": 0.21428571428571427,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "vegan_saigon",
+        "goal": "Recommend five top-rated vegan restaurants in Saigon, Vietnam. Include addresses, specialties, and customer reviews.",
+        "max_similarity_score": 0.37500000000000006,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "comicbook_new",
+        "goal": "What's the most intriguing new comic book released this month? Who are the creators and what is the storyline?",
+        "max_similarity_score": 0.37837837837837834,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "egypt_travel",
+        "goal": "I'm planning a week-long trip to Egypt. What are the best places to visit, and which travel agencies should I consider for the best experience?",
+        "max_similarity_score": 0.3181818181818182,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "basketball_game",
+        "goal": "Recap the most thrilling professional basketball game that happened last week. Provide key details including the teams, players who had impressive performances, and the final score.",
+        "max_similarity_score": 0.3018867924528302,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "art_exhibition",
+        "goal": "Detail any significant art exhibitions that will occur in the Tate Modern, London, in the next three months.",
+        "max_similarity_score": 0.34285714285714286,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "bipolar_disorder",
+        "goal": "Provide key facts about bipolar disorder, including symptoms, diagnosis, and treatment options, preferably from a recent medical journal.",
+        "max_similarity_score": 0.22857142857142856,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "forest_fire",
+        "goal": "Report on the most substantial forest fire occurring anywhere in the world right now. Include the location, cause, affected area, and current status of the fire.",
+        "max_similarity_score": 0.33333333333333337,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "career_coach",
+        "goal": "Recommend a highly-rated career coaching service for a mid-level executive.",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "crime_rate",
+        "goal": "Find the latest statistics on the crime rate in Chicago. How has it changed over the past year?",
+        "max_similarity_score": 0.35294117647058826,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "currency_exchange",
+        "goal": "Calculate the amount of Euros I would get for $10,000 USD based on today's exchange rate.",
+        "max_similarity_score": 0.3243243243243243,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "learn_chinese",
+        "goal": "Recommend a top-reviewed online course for learning Mandarin Chinese for beginners.",
+        "max_similarity_score": 0.3225806451612903,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "star_wars",
+        "goal": "Who was selected to direct the latest Star Wars movie, and what is the expected release date?",
+        "max_similarity_score": 0.3448275862068966,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "dog_breeder",
+        "goal": "List reputable Labrador retriever breeders in Florida.",
+        "max_similarity_score": 0.2222222222222222,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "player_injured",
+        "goal": "Has Lionel Messi sustained any injuries this season? If yes, how will it affect his performance in the upcoming matches?",
+        "max_similarity_score": 0.25531914893617025,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "coding_bootcamp",
+        "goal": "Identify three of the best coding bootcamps in 2023 recommended for data science.",
+        "max_similarity_score": 0.3703703703703704,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "nutritious_meal",
+        "goal": "What's the most nutritious dinner meal that a person can prepare in under 30 minutes? Include the recipe and nutritional information.",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "startup_investment",
+        "goal": "Find the most promising tech startup to invest in for the year 2023 based on industry experts' opinions.",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "plant_care",
+        "goal": "Include comprehensive care tips for maintaining a healthy bonsai tree.",
+        "max_similarity_score": 0.3,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "AI_replacement",
+        "goal": "Which jobs are most likely to be replaced by AI by the year 2030 according to the latest research?",
+        "max_similarity_score": 0.3225806451612903,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "phone_launch",
+        "goal": "When is the latest iPhone model expected to launch? What are the anticipated features?",
+        "max_similarity_score": 0.39999999999999997,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "algorithm_update",
+        "goal": "Has Google updated its search engine ranking algorithm this month? If so, what are the major changes?",
+        "max_similarity_score": 0.3,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "genetically_modified",
+        "goal": "Give a list of the five most commonly genetically modified fruits and vegetables on the market today.",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "diversity_inclusion",
+        "goal": "What new measures have major tech companies adopted in 2023 to enhance workplace diversity and inclusion?",
+        "max_similarity_score": 0.3448275862068966,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "clean_energy",
+        "goal": "Identify advances in clean energy technologies so far this year.",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "cybercriminal_activity",
+        "goal": "Detail a recent significant cybercriminal activity. Who was conducted it, what was their objective, and what was the outcome?",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "wine_tasting",
+        "goal": "Recommend a top-rated location for wine tasting in Napa Valley that also accommodates vegetarian diets.",
+        "max_similarity_score": 0.3125,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "sports_award",
+        "goal": "Who won the gold medal for the decathlon event in the most recent Olympic Games? Include their successes during the decathlon.",
+        "max_similarity_score": 0.36842105263157887,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "market_trend",
+        "goal": "Analyze the latest market trend for electric vehicles.",
+        "max_similarity_score": 0.3478260869565218,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "yoga_retreat",
+        "goal": "Find the best yoga retreats happening in Bali over Christmas. Provide detailed information and their reviews.",
+        "max_similarity_score": 0.27027027027027023,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "music_festival",
+        "goal": "Which are the top three music festivals happening this summer in Europe? Include their lineups.",
+        "max_similarity_score": 0.3571428571428571,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "journo_award",
+        "goal": "Detail the winning entry for the Pulitzer Prize in investigative reporting. What was the story about?",
+        "max_similarity_score": 0.2962962962962963,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "keto_diet",
+        "goal": "What's the latest scientific consensus on the benefits and drawbacks of the keto diet?",
+        "max_similarity_score": 0.3888888888888889,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "waste_management",
+        "goal": "What are some novel waste management techniques being employed in major cities around the world?",
+        "max_similarity_score": 0.3703703703703704,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "celebrity_engagement",
+        "goal": "Note any recent celebrity engagements. Who are they, and when are they planning to get married?",
+        "max_similarity_score": 0.27586206896551724,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "mobility_tech",
+        "goal": "What new innovations in mobility technology have been introduced this year?",
+        "max_similarity_score": 0.3703703703703703,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "solar_roofing",
+        "goal": "Identify the most highly-rated solar roofing companies in California.",
+        "max_similarity_score": 0.34782608695652173,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "cosmetics_launch",
+        "goal": "Detail any new cosmetic line launched by major brands in the beauty industry. Include their best products.",
+        "max_similarity_score": 0.26666666666666666,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "urban_farming",
+        "goal": "Where has urban farming been most successful, and what practices were implemented?",
+        "max_similarity_score": 0.2962962962962963,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "AI_ethics",
+        "goal": "Recall any recent controversy relating to AI ethics. How did it impact the world of artificial intelligence?",
+        "max_similarity_score": 0.27586206896551724,
+        "seed_tasks": [
+            "71cd3750f6854f61",
+            "7bc03fce036e4302",
+            "ff9f418eb3424e7a",
+            "2404514031784c7c",
+            "c1a7411b35544256",
+            "e9db9ae025f84c8b",
+            "a42c239a3b8a44df",
+            "66898415ed24453a"
+        ]
+    },
+    {
+        "name": "isro_mars_mission",
+        "goal": "What is the current status of the Mars Orbiter Mission 2 (MOM 2) by the Indian Space Research Organisation (ISRO)? Briefly describe its main objectives.",
+        "max_similarity_score": 0.35555555555555557,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "3d_printing_biotech",
+        "goal": "What are the newest uses of 3D printing in biotechnology and medicine? Enumerate the benefits and potential risks.",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "ai_ethics",
+        "goal": "What are the current ethical considerations around using AI and Big Data in healthcare? Present your findings in a bulleted list.",
+        "max_similarity_score": 0.35294117647058826,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "ketogenic_diet",
+        "goal": "Find the five best-reviewed Keto diet cookbooks of this year so far. Include a brief description and the name of the author for each book.",
+        "max_similarity_score": 0.35999999999999993,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "anti_aging_research",
+        "goal": "What are the latest advancements in anti-aging research? Which companies or research institutions are leading the field?",
+        "max_similarity_score": 0.3870967741935484,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "net_zero_cities",
+        "goal": "Find out about the cities aiming to reach net zero carbon dioxide emissions by 2030. Who are ahead and what strategies are they employing?",
+        "max_similarity_score": 0.27906976744186046,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "genetic_disorders",
+        "goal": "Identify the most commonly diagnosed genetic disorders worldwide and the current recommended treatment(s).",
+        "max_similarity_score": 0.3225806451612903,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "ai_in_sports",
+        "goal": "Who are the major players utilising AI in sports for performance enhancement and how are they using it?",
+        "max_similarity_score": 0.35294117647058826,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "socially_responsible_investing",
+        "goal": "Which are the top-performing environmental, social, and governance (ESG) funds of the last year?",
+        "max_similarity_score": 0.3703703703703704,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "freshwater_conservation",
+        "goal": "Which countries are effectively pursuing freshwater conservation and what strategies are they adopting?",
+        "max_similarity_score": 0.32432432432432434,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "edge_computing_innovation",
+        "goal": "Identify the key innovations and trends in edge computing currently and the key leaders in the industry.",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "deforestation_solutions",
+        "goal": "What are the practical solutions that have been implemented to combat deforestation, and who are the driving forces behind them?",
+        "max_similarity_score": 0.38888888888888884,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "affordable_housing",
+        "goal": "Identify the most innovative solutions to affordable housing currently being implemented worldwide.",
+        "max_similarity_score": 0.3125,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "blockchain_in_finance",
+        "goal": "Who are the key players in the integration of blockchain technology in finance and what impact is it having?",
+        "max_similarity_score": 0.37837837837837834,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "clean_oceans",
+        "goal": "What new techniques and initiatives are being undertaken to clean the world's oceans of plastic?",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "66898415ed24453a",
+            "ff9f418eb3424e7a",
+            "38a57d996ffc4d01",
+            "bdd0b5aafac6442c",
+            "ba5a3e97724f44fc",
+            "a42c239a3b8a44df",
+            "ff3a57e32a324060",
+            "e9db9ae025f84c8b"
+        ]
+    },
+    {
+        "name": "london_concerts",
+        "goal": "What are three musical concerts featuring Jazz artists that are scheduled to take place in London over the coming two weeks?",
+        "max_similarity_score": 0.30303030303030304,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "learning_algorithm",
+        "goal": "Identify a learning algorithm that has recently emerged and explain its novelty and potential shortcomings.",
+        "max_similarity_score": 0.3846153846153846,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "annapolis_hiking",
+        "goal": "What are some interesting hiking trails in and around Annapolis in the fall? Include duration, difficulty level, and highlights of each trail.",
+        "max_similarity_score": 0.3913043478260869,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "company_listing",
+        "goal": "A company is set to get listed on the NYSE next week. What are the pros and cons of investing in this company based on its financial health and current market trends?",
+        "max_similarity_score": 0.2727272727272727,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "pandemic_effect",
+        "goal": "What is the effect of the ongoing pandemic on global unemployment levels, focusing especially on developed countries?",
+        "max_similarity_score": 0.35714285714285715,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "hurricane_aftermath",
+        "goal": "What has been the aftermath of the recently occurred hurricane in the Caribbean in terms of damages and relief efforts?",
+        "max_similarity_score": 0.380952380952381,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "city_benchmarking",
+        "goal": "Compare the quality of life in Barcelona and Madrid in terms of cost of living, education, healthcare, and job opportunities.",
+        "max_similarity_score": 0.36842105263157887,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "washington_winery",
+        "goal": "Which wineries in Washington are organizing wine tasting events in the next two weeks? Please include location and pricing details for each.",
+        "max_similarity_score": 0.3529411764705882,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "climate_change",
+        "goal": "Describe the most recent developments in climate change research and their implications for the future of environmental policy.",
+        "max_similarity_score": 0.375,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "evehicle_launch",
+        "goal": "Which Electric Vehicle models are set for launch globally in the next quarter? Highlight their key features and approximate pricing structure.",
+        "max_similarity_score": 0.3255813953488372,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "abq_flights",
+        "goal": "Describe the current situation of departing and arriving flights at Albuquerque International Airport.",
+        "max_similarity_score": 0.3636363636363637,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "ipo_evaluation",
+        "goal": "Evaluate the recent initial public offering of a tech startup company listed on the NASDAQ.",
+        "max_similarity_score": 0.3448275862068965,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "fitbit_update",
+        "goal": "What new update or model has Fitbit released in the last quarter?",
+        "max_similarity_score": 0.4,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "aussie_open",
+        "goal": "Who won the women's singles championship in the most recent Grand Slam tournament, the Australian Open, and who was the runner-up?",
+        "max_similarity_score": 0.39215686274509803,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "imf_report",
+        "goal": "Summarize the key findings of the latest International Monetary Fund (IMF) report on global economic growth.",
+        "max_similarity_score": 0.3333333333333333,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "seattle_book_event",
+        "goal": "Find out which book signings or book-related events are happening in the Seattle area in the next week.",
+        "max_similarity_score": 0.37837837837837834,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "beijing_opera",
+        "goal": "Are there any performances of Beijing Opera happening in the next month? Include date and venue details.",
+        "max_similarity_score": 0.358974358974359,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "greeco_roman_art",
+        "goal": "Find out any upcoming auctions featuring Greco-Roman art and artifacts and provide the details.",
+        "max_similarity_score": 0.29411764705882354,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "astronomy_discovery",
+        "goal": "Please describe the most recent astronomical discovery and its significance.",
+        "max_similarity_score": 0.38461538461538464,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "berlin_performances",
+        "goal": "Find out about any upcoming theatrical performances in Berlin for the next 2 weeks and provide a brief description of each.",
+        "max_similarity_score": 0.37209302325581395,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "tesla_competition",
+        "goal": "Identify a recent electric vehicle released by a company posing a significant competition to Tesla.",
+        "max_similarity_score": 0.3243243243243243,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "neurology_conference",
+        "goal": "Which conferences focusing on neurology are happening globally over the next six months and what are their key themes?",
+        "max_similarity_score": 0.35,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "subatomic_particle",
+        "goal": "Please detail any recent discoveries or research pertaining to subatomic particles.",
+        "max_similarity_score": 0.2727272727272727,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "denver_museums",
+        "goal": "What current special exhibitions are being hosted by Denver's leading museums?",
+        "max_similarity_score": 0.3,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "mlb_stats",
+        "goal": "According to the latest MLB statistics, which player holds the highest batting average?",
+        "max_similarity_score": 0.2857142857142857,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    },
+    {
+        "name": "python_plugin",
+        "goal": "Identify the latest Python plugin that can assist with data visualization in Data Science projects.",
+        "max_similarity_score": 0.3571428571428571,
+        "seed_tasks": [
+            "ba5a3e97724f44fc",
+            "ff9f418eb3424e7a",
+            "66898415ed24453a",
+            "ff3a57e32a324060",
+            "38a57d996ffc4d01",
+            "a42c239a3b8a44df",
+            "2404514031784c7c",
+            "7bc03fce036e4302"
+        ]
+    }
+]
