@@ -1,6 +1,7 @@
 import os
 import json
 import asyncio
+import argparse
 from tqdm.asyncio import tqdm_asyncio
 from langchain.schema import HumanMessage
 from langchain.chat_models import ChatOpenAI
@@ -9,17 +10,17 @@ from langchain.chat_models import ChatOpenAI
 PARENT_DIR: str = os.path.dirname(os.path.abspath(__file__))
 DATASET_FILE: str = os.path.join(PARENT_DIR, "transformed.json")
 NUM_DATA: int = 100
-EVAL_MODEL_NAME: str = "gpt-3.5-turbo"
+EVAL_MODEL_NAME: str = "gpt-4"
 AWAIT_TIMEOUT: int = 360
 
 
-def get_dataset():
-    with open(DATASET_FILE, 'r') as f:
+def get_dataset(dataset_file: str = DATASET_FILE):
+    with open(dataset_file, 'r') as f:
         dataset = json.load(f)
     return dataset
 
 
-async def evaluate(data, results):
+async def evaluate(data, model, results):
 
     conversations = data["conversations"]
     history = conversations[0]["value"]
@@ -48,7 +49,7 @@ Your answer should include a score on a scale of 0 to 5, where 0 means terrible,
         openai_api_key=os.getenv("OPENAI_API_KEY"),
         openai_organization=os.getenv("OPENAI_API_ORG"),
         temperature=0,
-        model=EVAL_MODEL_NAME,
+        model=model,
         request_timeout=AWAIT_TIMEOUT
     )
 
@@ -64,23 +65,31 @@ Your answer should include a score on a scale of 0 to 5, where 0 means terrible,
         print(e)
 
 
-async def main():
+async def main(dataset, model, num_data):
 
     results = []
-
-    dataset = get_dataset()[:NUM_DATA]
 
     semaphore = asyncio.Semaphore(10)
 
     async def process_data(data):
         async with semaphore:
-            await evaluate(data, results)
+            await evaluate(data, model, results)
 
     await tqdm_asyncio.gather(*[process_data(data) for data in dataset])
 
-    with open(f"response_eval_{EVAL_MODEL_NAME}_{NUM_DATA}.json", 'w') as f:
+    with open(f"response_eval_{model}_{num_data}.json", 'w') as f:
         json.dump(results, f, indent=2)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--dataset_file", type=str, default=DATASET_FILE,
+        help="file containing the dataset"
+    )
+    parser.add_argument("--eval_model", type=str, default=EVAL_MODEL_NAME)
+    parser.add_argument("--num_data", type=int, default=NUM_DATA)
+    args = parser.parse_args()
+
+    dataset = get_dataset(dataset_file=args.dataset_file)[:args.num_data]
+    asyncio.run(main(dataset, args.eval_model, args.num_data))
