@@ -1,14 +1,16 @@
-import os
+import argparse
 import asyncio
 import json
-import argparse
+import os
+from tqdm.asyncio import tqdm_asyncio
 
 from autoagents.agents.agents.search import ActionRunner
-from autoagents.agents.agents.wiki_agent import WikiActionRunner
+from autoagents.agents.agents.wiki_agent import WikiActionRunner, WikiActionRunnerV3
+from autoagents.agents.agents.search_v3 import ActionRunnerV3
+from autoagents.agents.models.custom import CustomLLM, CustomLLMV3
 from autoagents.data.dataset import BAMBOOGLE, DEFAULT_Q, FT, HF
-from autoagents.agents.models.custom import CustomLLM
 from autoagents.eval.bamboogle import eval as eval_bamboogle
-from autoagents.eval.hotpotqa.eval_async import HotpotqaAsyncEval
+from autoagents.eval.hotpotqa.eval_async import HotpotqaAsyncEval, NUM_SAMPLES_TOTAL
 from langchain.chat_models import ChatOpenAI
 from pprint import pprint
 
@@ -18,13 +20,20 @@ AWAIT_TIMEOUT: int = 120
 MAX_RETRIES: int = 2
 
 
-async def work(user_input, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
+async def work(user_input: str, model: str, temperature: int, agent: str, prompt_version: str, persist_logs: bool):
     if model not in OPENAI_MODEL_NAMES:
-        llm = CustomLLM(
-            model_name=model,
-            temperature=temperature,
-            request_timeout=AWAIT_TIMEOUT
-        )
+        if prompt_version == "v2":
+            llm = CustomLLM(
+                model_name=model,
+                temperature=temperature,
+                request_timeout=AWAIT_TIMEOUT
+            )
+        elif prompt_version == "v3":
+            llm = CustomLLMV3(
+                model_name=model,
+                temperature=temperature,
+                request_timeout=AWAIT_TIMEOUT
+            )
     else:
         llm = ChatOpenAI(
             openai_api_key=os.getenv("OPENAI_API_KEY"),
@@ -37,8 +46,16 @@ async def work(user_input, model: str, temperature: int, use_wikiagent: bool, pe
     retry_count = 0
     while retry_count < MAX_RETRIES:
         outputq = asyncio.Queue()
-        runner = ActionRunner(outputq, llm=llm, persist_logs=persist_logs) if not use_wikiagent \
-            else WikiActionRunner(outputq, llm=llm, persist_logs=persist_logs)
+        if agent == "ddg":
+            if prompt_version == "v2":
+                runner = ActionRunner(outputq, llm=llm, persist_logs=persist_logs)
+            elif prompt_version == "v3":
+                runner = ActionRunnerV3(outputq, llm=llm, persist_logs=persist_logs)
+        elif agent == "wiki":
+            if prompt_version == "v2":
+                runner = WikiActionRunner(outputq, llm=llm, persist_logs=persist_logs)
+            elif prompt_version == "v3":
+                runner = WikiActionRunnerV3(outputq, llm=llm, persist_logs=persist_logs)
         task = asyncio.create_task(runner.run(user_input, outputq))
         while True:
             try:
@@ -72,13 +89,12 @@ async def work(user_input, model: str, temperature: int, use_wikiagent: bool, pe
 async def main(questions, args):
     sem = asyncio.Semaphore(10)
     
-    async def safe_work(user_input, model: str, temperature: int, use_wikiagent: bool, persist_logs: bool):
+    async def safe_work(user_input: str, model: str, temperature: int, agent: str, prompt_version: str, persist_logs: bool):
         async with sem:
-            return await work(user_input, model, temperature, use_wikiagent, persist_logs)
+            return await work(user_input, model, temperature, agent, prompt_version, persist_logs)
     
-    use_wikiagent = False if args.agent == "ddg" else True
     persist_logs = True if args.persist_logs else False
-    await asyncio.gather(*[safe_work(q, args.model, args.temperature, use_wikiagent, persist_logs) for q in questions])
+    await tqdm_asyncio.gather(*[safe_work(q, args.model, args.temperature, args.agent, args.prompt_version, persist_logs) for q in questions])
 
 
 if __name__ == "__main__":
@@ -101,9 +117,20 @@ if __name__ == "__main__":
         help='which dataset we want to interact with(default: default)'
     )
     parser.add_argument("--eval", action="store_true", help="enable automatic eval")
+    parser.add_argument("--prompt-version",
+        default="v2",
+        const="v3",
+        nargs="?",
+        choices=("v2", "v3"),
+        help='which version of prompt to use(default: v2)'
+    )
+    parser.add_argument("--slice", type=int, help="slice the dataset from left, question list will start from index 0 to slice - 1")
     args = parser.parse_args()
     print(args)
-    use_wikiagent = False if args.agent == "ddg" else True
+    if args.prompt_version == "v3" and args.model in OPENAI_MODEL_NAMES:
+        raise ValueError("Prompt v3 is not compatiable with OPENAI models, please adjust your settings!")
+    if not args.persist_logs and args.eval:
+        raise ValueError("Please enable persist_logs feature to allow eval code to run!")
     questions = []
     if args.dataset == "ft":
         questions = [q for _, q in FT]
@@ -111,11 +138,13 @@ if __name__ == "__main__":
         questions = [q for _, q in HF]
     elif args.dataset == "hotpotqa":
         hotpotqa_eval = HotpotqaAsyncEval(model=args.model)
-        questions = hotpotqa_eval.dataset.keys()
+        questions = hotpotqa_eval.get_questions(args.slice or NUM_SAMPLES_TOTAL)
     elif args.dataset == "bamboogle":
         questions = BAMBOOGLE["questions"]
     else:
         questions = [q for _, q in DEFAULT_Q]
+    if args.slice and args.dataset != "hotpotqa":
+        questions = questions[:args.slice]
     asyncio.run(main(questions, args))
     if args.eval:
         if args.dataset == "bamboogle":

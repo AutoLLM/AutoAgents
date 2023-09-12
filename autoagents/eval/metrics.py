@@ -19,9 +19,10 @@ def get_common_stats(log_files):
     for file in log_files:
         with open(file, "r") as f:
             log_data = json.load(f)
-            question = log_data[0]["goal"]
-            samples.add(question)
             for entry in log_data:
+                if "goal" in entry:
+                    question = entry["goal"]
+                    samples.add(question)
                 if "query_rewrite" in entry:
                     stats["average_rewritten"] += 1
                 if "error" in entry:

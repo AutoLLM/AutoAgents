@@ -100,7 +100,6 @@ class CustomPromptTemplate(StringPromptTemplate):
     # The list of tools available
     tools: List[Tool]
     ialogger: InteractionsLogger
-    search_tool_name: str = "Search"
 
     def format(self, **kwargs) -> str:
         # Get the intermediate steps [(AgentAction, Observation)]
@@ -135,7 +134,6 @@ class CustomOutputParser(AgentOutputParser):
     llm: BaseLanguageModel
     new_action_input: Optional[str]
     action_history = defaultdict(set)
-    search_tool_name: str = "Search"
 
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
         self.ialogger.add_ai(llm_output)
@@ -170,15 +168,14 @@ class ActionRunner:
                  llm: BaseLanguageModel,
                  persist_logs: bool = False,
                  prompt_template: str = template,
-                 tools: List[Tool] = [search_tool, note_tool, finish_tool],
-                 search_tool_name: str = "Search"):
+                 tools: List[Tool] = [search_tool, note_tool, finish_tool]):
         self.ialogger = InteractionsLogger(name=f"{uuid.uuid4().hex[:6]}", persist=persist_logs)
         prompt = CustomPromptTemplate(template=prompt_template,
                                       tools=tools,
                                       input_variables=["input", "intermediate_steps"],
                                       ialogger=self.ialogger)
 
-        output_parser = CustomOutputParser(ialogger=self.ialogger, llm=llm, search_tool_name=search_tool_name)
+        output_parser = CustomOutputParser(ialogger=self.ialogger, llm=llm)
         self.model_name = llm.model_name
 
         class MyCustomHandler(AsyncCallbackHandler):

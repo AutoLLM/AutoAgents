@@ -3,7 +3,7 @@ import requests
 from elasticsearch import Elasticsearch
 
 from duckpy import Client
-from langchain import PromptTemplate, OpenAI, LLMChain, Wikipedia
+from langchain import PromptTemplate, LLMChain, Wikipedia
 from langchain.agents import Tool
 from langchain.agents.react.base import DocstoreExplorer
 
