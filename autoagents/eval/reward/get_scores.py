@@ -18,9 +18,9 @@ if __name__ == "__main__":
 
             stats = {"avg_overall": 0, "avg_clarity": 0, "avg_effectiveness": 0}
             for obj in results:
-                stats["avg_overall"] += obj["overall_score"]
-                stats["avg_clarity"] += obj["clarity_score"]
-                stats["avg_effectiveness"] += obj["effectiveness_score"]
+                stats["avg_overall"] += obj.get("overall_score", 0)
+                stats["avg_clarity"] += obj.get("clarity_score", 0)
+                stats["avg_effectiveness"] += obj.get("effectiveness_score", 0)
 
             for key in stats:
                 stats[key] /= num

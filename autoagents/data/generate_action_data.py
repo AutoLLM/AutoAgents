@@ -7,6 +7,7 @@ from tqdm import tqdm
 from multiprocessing import Pool
 
 from autoagents.agents.agents.search import ActionRunner
+from autoagents.eval.test import AWAIT_TIMEOUT
 from langchain.chat_models import ChatOpenAI
 import json
 
@@ -21,7 +22,10 @@ async def work(user_input):
     task = asyncio.create_task(runner.run(user_input, outputq))
 
     while True:
-        output = await outputq.get()
+        try:
+            output = await asyncio.wait_for(outputq.get(), AWAIT_TIMEOUT)
+        except asyncio.TimeoutError:
+            return
         if isinstance(output, RuntimeWarning):
             print(output)
             continue
@@ -35,7 +39,6 @@ async def work(user_input):
         except:
             pass
     await task
-    print(f"{user_input}")
 
 def main(q):
     asyncio.run(work(q))
@@ -43,9 +46,12 @@ def main(q):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--goals', type=str, help="file containing JSON array of goals", required=True)
+    parser.add_argument("--num_data", type=int, default=-1, help="number of goals for generation")
     args = parser.parse_args()
     with open(args.goals, "r") as file:
         data = json.load(file)
+        if args.num_data > -1 and len(data) > args.num_data:
+            data = data[:args.num_data]
     with Pool(processes=4) as pool:
         for _ in tqdm(pool.imap_unordered(main, data), total=len(data)):
             pass
