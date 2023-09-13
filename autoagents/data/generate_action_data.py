@@ -1,10 +1,11 @@
 # Script generates action data from goals calling GPT-4
 import os
 import asyncio
+import argparse
 
 from multiprocessing import Pool
 
-from autoagents.agents.search import ActionRunner
+from autoagents.agents.agents.search import ActionRunner
 from langchain.chat_models import ChatOpenAI
 import json
 
@@ -39,7 +40,10 @@ def main(q):
     asyncio.run(work(q))
 
 if __name__ == "__main__":
-    with open("goals_train.json", "r") as file:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--goals', type=str, help="file containing JSON array of goals", required=True)
+    args = parser.parse_args()
+    with open(args.goals, "r") as file:
         data = json.load(file)
     with Pool(processes=4) as pool:
         pool.map(main, data)

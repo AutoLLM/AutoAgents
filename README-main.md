@@ -97,7 +97,7 @@ To run the search agent locally:
 5. Run the Streamlit app
 
   ```bash
-  streamlit run autoagents/spaces/app.py
+  streamlit run autoagents/agents/spaces/app.py
   ```
 
 This should open a browser window where you can type your search query.
