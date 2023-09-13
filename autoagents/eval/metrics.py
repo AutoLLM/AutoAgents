@@ -19,29 +19,32 @@ def get_common_stats(log_files):
     for file in log_files:
         with open(file, "r") as f:
             log_data = json.load(f)
+            has_error = any([True if "error" in entry else False for entry in log_data])
             for entry in log_data:
                 if "goal" in entry:
-                    question = entry["goal"]
-                    samples.add(question)
-                if "query_rewrite" in entry:
-                    stats["average_rewritten"] += 1
-                if "error" in entry:
-                    if "Could not parse LLM output:" in entry["error"]:
-                        stats["parse_error"] += 1
-                    elif "Invalid tool requested by the model." in entry["error"]:
-                        stats["invalid_tools"] += 1
-                    elif "This model's maximum context length is" in entry["error"]:
-                        stats["context_len_err"] += 1
-                if "conversations" in entry:
-                    stats["average_steps"] += 1
-                    prediction = json.loads(entry["conversations"][-1]["value"])
-                    action = prediction["action"]
-                    if action == "Tool_Search" or action == "Tool_Wikipedia":
-                        stats["average_search_invoked"] += 1
-                    elif action == "Tool_Notepad":
-                        stats["average_notepad_invoked"] += 1
-                    elif action == "Tool_Finish":
-                        finished_samples.add(question)
+                        question = entry["goal"]
+                        samples.add(question)
+                if has_error:
+                    if "error" in entry:
+                        if "Could not parse LLM output:" in entry["error"]:
+                            stats["parse_error"] += 1
+                        elif "Invalid tool requested by the model." in entry["error"]:
+                            stats["invalid_tools"] += 1
+                        elif "This model's maximum context length is" in entry["error"]:
+                            stats["context_len_err"] += 1
+                else:
+                    if "query_rewrite" in entry:
+                        stats["average_rewritten"] += 1
+                    if "conversations" in entry:
+                        stats["average_steps"] += 1
+                        prediction = json.loads(entry["conversations"][-1]["value"])
+                        action = prediction["action"]
+                        if action == "Tool_Search" or action == "Tool_Wikipedia":
+                            stats["average_search_invoked"] += 1
+                        elif action == "Tool_Notepad":
+                            stats["average_notepad_invoked"] += 1
+                        elif action == "Tool_Finish":
+                            finished_samples.add(question)
     stats["total_samples"] = len(samples)
     stats["finished_samples"] = len(finished_samples)
     stats["average_steps"] = stats["average_steps"] / len(log_files)
