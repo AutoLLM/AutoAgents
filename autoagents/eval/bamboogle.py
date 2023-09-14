@@ -1,6 +1,7 @@
 import glob
 import json
 import os
+import pprint
 import shutil
 
 from autoagents.data.dataset import BAMBOOGLE
@@ -54,6 +55,8 @@ async def eval(eval_results_path: str="./data"):
                                     else:
                                         shutil.copy2(file, wrong_res_dir)
                                     accuracy += is_correct
+                else:
+                    shutil.copy2(file, err_res_dir)
             if not finish:
                 shutil.copy2(file, wrong_res_dir)
     print(f'accuracy overall is {accuracy}/{common_stats["total_samples"]}={accuracy/common_stats["total_samples"]}')
@@ -61,6 +64,6 @@ async def eval(eval_results_path: str="./data"):
     common_stats["accuracy on finished samples"] = accuracy/common_stats["finished_samples"]
     common_stats["accuracy"] = accuracy/common_stats["total_samples"]
     common_stats["average_answer_missing"] = (common_stats["total_samples"] - common_stats["finished_samples"]) / common_stats["total_samples"]
-    print(common_stats)
+    pprint.pprint(common_stats)
     with open(f"{eval_results_path}-eval/stats.json", "w") as f:
         json.dump(common_stats, f)

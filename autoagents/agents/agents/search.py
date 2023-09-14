@@ -1,12 +1,17 @@
+import os
 import json
 import uuid
+import re
 from datetime import date
+import asyncio
 from collections import defaultdict
+from pprint import pprint
 from typing import List, Union, Any, Optional, Dict
 
 from langchain.agents import Tool, AgentExecutor, LLMSingleActionAgent, AgentOutputParser
 from langchain.prompts import StringPromptTemplate
 from langchain import LLMChain
+from langchain.chat_models import ChatOpenAI
 from langchain.schema import AgentAction, AgentFinish
 from langchain.callbacks import get_openai_callback
 from langchain.callbacks.base import AsyncCallbackHandler
@@ -53,24 +58,28 @@ def check_valid(o):
 
 # Set up the base template
 template = """We are working together to satisfy the user's original goal
-step-by-step. Today is {today}.
+step-by-step. Play to your strengths as an LLM. Make sure the plan is
+achievable using the available tools. The final answer should be descriptive,
+and should include all relevant details.
 
-## Goal
+Today is {today}.
+
+## Goal:
 {input}
 
-## Available Tools
 If you require assistance or additional information, you should use *only* one
-of the tools: {tools}
+of the following tools: {tools}.
 
-## Observation
-{observation}
-
-## Notepad
-{notepad}
-
-## Action History
+## History
 {agent_scratchpad}
 
+Do not repeat any past actions in History, because you will not get additional
+information. If the last action is Tool_Search, then you should use Tool_Notepad to keep
+critical information. If you have gathered all information in your plannings
+to satisfy the user's original goal, then respond immediately with the Finish
+Action.
+
+## Output format
 You MUST produce JSON output with below keys:
 "thought": "current train of thought",
 "reasoning": "reasoning",
@@ -80,7 +89,7 @@ You MUST produce JSON output with below keys:
 "next-step plan",
 ],
 "action": "the action to take",
-"action_input": "the input to the Action"
+"action_input": "the input to the Action",
 """
 
 
@@ -97,8 +106,6 @@ class CustomPromptTemplate(StringPromptTemplate):
         # Format them in a particular way
         intermediate_steps = kwargs.pop("intermediate_steps")
         history = []
-        kwargs["observation"] = ""
-        kwargs["notepad"] = ""
         # Set the agent_scratchpad variable to that value
         for i, (action, observation) in enumerate(intermediate_steps):
             if action.tool not in [tool.name for tool in self.tools]:
@@ -106,10 +113,7 @@ class CustomPromptTemplate(StringPromptTemplate):
             parsed = json.loads(action.log)
             if i == len(intermediate_steps) - 1:
                 # Add observation only for the last action
-                if action.tool == "Tool_Search" or "Tool_Wikipedia":
-                    kwargs["observation"] = observation
-                elif action.tool == "Tool_Notepad":
-                    kwargs["notepad"] = observation
+                parsed["observation"] = observation
             history.append(parsed)
         self.ialogger.add_history(history)
         kwargs["agent_scratchpad"] = json.dumps(history)
