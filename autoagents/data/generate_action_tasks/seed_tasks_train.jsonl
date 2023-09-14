@@ -1,0 +1,47 @@
+{"name": "holiday_chef", "goal": "Find the upcoming holiday and generate a home recipe to celebrate.", "task_id": "5c28888898184a75"}
+{"name": "pitt_weather_reporter", "goal": "Get weather forcast for San Francisco tomorrow.", "task_id": "479ce326b693458e"}
+{"name": "current_weather", "goal": "What is the current temperature and weather condition in Paris?", "task_id": "10825a7b70f24cdc"}
+{"name": "ucl_reporter", "goal": "Who is the most recent NBA MVP? Which team does he play for? What are his career stats?", "task_id": "67e21d88864040b6"}
+{"name": "nba_reporter", "goal": "Who is the leading goalscorer in the current season of the UEFA Champions League?", "task_id": "201cbef897f04aa8"}
+{"name": "sports_score", "goal": "What was the final score of the latest NBA game between the Los Angeles Lakers and Memphis Grizzlies?", "task_id": "27d3ff8da66b4638"}
+{"name": "sports_odds_maker", "goal": "What are the betting odds for the next UFC fight between Conor McGregor?", "task_id": "a4857bf2bd504c68"}
+{"name": "usopen_champion_bio", "goal": "What is the hometown of the reigning champion for U.S. Open, men's single?", "task_id": "19d05341e4cb4acd"}
+{"name": "stock_invester", "goal": "Can you find the stock that paid out highest dividend recently?. Should have source to support the reasons. Recommend at most three stocks", "task_id": "31e07ce5dc6f4413"}
+{"name": "active_stocks", "goal": "Recommend me three most actively traded stocks recently.", "task_id": "21651d01eb4a4a3e"}
+{"name": "stock_prices", "goal": "Get the current stock price for Apple Inc. (AAPL). How large is its volume today?", "task_id": "6ce1eb431d434730"}
+{"name": "best_movie", "goal": "What is the highest grossing movie of all time. Find one movie, including the movie name, director and description.", "task_id": "eb4d5283fd4b4250"}
+{"name": "family_movie", "goal": "Recommend a kid-friendly movie that is playing at a theater near Sunnyvale. Give me the showtimes and a link to purchase the tickets", "task_id": "1d8aae1cafb648b8"}
+{"name": "book_recommendation", "goal": "Recommend the 10 best-selling books on Amazon. Include books name and author.", "task_id": "9b33cf57d4194577"}
+{"name": "crime_reporter", "goal": "Give me the most recent crime alert in New York City. Include the crime time, location and description", "task_id": "405d201e150c4ea2"}
+{"name": "concert_location", "goal": "Give me information about the next concert performed in Las Vegas.", "task_id": "98e0661782424bdc"}
+{"name": "check_flights_nonstop", "goal": "What is the earlist non-stop flight from Seattle to San Francisco?", "task_id": "da2b7a5e52084210"}
+{"name": "flight_status", "goal": "What is the status of flight AA101 from New York to London scheduled today? Is there a delay or cancellation?", "task_id": "fb719d0ca75647c6"}
+{"name": "laptop_recommend", "goal": "Recommend me some laptops suitable for UI designers under $2000. Please include brand and price.", "task_id": "7cfbd8e07d764745"}
+{"name": "podcast_planner", "goal": "Write a podcast outline on a recent political event", "task_id": "1aaf9a6a8d0c494e"}
+{"name": "langchain", "goal": "What is the LangChain framework? Give me an example in Python.", "task_id": "f9f9f399a96f4b9b"}
+{"name": "Ilya_paper", "goal": "Can you give me the title of the paper the Ilya Sutskever wrote when he was about 30?", "task_id": "dee6e17fc9054a63"}
+{"name": "tom_cruise_pay", "goal": "How much did Tom Cruise make on his latest movie? Can you include both the movie names and the amount of money?", "task_id": "3749fd7592e846de"}
+{"name": "matt_damon_director", "goal": "Who is the director of the next movie with Matt Damon?", "task_id": "ace796ed525d4ec2"}
+{"name": "holiday_planner", "goal": "What are the top three places to visit in Europe during the summer of 2022? Provide a brief description of each location, including their popular attractions and must-see landmarks.", "task_id": "8d58b4facee24ed2"}
+{"name": "holiday_destination", "goal": "What is the best holiday destination for budget travelers in United States during summer of 2023? Provide an estimated cost for a week's stay.", "task_id": "bf1663cc8c844843"}
+{"name": "find_restaurant", "goal": "Suggest a fancy Italian restaurant in New York City suitable for a romantic dinner. Provide the address, phone number, and website for the restaurant.", "task_id": "4ae39cbeff834050"}
+{"name": "book_reader", "goal": "What is the most popular science-fiction book on the New York Times Best Sellers list? Provide the author's name, book title, and a brief description of the plot.", "task_id": "8f1f5ada0058409b"}
+{"name": "text_summarizer", "goal": "Can you find some latest articles on the COVID-19 vaccine?", "task_id": "97563fc2f3e04351"}
+{"name": "job_searcher", "goal": "Find a job opening for a software engineer in San Francisco with competitive salary, at a company with at least 100 employees.", "task_id": "ee8539e503ae4854"}
+{"name": "music_listener", "goal": "What is currently the #1 song on the Billboard Hot 100 chart? Provide the song title, artist, and genre.", "task_id": "62461e3a44dc43b2"}
+{"name": "university_finder", "goal": "Rank the top three universities in the United States for computer science programs in year 2023, including their location, tuition fees, and notable alumni. Provide a brief description of each university's computer science program.", "task_id": "d1bb40f375e645a6"}
+{"name": "video_game_reviews", "goal": "What are the top three video games released in the last six months, according to their user ratings on Metacritic? Provide a brief summary of each game's strengths and weaknesses.", "task_id": "bb44d84662824824"}
+{"name": "news_headline", "goal": "What is the headline of the most viewed news articles today?", "task_id": "8b2f4c86fb45452a"}
+{"name": "upcoming_concerts", "goal": "When and where is the upcoming concert for Taylor Swift? Share a link to purchase tickets.", "task_id": "07f3c15f494340a3"}
+{"name": "stock_analyst", "goal": "What's the stock price for Tesla as of yesterday's closing bell? Provide the stock symbol, closing price, and a brief analysis of the stock's performance.", "task_id": "3ee477d14f3944ea"}
+{"name": "book_store_locator", "goal": "Find the nearest Barnes & Noble bookstore to zip code 15213.", "task_id": "4b5f52a47d8c487e"}
+{"name": "covid_statistics", "goal": "Provide the current COVID-19 statistics for the United States.", "task_id": "7b86aba330614722"}
+{"name": "pet_adoption_finder", "goal": "What is the best animal shelter that is currently allowing adoptions of cats or dogs in Seattle?", "task_id": "ab57b69aeee84e05"}
+{"name": "car_buyer", "goal": "Find a high-rated sedan car model that has been released within the last year. Provide information about the car's fuel efficiency and safety features.", "task_id": "f1dfe422c7924439"}
+{"name": "latest_tech_gadgets", "goal": "What are the newest tech gadgets on the market?", "task_id": "b92921736a8b4b23"}
+{"name": "popular_streamer", "goal": "Who is the streamer that has the most subscribers currently one of the most popular  and what games do they stream? How many?", "task_id": "8bde59a428a943bc"}
+{"name": "TV_show_recommendation", "goal": "Recommend a drama TV show that is currently streaming on Netflix. Provide a brief plot summary and the rating.", "task_id": "7f012ca4be67485c"}
+{"name": "age_calculator", "goal": "What is the sum of ages of the wives of Barack Obama and Donald Trump?", "task_id": "e30679fc81a641a2"}
+{"name": "volleyball_winnder", "goal": "Which team won in women's volleyball in the Summer Olympics that was held in London?", "task_id": "7a6dd09052194d1c"}
+{"name": "olympic_medal", "goal": "Which country won the most gold medals in the last Winter Olympics?", "task_id": "50ae10f10dad46b8"}
+{"name": "vegan_bagel", "goal": "Recommend a bagel shop near the Strip district in Pittsburgh that offer vegan food", "task_id": "d25eccefd8af462b"}
