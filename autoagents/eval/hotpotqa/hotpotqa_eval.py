@@ -201,6 +201,7 @@ def eval(prediction_file, gold_file):
     metrics["ans_missing_rate"] = 1 - len(prediction["answer"]) / N
     metrics["sp_missing_rate"] = 1 - len(prediction["sp"]) / N
     metrics["num_evaluated"] = N
+    metrics["llm_accuracy_on_finished_samples"] = metrics["llm_accuracy"] / (1 - metrics["ans_missing_rate"])
 
     print(json.dumps(metrics, indent=2))
 
