@@ -6,13 +6,14 @@ def get_common_stats(log_files):
             "average_search_invoked": 0,
             "average_notepad_invoked": 0,
             "average_rewritten": 0,
-            "invalid_tools": 0,
+            "invalid_tools_error": 0,
             "average_steps": 0,
             "parse_error": 0,
-            "context_len_err": 0,
+            "context_len_error": 0,
             "total_samples": 0,
             "average_answer_missing": 0,
-            "finished_samples": 0
+            "finished_samples": 0,
+            "dns_error": 0
     }
     samples = set()
     finished_samples = set()
@@ -22,16 +23,16 @@ def get_common_stats(log_files):
             has_error = any([True if "error" in entry else False for entry in log_data])
             for entry in log_data:
                 if "goal" in entry:
-                        question = entry["goal"]
-                        samples.add(question)
+                    question = entry["goal"]
+                    samples.add(question)
                 if has_error:
                     if "error" in entry:
                         if "Could not parse LLM output:" in entry["error"]:
                             stats["parse_error"] += 1
                         elif "Invalid tool requested by the model." in entry["error"]:
-                            stats["invalid_tools"] += 1
+                            stats["invalid_tools_error"] += 1
                         elif "This model's maximum context length is" in entry["error"]:
-                            stats["context_len_err"] += 1
+                            stats["context_len_error"] += 1
                 else:
                     if "query_rewrite" in entry:
                         stats["average_rewritten"] += 1
