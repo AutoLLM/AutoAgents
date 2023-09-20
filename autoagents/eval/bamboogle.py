@@ -6,10 +6,10 @@ import shutil
 
 from autoagents.data.dataset import BAMBOOGLE
 from autoagents.eval.metrics import get_common_stats
+from autoagents.eval.hotpotqa.eval_async import check_answer_equivalency
 from autoagents.agents.utils.constants import LOG_SAVE_DIR
 from tqdm import tqdm
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage
 
 
 async def eval(eval_results_path: str=LOG_SAVE_DIR):
@@ -46,10 +46,7 @@ async def eval(eval_results_path: str=LOG_SAVE_DIR):
                             for i in range(len(BAMBOOGLE["questions"])):
                                 if question == BAMBOOGLE["questions"][i]:
                                     answer = BAMBOOGLE["answers"][i]
-                                    resp = await evalllm.agenerate([[HumanMessage(
-                                        content=f"Given a question and a pair of answers. Determine if Answer1 can be strictly infered from Answer2. Return False if given the information in Answer2, we cannot determine whether Answer1 is right. Add detailed explaination and reasioning. Format your answer in JSON with a boolean field called 'is_inferable' and a string field 'reasoning' that can be loaded in python.\n\nQuestion: '{question}'\n\nAnswer1: '{answer}'\n\nAnswer2: '{action_input}'"
-                                    )]])
-                                    resp_obj = json.loads(resp.generations[0][0].text.strip())
+                                    resp_obj = await check_answer_equivalency(question, answer, action_input, evalllm)
                                     is_correct = int(resp_obj.get("is_inferable", 0))
                                     if is_correct:
                                         shutil.copy2(file, correct_res_dir)

@@ -35,6 +35,4 @@ RUN_EVAL_LOG_FILE: str = os.path.join(RESULTS_DIR, "run_eval.log")
 
 WRONG_ANS_OUTPUT_FILE: str = os.path.join(RESULTS_DIR, f"wrong_answers.json")
 
-LOG_DATA_DIR: str = os.path.join(os.getcwd(), "data")
-
 NEW_LOG_DIR: str = os.path.join(RESULTS_DIR, "data")
