@@ -14,6 +14,8 @@ optional arguments:
                         model temperature
   --agent [{ddg,wiki}]  which action agent we want to interact with(default: ddg)
   --persist-logs        persist logs on disk, enable this feature for later eval purpose
+  --log-save-dir LOG_SAVE_DIR
+                        dir to save logs
   --dataset [{default,hotpotqa,ft,hf,bamboogle}]
                         which dataset we want to interact with(default: default)
   --eval                enable automatic eval

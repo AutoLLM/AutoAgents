@@ -20,6 +20,7 @@ from langchain.base_language import BaseLanguageModel
 
 from autoagents.agents.tools.tools import search_tool, note_tool, rewrite_search_query, finish_tool
 from autoagents.agents.utils.logger import InteractionsLogger
+from autoagents.agents.utils.constants import LOG_SAVE_DIR
 
 from pydantic import BaseModel, ValidationError, Extra  # pydantic==1.10.11
 
@@ -241,7 +242,7 @@ class ActionRunner:
                                                                  verbose=False,
                                                                  callback_manager=callback_manager)
 
-    async def run(self, goal: str, outputq):
+    async def run(self, goal: str, outputq, save_dir=LOG_SAVE_DIR):
         self.ialogger.set_goal(goal)
         try:
             with get_openai_callback() as cb:
@@ -251,10 +252,10 @@ class ActionRunner:
                                         "completion_tokens": cb.completion_tokens,
                                         "total_cost": cb.total_cost,
                                         "successful_requests": cb.successful_requests})
-            self.ialogger.save()
+            self.ialogger.save(save_dir)
         except Exception as e:
             self.ialogger.add_message({"error": str(e)})
-            self.ialogger.save()
+            self.ialogger.save(save_dir)
             await outputq.put(e)
             return
         return output
