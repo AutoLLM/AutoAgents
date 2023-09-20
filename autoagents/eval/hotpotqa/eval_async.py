@@ -30,9 +30,6 @@ class HotpotqaAsyncEval:
         self.new_log_dir = os.path.join(ckpt_dir, "data")
         self.wrong_ans_file = os.path.join(ckpt_dir, "wrong_ans.json")
 
-        if not os.path.isdir(LOG_DATA_DIR):
-            os.mkdir(LOG_DATA_DIR)
-
     def get_questions(self, total: Optional[int] = None):
         dataset = prepare_dataset(total=total, pred_ckpt=self.pred_file)
         return [data["question"] for data in dataset]

@@ -6,12 +6,13 @@ import shutil
 
 from autoagents.data.dataset import BAMBOOGLE
 from autoagents.eval.metrics import get_common_stats
+from autoagents.agents.utils.constants import LOG_SAVE_DIR
 from tqdm import tqdm
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage
 
 
-async def eval(eval_results_path: str="./data"):
+async def eval(eval_results_path: str=LOG_SAVE_DIR):
     files = glob.glob(f"{eval_results_path}/*.json")
     evalllm = ChatOpenAI(
         openai_api_key=os.getenv("OPENAI_API_KEY"),

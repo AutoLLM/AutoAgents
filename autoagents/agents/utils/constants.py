@@ -1,3 +1,6 @@
+import os
+
+
 MAIN_HEADER = "Web Search Agent"
 
 MAIN_CAPTION = """This is a proof-of-concept search agent that reasons, plans,
@@ -19,3 +22,5 @@ SAMPLE_QUESTIONS = [
     "When and where is the upcoming concert for Taylor Swift? Share a link to purchase tickets.",
     "Find me recent studies focusing on hallucination in large language models. Provide the link to each study found.",
 ]
+
+LOG_SAVE_DIR: str = os.path.join(os.getcwd(), "data")
