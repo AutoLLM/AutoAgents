@@ -1,21 +1,9 @@
 import sys
+import numpy as np
 import ujson as json
 import re
 import string
 from collections import Counter
-
-
-METRIC_TO_STATISTICS: dict = {
-    "llm_accuracy": "equivalency",
-    "avg_rewritten": "rewritten",
-    "avg_steps": "steps",
-    "avg_search_invoked": "search_invoked",
-    "avg_notepad_invoked": "notepad_invoked",
-    "multi_tools_invoked": "multi_tools",
-    "parse_err_rate": "parse_error",
-    "invalid_tool_rate": "invalid_tool",
-    "context_len_err_rate": "context_len_err"
-}
 
 
 def normalize_answer(s):
@@ -95,7 +83,8 @@ def update_sp(metrics, prediction, gold, statistics):
     metrics['sp_prec'] += prec
     metrics['sp_recall'] += recall
 
-    if all(e in cur_sp_pred for e in gold_sp_pred) and statistics["equivalency"] == 0:
+    if all(e in cur_sp_pred for e in gold_sp_pred) and \
+    statistics["summary"]["counts"].get("equivalency", 0) == 0:
         metrics["wrong_infer"] += 1
 
     title_to_ranks = {}
@@ -157,7 +146,13 @@ def eval(prediction_file, gold_file):
         'last_sp_em': 0, 'last_sp_f1': 0, 'last_sp_prec': 0, 'last_sp_recall': 0,
         'joint_em': 0, 'joint_f1': 0, 'joint_prec': 0, 'joint_recall': 0,
         "max_mrr": 0, "first_mrr": 0, "last_mrr": 0, "wrong_infer": 0}
-    metrics.update({metric: 0 for metric in METRIC_TO_STATISTICS})
+    stats = {
+        "counts": Counter(),  # general counters
+        "error_counts": Counter(),  # error counters
+        "plan_counts": Counter(),  # plan patterns
+        "len_history_trace": [],
+        "len_initial_plan": []
+    }
     for dp in gold:
         cur_id = dp['_id']
         can_eval_joint = True
@@ -167,8 +162,12 @@ def eval(prediction_file, gold_file):
         else:
             em, prec, recall = update_answer(
                 metrics, prediction['answer'][cur_id], dp['answer'])
-        for metric, statistics in METRIC_TO_STATISTICS.items():
-            metrics[metric] += prediction['statistics'][cur_id].get(statistics, 0)
+        summary = prediction['statistics'][cur_id]["summary"]
+        stats["counts"] += summary["counts"]
+        stats["error_counts"] += summary["error_counts"]
+        stats["plan_counts"] += summary["plan_counts"]
+        stats["len_history_trace"].extend(summary["len_history_trace"])
+        stats["len_initial_plan"].extend(summary["len_initial_plan"])
 
         if cur_id not in prediction['sp']:
             print('missing sp fact {}'.format(cur_id))
@@ -198,10 +197,25 @@ def eval(prediction_file, gold_file):
     for k in metrics.keys():
         metrics[k] /= N
 
+    hist, rng = np.histogram(stats["len_history_trace"], bins=range(0, 16))
+    stats["len_history_trace"] = hist.tolist()
+    hist, rng = np.histogram(stats["len_initial_plan"], bins=range(0, 16))
+    stats["len_initial_plan"] = hist.tolist()
+    
+    stats["error_rate"] = {
+        error: cnt / N
+        for error, cnt in stats["error_counts"].items()
+    }
+    stats["avg_metrics"] = {
+        metric: cnt / N
+        for metric, cnt in stats["counts"].items()
+    }
+    metrics.update(stats)
+
     metrics["ans_missing_rate"] = 1 - len(prediction["answer"]) / N
     metrics["sp_missing_rate"] = 1 - len(prediction["sp"]) / N
     metrics["num_evaluated"] = N
-    metrics["llm_accuracy_on_finished_samples"] = metrics["llm_accuracy"] / (1 - metrics["ans_missing_rate"])
+    metrics["llm_accuracy_on_finished_samples"] = stats["avg_metrics"]["equivalency"] / (1 - metrics["ans_missing_rate"])
 
     print(json.dumps(metrics, indent=2))
 

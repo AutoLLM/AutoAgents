@@ -2,6 +2,7 @@ import os
 import json
 import asyncio
 import requests
+from argparse import ArgumentParser
 from typing import Optional, Union
 from tqdm.asyncio import tqdm_asyncio
 from langchain.schema import HumanMessage
@@ -63,7 +64,7 @@ class HotpotqaAsyncEval:
 
         wrong_ans = []
         for qid, stat in pred_dict["statistics"].items():
-            if stat["equivalency"] == 0:
+            if stat["summary"]["counts"].get("equivalency", 0) == 0:
                 wrong_ans.append({
                     "question": stat["question"],
                     "gt_answer": stat["gt_answer"],
@@ -195,7 +196,7 @@ async def evaluate_log_data(
     if not log_data or not isinstance(log_data, list):
         return
     summary = get_summary_from_log_data(log_data=log_data)
-    question, stats = summary["question"], summary["stats"]
+    question = summary["question"]
     gt = None
     for q in dataset:
         if q in question:
@@ -212,21 +213,17 @@ async def evaluate_log_data(
 
     titles = []
     statistics = {
-        "steps": stats["average_steps"],
-        "equivalency": 0,
         "reasoning": '',
         "question": question,
         "gt_answer": gt["answer"],
         "gt_citations": [fact[0] for fact in gt["supporting_facts"]],
         "raw_citation_urls": [],
         "citations": {},
-        "rewritten": stats["average_rewritten"],
-        "search_invoked": stats["average_search_invoked"],
-        "notepad_invoked": stats["average_notepad_invoked"],
-        "parse_error": stats["parse_error"],
-        "invalid_tool": stats["invalid_tools_error"],
-        "context_len_err": stats["context_len_error"]
+        "summary": summary
     }
+
+    if summary["answer"] is not None:
+        await evaluate_final_answer(summary["answer"], gt, pred_dict, statistics)
     
     for entry in log_data:
 
@@ -235,7 +232,7 @@ async def evaluate_log_data(
 
         if "conversations" in entry:
             await process_conversation_log(
-                entry["conversations"], pred_dict, statistics, titles, gt
+                entry["conversations"], statistics, titles
             )
 
     if titles:
@@ -248,7 +245,7 @@ async def evaluate_log_data(
 
 
 async def process_conversation_log(
-    conversations: list, pred_dict: dict, statistics: dict, titles: list, gt: dict
+    conversations: list, statistics: dict, titles: list
 ):  
     try:
         observation = conversations[0]["value"][-1]["observation"]
@@ -261,11 +258,9 @@ async def process_conversation_log(
     try:
         prediction = json.loads(conversations[-1]["value"])
     except:
-        statistics["parse_error"] += 1
+        statistics["summary"]["error_counts"]["parse_error"] += 1
         return
     if prediction["action"] == "Tool_Finish":
-        final_answer: str = prediction["action_input"]
-
         # Get list of citations
         citations = []
         for citation in prediction.get("citations", []):
@@ -275,9 +270,7 @@ async def process_conversation_log(
             statistics["raw_citation_urls"].append(url)
             if url in statistics["citations"]:
                 citations.append(statistics["citations"].get(url))
-        statistics["citations"] = citations  
-
-        await evaluate_final_answer(final_answer, gt, pred_dict, statistics)
+        statistics["citations"] = citations
 
 
 async def evaluate_final_answer(
@@ -290,7 +283,7 @@ async def evaluate_final_answer(
     try:
         # Use GPT to determine if the final output is equivalent with the ground truth
         resp_obj = await check_answer_equivalency(question, gt_answer, final_answer, llm)
-        statistics["equivalency"] = int(resp_obj.get("is_inferable", 0))
+        statistics["summary"]["counts"]["equivalency"] = int(resp_obj.get("is_inferable", 0))
         statistics["reasoning"] = resp_obj.get("reasoning", '')
 
         pred_dict["answer"][data["_id"]] = final_answer
@@ -317,3 +310,15 @@ async def check_answer_equivalency(question: str, answer1: str, answer2: str, ll
         content=f"Given a question and a pair of answers. Determine if Answer1 can be strictly infered from Answer2. Return False if given the information in Answer2, we cannot determine whether Answer1 is right. Add detailed explaination and reasioning. Format your answer in JSON with a boolean field called 'is_inferable' and a string field 'reasoning' that can be loaded in python.\n\nQuestion: '{question}'\n\nAnswer1: '{answer1}'\n\nAnswer2: '{answer2}'"
     )]])
     return json.loads(resp.generations[0][0].text.strip())
+
+
+def main():
+
+    parser = ArgumentParser()
+    parser.add_argument("log_dir", type=str, help="path of the log directory")
+    parser.add_argument("--pred_ckpt", type=str, help="path of the log directory")
+    args = parser.parse_args()
+    evaluate_log_dir(args.log_dir, args.pred_ckpt)
+
+if __name__ == "__main__":
+    main()

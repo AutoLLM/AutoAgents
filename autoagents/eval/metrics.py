@@ -1,4 +1,3 @@
-import os
 import json
 import glob
 from argparse import ArgumentParser
@@ -9,31 +8,20 @@ from pprint import pprint
 
 def get_common_stats(log_files):
     stats = {
-        "average_search_invoked": 0,
-        "average_notepad_invoked": 0,
-        "average_rewritten": 0,
-        "invalid_tools_error": 0,
-        "average_steps": 0,
-        "parse_error": 0,
-        "context_len_error": 0,
-        "total_samples": 0,
-        "average_answer_missing": 0,
-        "finished_samples": 0,
-        "dns_error": 0,
         "counts": Counter(),  # general counters
+        "error_counts": Counter(),  # error counters
         "plan_counts": Counter(),  # plan patterns
         "len_history_trace": [],
         "len_initial_plan": []
     }
-    metrics = Counter()
     samples = set()
     finished_samples = set()
     for file in log_files:
         with open(file, "r") as f:
             log_data = json.load(f)
             summary = get_summary_from_log_data(log_data=log_data)
-            metrics += summary["stats"]
             stats["counts"] += summary["counts"]
+            stats["error_counts"] += summary["error_counts"]
             stats["plan_counts"] += summary["plan_counts"]
             stats["len_history_trace"].extend(summary["len_history_trace"])
             stats["len_initial_plan"].extend(summary["len_initial_plan"])
@@ -41,13 +29,8 @@ def get_common_stats(log_files):
                 samples.add(summary["question"])
                 if summary["answer"] is not None:
                     finished_samples.add(summary["question"])
-    stats.update(metrics)
-    stats["total_samples"] = len(samples)
-    stats["finished_samples"] = len(finished_samples)
-    stats["average_steps"] = stats["average_steps"] / len(log_files)
-    stats["average_rewritten"] = stats["average_rewritten"] / len(log_files)
-    stats["average_search_invoked"] = stats["average_search_invoked"] / len(log_files)
-    stats["average_notepad_invoked"] = stats["average_notepad_invoked"] / len(log_files)
+    stats["counts"]["total_samples"] = len(samples)
+    stats["counts"]["finished_samples"] = len(finished_samples)
 
     hist, rng = np.histogram(stats["len_history_trace"], bins=range(0, 16))
     stats["len_history_trace"] = hist.tolist()
@@ -60,79 +43,70 @@ def get_common_stats(log_files):
 
 def get_summary_from_log_data(log_data: list):
 
-    stats = Counter()
-    question = answer = None
+    counts = Counter()  # general counters
+    error_counts = Counter()  # error counters
+    plan_counts = Counter()  # plan patterns
+    len_initial_plan = []
+    len_history_trace = []
 
-    has_error = any([True if "error" in entry else False for entry in log_data])
-    for entry in log_data:
-        if "goal" in entry:
-            question = entry["goal"]
-        if has_error:
-            if "error" in entry:
-                if "Could not parse LLM output:" in entry["error"]:
-                    stats["parse_error"] += 1
-                elif "Invalid tool requested by the model." in entry["error"]:
-                    stats["invalid_tools_error"] += 1
-                elif "This model's maximum context length is" in entry["error"]:
-                    stats["context_len_error"] += 1
-        else:
-            if "query_rewrite" in entry:
-                stats["average_rewritten"] += 1
-            if "conversations" in entry:
-                stats["average_steps"] += 1
-                prediction = json.loads(entry["conversations"][-1]["value"])
-                action = prediction["action"]
-                if action == "Tool_Search" or action == "Tool_Wikipedia":
-                    stats["average_search_invoked"] += 1
-                elif action == "Tool_Notepad":
-                    stats["average_notepad_invoked"] += 1
-                elif action == "Tool_Finish":
-                    answer = prediction["action_input"]
-    return dict(
-        stats=stats,
-        question=question,
-        answer=answer,
-        **get_counters_from_log_data(log_data=log_data)
-    )
-
-
-def get_counters_from_log_data(log_data: list):
-
-    counts = Counter()
-    plan_counts = Counter()
-    LEN_INIT_PLAN = []
-    LEN_HIST_TRACE = []
-
-    counters = dict(
+    summary = dict(
         counts=counts,
+        error_counts=error_counts,
         plan_counts=plan_counts,
-        len_history_trace=LEN_HIST_TRACE,
-        len_initial_plan=LEN_INIT_PLAN
+        len_history_trace=len_history_trace,
+        len_initial_plan=len_initial_plan,
+        question=None,
+        answer=None
     )
-
-    for item in log_data:
-        if "id" in item:
-            counts["conv_len"] += 1
-    counts["total"] += 1
-
-    for d in log_data:
-        if "error" in d:
-            if "Expecting value" in d["error"]:
+    
+    # Handle errors and rewrites
+    is_valid: bool = True
+    counts["total_logs"] += 1
+    for entry in log_data:
+        if "id" in entry:
+            counts["total_steps"] += 1
+        if "error" in entry:
+            if "Expecting value" in entry["error"]:
                 # This is the old rewrite error
                 pass
-            elif "This model's maximum context length" in d["error"]:
-                counts["out_of_context"] += 1
+            elif "Invalid tool requested by the model." in entry["error"]:
+                error_counts["invalid_tools_error"] += 1
+                is_valid = False
+            elif "This model's maximum context length" in entry["error"]:
+                error_counts["context_len_error"] += 1
                 if len(log_data) < 4:
-                    return counters
-            elif "[Errno -3] Temporary failure in name resolution" in d["error"]:
-                counts["dns_error"] += 1
+                    is_valid = False
+            elif "[Errno -3] Temporary failure in name resolution" in entry["error"]:
+                error_counts["dns_error"] += 1
+            elif "Could not parse LLM output:" in entry["error"]:
+                error_counts["parse_error"] += 1
+                is_valid = False
+            elif "Rate limit reached for " in entry["error"]:
+                error_counts["rate_limit_error"] += 1
+                is_valid = False
             else:
-                counts["parsing_errors"] += 1
-                return counters
-        elif "query_rewrite" in d:
-            counts["query_rewrite"] += 1
-            return counters
+                error_counts["other_error"] += 1
+                is_valid = False
+        elif "query_rewrite" in entry:
+            counts["total_rewrites"] += 1
+
+    if not is_valid:
+        return summary
     counts["total_valid"] += 1
+
+    for entry in log_data:
+        if "goal" in entry:
+            summary["question"] = entry["goal"]
+        if "conversations" in entry:
+            counts["valid_steps"] += 1
+            prediction = json.loads(entry["conversations"][-1]["value"])
+            action = prediction["action"]
+            if action == "Tool_Search" or action == "Tool_Wikipedia":
+                counts["search_invoked"] += 1
+            elif action == "Tool_Notepad":
+                counts["notepad_invoked"] += 1
+            elif action == "Tool_Finish":
+                summary["answer"] = prediction["action_input"]
 
     # do last-step history analysis, log_data[-3]
     last_convo = log_data[-3]["conversations"]
@@ -167,11 +141,11 @@ def get_counters_from_log_data(log_data: list):
         len_hist = len(hist)
         if len_hist > 0:
             len_plan0 = len(hist[0]["plan"])
-            LEN_INIT_PLAN.append(len_plan0)
+            len_initial_plan.append(len_plan0)
             if len_plan0 == 1:
                 pass
         counts["len_hist"] += len_hist
-        LEN_HIST_TRACE.append(len_hist)
+        len_history_trace.append(len_hist)
 
         # find out if there are duplicate action+action_inputs
         inputs = defaultdict(set)
@@ -187,7 +161,7 @@ def get_counters_from_log_data(log_data: list):
                         break
             inputs[h["action"]].add(h["action_input"])
 
-    return counters
+    return summary
 
 
 def main():

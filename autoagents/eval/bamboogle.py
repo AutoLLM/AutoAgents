@@ -57,11 +57,14 @@ async def eval(eval_results_path: str=LOG_SAVE_DIR):
                     shutil.copy2(file, err_res_dir)
             if not finish:
                 shutil.copy2(file, wrong_res_dir)
-    print(f'accuracy overall is {accuracy}/{common_stats["total_samples"]}={accuracy/common_stats["total_samples"]}')
-    print(f'accuracy on finished samples is {accuracy}/{common_stats["finished_samples"]}={accuracy/common_stats["finished_samples"]}')
-    common_stats["accuracy on finished samples"] = accuracy/common_stats["finished_samples"]
-    common_stats["accuracy"] = accuracy/common_stats["total_samples"]
-    common_stats["average_answer_missing"] = (common_stats["total_samples"] - common_stats["finished_samples"]) / common_stats["total_samples"]
+    counts = common_stats["counts"]
+    total_samples = counts["total_samples"]
+    finished_samples = counts["finished_samples"]
+    print(f'accuracy overall is {accuracy}/{total_samples}={accuracy/total_samples}')
+    print(f'accuracy on finished samples is {accuracy}/{finished_samples}={accuracy/finished_samples}')
+    counts["accuracy on finished samples"] = accuracy/finished_samples
+    counts["accuracy"] = accuracy/total_samples
+    counts["average_answer_missing"] = (total_samples - finished_samples) / total_samples
     pprint.pprint(common_stats)
     with open(f"{eval_results_path}-eval/stats.json", "w") as f:
         json.dump(common_stats, f)
