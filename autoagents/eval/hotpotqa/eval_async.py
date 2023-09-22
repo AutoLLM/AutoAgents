@@ -100,7 +100,10 @@ def prepare_dataset(
         goal_set: set = set()
         for log_file in os.listdir(log_dir):
             with open(os.path.join(log_dir, log_file), 'r') as f:
-                log_data = json.load(f)
+                try:
+                    log_data = json.load(f)
+                except json.decoder.JSONDecodeError:
+                    continue
                 if log_data and isinstance(log_data, list):
                     goal = None
                     for entry in log_data:
@@ -182,7 +185,10 @@ async def collect_metrics(pred_dict: dict, dataset: dict, log_files: list):
     async def process_log_file(log_file: str):
         async with semaphore:
             with open(log_file, "r") as f:
-                log_data = json.load(f)
+                try:
+                    log_data = json.load(f)
+                except json.decoder.JSONDecodeError:
+                    return
                 await evaluate_log_data(log_data, pred_dict, dataset)
 
     await tqdm_asyncio.gather(*[
@@ -226,6 +232,9 @@ async def evaluate_log_data(
     }
 
     if summary["answer"] is not None:
+        pred_dict["answer"][gt["_id"]] = summary["answer"]
+        if gt["_id"] in pred_dict["error"]:
+            del pred_dict["error"][gt["_id"]]
         await evaluate_final_answer(summary["answer"], gt, pred_dict, statistics)
     
     for entry in log_data:
@@ -260,7 +269,7 @@ async def process_conversation_log(
 
     try:
         prediction = json.loads(conversations[-1]["value"])
-    except:
+    except json.decoder.JSONDecodeError:
         statistics["summary"]["error_counts"]["parse_error"] += 1
         return
     if prediction["action"] == "Tool_Finish":
@@ -288,10 +297,6 @@ async def evaluate_final_answer(
         resp_obj = await check_answer_equivalency(question, gt_answer, final_answer, llm)
         statistics["summary"]["counts"]["equivalency"] = int(resp_obj.get("is_inferable", 0))
         statistics["reasoning"] = resp_obj.get("reasoning", '')
-
-        pred_dict["answer"][data["_id"]] = final_answer
-        if data["_id"] in pred_dict["error"]:
-            del pred_dict["error"][data["_id"]]
 
     except Exception as e:
         pred_dict["error"][data["_id"]] = f"Error during evalutaion: {e}"

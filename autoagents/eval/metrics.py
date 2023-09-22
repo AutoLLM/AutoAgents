@@ -18,7 +18,10 @@ def get_common_stats(log_files):
     finished_samples = set()
     for file in log_files:
         with open(file, "r") as f:
-            log_data = json.load(f)
+            try:
+                log_data = json.load(f)
+            except json.decoder.JSONDecodeError:
+                continue
             summary = get_summary_from_log_data(log_data=log_data)
             stats["counts"] += summary["counts"]
             stats["error_counts"] += summary["error_counts"]
@@ -65,6 +68,8 @@ def get_summary_from_log_data(log_data: list):
     for entry in log_data:
         if "id" in entry:
             counts["total_steps"] += 1
+        if "goal" in entry:
+            summary["question"] = entry["goal"]
         if "error" in entry:
             if "Expecting value" in entry["error"]:
                 # This is the old rewrite error
@@ -84,6 +89,9 @@ def get_summary_from_log_data(log_data: list):
             elif "Rate limit reached for " in entry["error"]:
                 error_counts["rate_limit_error"] += 1
                 is_valid = False
+            elif "[Errno 111] Connection refused" in entry["error"]:
+                error_counts["connection_error"] += 1
+                is_valid = False
             else:
                 error_counts["other_error"] += 1
                 is_valid = False
@@ -95,8 +103,6 @@ def get_summary_from_log_data(log_data: list):
     counts["total_valid"] += 1
 
     for entry in log_data:
-        if "goal" in entry:
-            summary["question"] = entry["goal"]
         if "conversations" in entry:
             counts["valid_steps"] += 1
             prediction = json.loads(entry["conversations"][-1]["value"])
