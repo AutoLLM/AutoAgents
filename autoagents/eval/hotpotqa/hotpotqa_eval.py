@@ -4,6 +4,7 @@ import ujson as json
 import re
 import string
 from collections import Counter
+from pprint import pprint
 
 
 def normalize_answer(s):
@@ -217,7 +218,7 @@ def eval(prediction_file, gold_file):
     metrics["num_evaluated"] = N
     metrics["llm_accuracy_on_finished_samples"] = stats["avg_metrics"]["equivalency"] / (1 - metrics["ans_missing_rate"])
 
-    print(json.dumps(metrics, indent=2))
+    pprint(metrics)
 
 if __name__ == '__main__':
     eval(sys.argv[1], sys.argv[2])

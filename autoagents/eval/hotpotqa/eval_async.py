@@ -102,6 +102,7 @@ def prepare_dataset(
             with open(os.path.join(log_dir, log_file), 'r') as f:
                 log_data = json.load(f)
                 if log_data and isinstance(log_data, list):
+                    goal = None
                     for entry in log_data:
                         if "goal" in entry:
                             goal = entry["goal"]
@@ -197,6 +198,8 @@ async def evaluate_log_data(
         return
     summary = get_summary_from_log_data(log_data=log_data)
     question = summary["question"]
+    if question is None:
+        return
     gt = None
     for q in dataset:
         if q in question:

@@ -109,12 +109,15 @@ def get_summary_from_log_data(log_data: list):
                 summary["answer"] = prediction["action_input"]
 
     # do last-step history analysis, log_data[-3]
-    last_convo = log_data[-3]["conversations"]
-    if last_convo[1]["from"] in ("gpt", "ai"):
-        # we don't have the system key in prompt_v3
-        output = json.loads(last_convo[1]["value"])
-    else:
-        output = json.loads(last_convo[2]["value"])
+    try:
+        last_convo = log_data[-3]["conversations"]
+        if last_convo[1]["from"] in ("gpt", "ai"):
+            # we don't have the system key in prompt_v3
+            output = json.loads(last_convo[1]["value"])
+        else:
+            output = json.loads(last_convo[2]["value"])
+    except:
+        return summary
 
     counts[f"EndWith_{output['action']}"] += 1
 
