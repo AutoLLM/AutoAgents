@@ -36,35 +36,56 @@ These commands will generate model logs under `data` folders automatically and r
 
 
 ## Common Metrics
-### errors
-- invalid_tools_error
 
-  Check whether error log contains "Invalid tool requested by the model.".
+### general counts
 
-- context_len_error
+- total_logs
 
-  Check whether error log contains "This model's maximum context length is".
+  Total number of log json files evaluated
 
-- dns_error
+- total_steps
 
-  Check whether error log contains "[Errno -3] Temporary failure in name resolution".
+  Total number of steps in all log files evaluated
 
-- parse_error
+- total_rewrites
 
-  Check whether error log contains "Could not parse LLM output:".
+  Total number of rewrites triggered
 
-### stats
-- average_search_invoked
+- total_valid
 
-  Average number of times Tool_Search or Tool_Wikipedia is invoked.
+  Number of valid log files. In most cases, a log is valid when it does not contain any errors.
 
-- average_notepad_invoked
+- valid_steps
 
-  Average number of times Tool_Notepad is invoked.
+  Aggregated number of steps in valid log files.
 
-- average_rewritten
+- search_invoked
 
-  Average number of rewrites triggered.
+  Number of times `Tool_Search` or `Tool_Wikipedia` is invoked.
+
+- notepad_invoked
+
+  Number of times `Tool_Notepad` is invoked.
+
+- Endwith_{action/tool}
+
+  Number of times a conversation ends with a specific tool.
+
+- visit_in_plan
+
+  Number of plans that start with `Visit` 
+
+- len_hist
+
+  Aggregated length of history trace
+
+- duplicate_actions
+
+  Number of duplicate {action}+{action_inputs} pairs
+
+- Finish_with_dups
+
+  Number of duplicate `Tool_Finish`+{action_inputs} pairs
 
 - average_answer_missing
 
@@ -80,30 +101,53 @@ These commands will generate model logs under `data` folders automatically and r
 
 - finished_samples
 
-  Th number of samples where the agent is able to call Tool_Finish for it.
+  The number of samples where the agent is able to call `Tool_Finish` for it.
 
-### counters
-- Endwith_{action}
+### error counts
 
-  Occurrence of action sequences
+Count the number of times a specific pattern of error occurs in the error log.
 
-  - Tool_Search->Tool_Notepad
+- invalid_tools_error
 
-  - Tool_Search->Tool_Search->Tool_Notepad
+  Check whether error log contains "Invalid tool requested by the model.".
 
-  - Tool_Search->Tool_Search->Tool_Search->Tool_Notepad
+- context_len_error
 
-  - …
+  Check whether error log contains "This model's maximum context length".
 
-- visit_in_plan
+- dns_error
 
-- duplicate_actions
+  Check whether error log contains "[Errno -3] Temporary failure in name resolution".
 
-  number of duplicate action+action_inputs pairs
+- parse_error
 
-- Finish_with_dups
+  Check whether error log contains "Could not parse LLM output:".
 
-  number of duplicate Tool_Finish+action_inputs pairs
+- rate_limit_error
+
+  Check whether error log contains "Rate limit reached for ".
+
+- connection_error
+
+  Check whether error log contains "[Errno 111] Connection refused".
+
+- other_error
+
+  Any other kinds of uncaught exceptions will be marked as other_error.
+
+### plan patterns
+
+Occurrence of action sequences
+
+- Tool_Search->Tool_Notepad
+
+- Tool_Search->Tool_Search->Tool_Notepad
+
+- Tool_Search->Tool_Search->Tool_Search->Tool_Notepad
+
+- …
+
+### histograms
 
 - len_history_trace
 
@@ -111,4 +155,5 @@ These commands will generate model logs under `data` folders automatically and r
 
 - len_initial_plan
 
-  histogram of the lengths of initial plan
+  histogram of the lengths of initial plans
+  
