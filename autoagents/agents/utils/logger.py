@@ -8,6 +8,8 @@ import pytz
 import huggingface_hub
 from huggingface_hub import Repository
 
+from autoagents.agents.utils.constants import LOG_SAVE_DIR
+
 
 class InteractionsLogger:
     def __init__(self, name: str, persist=False):
@@ -44,14 +46,16 @@ class InteractionsLogger:
     def add_message(self, data: Dict[str, Any]):
         self.messages.append(data)
 
-    def save(self):
+    def save(self, save_dir=LOG_SAVE_DIR):
         self.add_message({"datetime": datetime.now(pytz.utc).strftime("%m/%d/%Y %H:%M:%S %Z%z")})
         if self.persist:
+            if not os.path.isdir(save_dir):
+                os.mkdir(save_dir)
             # TODO: want to add retry in a loop?
             if self.repo is not None:
                 self.repo.git_pull()
             fname = uuid.uuid4().hex[:16]
-            with open(f"./data/{fname}.json", "w") as f:
+            with open(os.path.join(save_dir, f"{fname}.json"), "w") as f:
                 json.dump(self.messages, f, indent=2)
             if self.repo is not None:
                 commit_url = self.repo.push_to_hub()

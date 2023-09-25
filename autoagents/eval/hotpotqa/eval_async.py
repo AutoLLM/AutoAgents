@@ -2,12 +2,15 @@ import os
 import json
 import asyncio
 import requests
+from argparse import ArgumentParser
 from typing import Optional, Union
 from tqdm.asyncio import tqdm_asyncio
 from langchain.schema import HumanMessage
 from langchain.chat_models import ChatOpenAI
 
 from autoagents.eval.hotpotqa.constants import *
+from autoagents.agents.utils.constants import LOG_SAVE_DIR
+from autoagents.eval.metrics import get_summary_from_log_data
 from autoagents.eval.hotpotqa.hotpotqa_eval import eval
 
 
@@ -30,9 +33,6 @@ class HotpotqaAsyncEval:
         self.new_log_dir = os.path.join(ckpt_dir, "data")
         self.wrong_ans_file = os.path.join(ckpt_dir, "wrong_ans.json")
 
-        if not os.path.isdir(LOG_DATA_DIR):
-            os.mkdir(LOG_DATA_DIR)
-
     def get_questions(self, total: Optional[int] = None):
         dataset = prepare_dataset(total=total, pred_ckpt=self.pred_file)
         return [data["question"] for data in dataset]
@@ -42,13 +42,13 @@ class HotpotqaAsyncEval:
         if log_dir is None:
             if not os.path.isdir(self.new_log_dir):
                 os.mkdir(self.new_log_dir)
-            if os.path.isdir(LOG_DATA_DIR):
-                for log_file in os.listdir(LOG_DATA_DIR):
+            if os.path.isdir(LOG_SAVE_DIR):
+                for log_file in os.listdir(LOG_SAVE_DIR):
                     os.rename(
-                        src=os.path.join(LOG_DATA_DIR, log_file),
+                        src=os.path.join(LOG_SAVE_DIR, log_file),
                         dst=os.path.join(self.new_log_dir, log_file)
                     )
-                os.rmdir(LOG_DATA_DIR)
+                os.rmdir(LOG_SAVE_DIR)
             log_dir = self.new_log_dir
 
         pred_dict = predict_log_dir(log_dir=log_dir, pred_ckpt=self.pred_file)
@@ -64,7 +64,7 @@ class HotpotqaAsyncEval:
 
         wrong_ans = []
         for qid, stat in pred_dict["statistics"].items():
-            if stat["equivalency"] == 0:
+            if stat["summary"]["counts"].get("equivalency", 0) == 0:
                 wrong_ans.append({
                     "question": stat["question"],
                     "gt_answer": stat["gt_answer"],
@@ -100,8 +100,12 @@ def prepare_dataset(
         goal_set: set = set()
         for log_file in os.listdir(log_dir):
             with open(os.path.join(log_dir, log_file), 'r') as f:
-                log_data = json.load(f)
+                try:
+                    log_data = json.load(f)
+                except json.decoder.JSONDecodeError:
+                    continue
                 if log_data and isinstance(log_data, list):
+                    goal = None
                     for entry in log_data:
                         if "goal" in entry:
                             goal = entry["goal"]
@@ -145,7 +149,7 @@ def get_hotpotqa_fullwiki_devset(file: str = GT_FILE, url: str = GT_URL):
 
 
 def evaluate_log_dir(
-    log_dir: str = LOG_DATA_DIR,
+    log_dir: str = LOG_SAVE_DIR,
     pred_ckpt: Optional[str] = None
 ):
     pred_ckpt = pred_ckpt or os.path.join(PARENT_DIRECTORY, "prediction.json")
@@ -156,7 +160,7 @@ def evaluate_log_dir(
 
 
 def predict_log_dir(
-    log_dir: str = LOG_DATA_DIR,
+    log_dir: str = LOG_SAVE_DIR,
     pred_ckpt: Optional[str] = None
 ):
     dataset = {
@@ -181,7 +185,10 @@ async def collect_metrics(pred_dict: dict, dataset: dict, log_files: list):
     async def process_log_file(log_file: str):
         async with semaphore:
             with open(log_file, "r") as f:
-                log_data = json.load(f)
+                try:
+                    log_data = json.load(f)
+                except json.decoder.JSONDecodeError:
+                    return
                 await evaluate_log_data(log_data, pred_dict, dataset)
 
     await tqdm_asyncio.gather(*[
@@ -195,10 +202,11 @@ async def evaluate_log_data(
     
     if not log_data or not isinstance(log_data, list):
         return
-    for entry in log_data:
-        if "goal" in entry:
-            question: str = entry["goal"]
-            break
+    summary = get_summary_from_log_data(log_data=log_data)
+    question = summary["question"]
+    if question is None:
+        return
+    gt = None
     for q in dataset:
         if q in question:
             gt = dataset[q]
@@ -214,26 +222,29 @@ async def evaluate_log_data(
 
     titles = []
     statistics = {
-        "steps": 0, "equivalency": 0, "reasoning": '', "question": question, "gt_answer": gt["answer"], "gt_citations": [fact[0] for fact in gt["supporting_facts"]], "raw_citation_urls": [], "citations": {}, "rewritten": 0, "search_invoked": 0, "notepad_invoked": 0, "parse_error": 0, "invalid_tool": 0, "context_len_err": 0
+        "reasoning": '',
+        "question": question,
+        "gt_answer": gt["answer"],
+        "gt_citations": [fact[0] for fact in gt["supporting_facts"]],
+        "raw_citation_urls": [],
+        "citations": {},
+        "summary": summary
     }
+
+    if summary["answer"] is not None:
+        pred_dict["answer"][gt["_id"]] = summary["answer"]
+        if gt["_id"] in pred_dict["error"]:
+            del pred_dict["error"][gt["_id"]]
+        await evaluate_final_answer(summary["answer"], gt, pred_dict, statistics)
     
     for entry in log_data:
 
-        if "query_rewrite" in entry:
-            statistics["rewritten"] += 1
-
         if "error" in entry:
-            if "Could not parse LLM output:" in entry["error"]:
-                statistics["parse_error"] += 1
-            elif "Invalid tool requested by the model." in entry["error"]:
-                statistics["invalid_tool"] += 1
-            elif "This model's maximum context length is" in entry["error"]:
-                statistics["context_len_err"] += 1
             pred_dict["error"][qid] = entry["error"]
 
         if "conversations" in entry:
             await process_conversation_log(
-                entry["conversations"], pred_dict, statistics, titles, gt
+                entry["conversations"], statistics, titles
             )
 
     if titles:
@@ -246,32 +257,22 @@ async def evaluate_log_data(
 
 
 async def process_conversation_log(
-    conversations: list, pred_dict: dict, statistics: dict, titles: list, gt: dict
-):
-
-    statistics["steps"] += 1
-
-    history = conversations[0]["value"]
-    if history and "observation" in history[-1]:
-        observation = history[-1].get("observation")
-        if isinstance(observation, list) and isinstance(observation[0], dict) and "title" in observation[0]:
-            titles.append([doc["title"] for doc in observation])
-            for doc in observation:
-                statistics["citations"][doc["url"]] = doc["title"]
+    conversations: list, statistics: dict, titles: list
+):  
+    try:
+        observation = conversations[0]["value"][-1]["observation"]
+        titles.append([doc["title"] for doc in observation])
+        for doc in observation:
+            statistics["citations"][doc["url"]] = doc["title"]
+    except:
+        pass
 
     try:
         prediction = json.loads(conversations[-1]["value"])
-    except:
-        statistics["parse_error"] += 1
+    except json.decoder.JSONDecodeError:
+        statistics["summary"]["error_counts"]["parse_error"] += 1
         return
-    action = prediction["action"]
-    if action == "Tool_Wikipedia":
-        statistics["search_invoked"] += 1
-    elif action == "Tool_Notepad":
-        statistics["notepad_invoked"] += 1
-    elif action == "Tool_Finish":
-        final_answer: str = prediction["action_input"]
-
+    if prediction["action"] == "Tool_Finish":
         # Get list of citations
         citations = []
         for citation in prediction.get("citations", []):
@@ -283,7 +284,28 @@ async def process_conversation_log(
                 citations.append(statistics["citations"].get(url))
         statistics["citations"] = citations
 
-        evalllm = ChatOpenAI(
+
+async def evaluate_final_answer(
+    final_answer: str, data: dict, pred_dict, statistics, llm=None
+):
+
+    question: str = data["question"]
+    gt_answer: str = data["answer"]
+
+    try:
+        # Use GPT to determine if the final output is equivalent with the ground truth
+        resp_obj = await check_answer_equivalency(question, gt_answer, final_answer, llm)
+        statistics["summary"]["counts"]["equivalency"] = int(resp_obj.get("is_inferable", 0))
+        statistics["reasoning"] = resp_obj.get("reasoning", '')
+
+    except Exception as e:
+        pred_dict["error"][data["_id"]] = f"Error during evalutaion: {e}"
+
+
+async def check_answer_equivalency(question: str, answer1: str, answer2: str, llm=None):
+
+    if llm is None:
+        llm = ChatOpenAI(
             openai_api_key=os.getenv("OPENAI_API_KEY"),
             openai_organization=os.getenv("OPENAI_API_ORG"),
             temperature=0,
@@ -291,28 +313,20 @@ async def process_conversation_log(
             request_timeout=AWAIT_TIMEOUT
         )
 
-        await evaluate_final_answer(final_answer, gt, evalllm, pred_dict, statistics)
+    # Use GPT to determine if the answer1 is equivalent with answer2
+    resp = await llm.agenerate([[HumanMessage(
+        content=f"Given a question and a pair of answers. Determine if Answer1 can be strictly infered from Answer2. Return False if given the information in Answer2, we cannot determine whether Answer1 is right. Add detailed explaination and reasioning. Format your answer in JSON with a boolean field called 'is_inferable' and a string field 'reasoning' that can be loaded in python.\n\nQuestion: '{question}'\n\nAnswer1: '{answer1}'\n\nAnswer2: '{answer2}'"
+    )]])
+    return json.loads(resp.generations[0][0].text.strip())
 
 
-async def evaluate_final_answer(
-    final_answer: str, data: dict, evalllm, pred_dict, statistics
-):
+def main():
 
-    question: str = data["question"]
-    gt_answer: str = data["answer"]
+    parser = ArgumentParser()
+    parser.add_argument("log_dir", type=str, help="path of the log directory")
+    parser.add_argument("--pred_ckpt", type=str, help="path of the log directory")
+    args = parser.parse_args()
+    evaluate_log_dir(args.log_dir, args.pred_ckpt)
 
-    try:
-        # Use GPT use determine if the final output is equivalent with the ground truth
-        resp = await evalllm.agenerate([[HumanMessage(
-            content=f"Given a question and a pair of answers. Determine if Answer1 can be strictly infered from Answer2. Return False if given the information in Answer2, we cannot determine whether Answer1 is right. Add detailed explaination and reasioning. Format your answer in JSON with a boolean field called 'is_inferable' and a string field 'reasoning' that can be loaded in python.\n\nQuestion: '{question}'\n\nAnswer1: '{gt_answer}'\n\nAnswer2: '{final_answer}'"
-        )]])
-        resp_obj = json.loads(resp.generations[0][0].text.strip())
-        statistics["equivalency"] = int(resp_obj.get("is_inferable", 0))
-        statistics["reasoning"] = resp_obj.get("reasoning", '')
-
-        pred_dict["answer"][data["_id"]] = final_answer
-        if data["_id"] in pred_dict["error"]:
-            del pred_dict["error"][data["_id"]]
-
-    except Exception as e:
-        pred_dict["error"][data["_id"]] = f"Error during evalutaion: {e}"
+if __name__ == "__main__":
+    main()

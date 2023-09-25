@@ -8,11 +8,11 @@ from autoagents.agents.agents.search import ActionRunner
 from autoagents.agents.agents.wiki_agent import WikiActionRunner, WikiActionRunnerV3
 from autoagents.agents.agents.search_v3 import ActionRunnerV3
 from autoagents.agents.models.custom import CustomLLM, CustomLLMV3
+from autoagents.agents.utils.constants import LOG_SAVE_DIR
 from autoagents.data.dataset import BAMBOOGLE, DEFAULT_Q, FT, HF
 from autoagents.eval.bamboogle import eval as eval_bamboogle
 from autoagents.eval.hotpotqa.eval_async import HotpotqaAsyncEval, NUM_SAMPLES_TOTAL
 from langchain.chat_models import ChatOpenAI
-from pprint import pprint
 
 
 OPENAI_MODEL_NAMES = {"gpt-3.5-turbo", "gpt-4"}
@@ -20,7 +20,7 @@ AWAIT_TIMEOUT: int = 120
 MAX_RETRIES: int = 2
 
 
-async def work(user_input: str, model: str, temperature: int, agent: str, prompt_version: str, persist_logs: bool):
+async def work(user_input: str, model: str, temperature: int, agent: str, prompt_version: str, persist_logs: bool, log_save_dir: str):
     if model not in OPENAI_MODEL_NAMES:
         if prompt_version == "v2":
             llm = CustomLLM(
@@ -56,7 +56,7 @@ async def work(user_input: str, model: str, temperature: int, agent: str, prompt
                 runner = WikiActionRunner(outputq, llm=llm, persist_logs=persist_logs)
             elif prompt_version == "v3":
                 runner = WikiActionRunnerV3(outputq, llm=llm, persist_logs=persist_logs)
-        task = asyncio.create_task(runner.run(user_input, outputq))
+        task = asyncio.create_task(runner.run(user_input, outputq, log_save_dir))
         while True:
             try:
                 output = await asyncio.wait_for(outputq.get(), AWAIT_TIMEOUT)
@@ -89,12 +89,12 @@ async def work(user_input: str, model: str, temperature: int, agent: str, prompt
 async def main(questions, args):
     sem = asyncio.Semaphore(10)
     
-    async def safe_work(user_input: str, model: str, temperature: int, agent: str, prompt_version: str, persist_logs: bool):
+    async def safe_work(user_input: str, model: str, temperature: int, agent: str, prompt_version: str, persist_logs: bool, log_save_dir: str):
         async with sem:
-            return await work(user_input, model, temperature, agent, prompt_version, persist_logs)
+            return await work(user_input, model, temperature, agent, prompt_version, persist_logs, log_save_dir)
     
     persist_logs = True if args.persist_logs else False
-    await tqdm_asyncio.gather(*[safe_work(q, args.model, args.temperature, args.agent, args.prompt_version, persist_logs) for q in questions])
+    await tqdm_asyncio.gather(*[safe_work(q, args.model, args.temperature, args.agent, args.prompt_version, persist_logs, args.log_save_dir) for q in questions])
 
 
 if __name__ == "__main__":
@@ -109,6 +109,7 @@ if __name__ == "__main__":
         help='which action agent we want to interact with(default: ddg)'
     )
     parser.add_argument("--persist-logs", action="store_true", help="persist logs on disk, enable this feature for later eval purpose")
+    parser.add_argument("--log-save-dir", type=str, default=LOG_SAVE_DIR, help="dir to save logs")
     parser.add_argument("--dataset",
         default="default",
         const="default",
@@ -131,6 +132,8 @@ if __name__ == "__main__":
         raise ValueError("Prompt v3 is not compatiable with OPENAI models, please adjust your settings!")
     if not args.persist_logs and args.eval:
         raise ValueError("Please enable persist_logs feature to allow eval code to run!")
+    if not args.log_save_dir and args.persist_logs:
+        raise ValueError("Please endbale persist_logs feature to configure log dir location!")
     questions = []
     if args.dataset == "ft":
         questions = [q for _, q in FT]
@@ -148,6 +151,12 @@ if __name__ == "__main__":
     asyncio.run(main(questions, args))
     if args.eval:
         if args.dataset == "bamboogle":
-            asyncio.run(eval_bamboogle())
+            if args.log_save_dir:
+                asyncio.run(eval_bamboogle(args.log_save_dir))
+            else:
+                asyncio.run(eval_bamboogle())
         elif args.dataset == "hotpotqa":
-            hotpotqa_eval.run()
+            if args.log_save_dir:
+                hotpotqa_eval.run(args.log_save_dir)
+            else:
+                hotpotqa_eval.run()

@@ -17,6 +17,7 @@ from autoagents.eval.hotpotqa.eval_async import (
 )
 from autoagents.eval.hotpotqa.hotpotqa_eval import eval
 from autoagents.eval.hotpotqa.constants import *
+from autoagents.agents.utils.constants import LOG_SAVE_DIR
 
 
 if not os.path.isdir(RESULTS_DIR):
@@ -112,7 +113,7 @@ async def work(data, pred_dict):
                     citations.append(statistics["citations"].get(url))
             statistics["citations"] = citations
 
-            await evaluate_final_answer(final_answer, data, evalllm, pred_dict, statistics)
+            await evaluate_final_answer(final_answer, data, pred_dict, statistics, evalllm)
 
             break
     if titles:
@@ -156,12 +157,12 @@ def get_parsed_output(user_input, output, statistics, titles):
 def save_output():
 
     if PERSIST_LOGS:
-        for log_file in os.listdir(LOG_DATA_DIR):
+        for log_file in os.listdir(LOG_SAVE_DIR):
             os.rename(
-                src=os.path.join(LOG_DATA_DIR, log_file),
+                src=os.path.join(LOG_SAVE_DIR, log_file),
                 dst=os.path.join(NEW_LOG_DIR, log_file)
             )
-        os.rmdir(LOG_DATA_DIR)
+        os.rmdir(LOG_SAVE_DIR)
 
     output_dict = dict(pred_dict)
     for k in list(output_dict.keys()):
@@ -250,8 +251,8 @@ if __name__ == "__main__":
     dataset = prepare_dataset(total=NUM_SAMPLES_TOTAL, pred_ckpt=pred_dict)
 
     if PERSIST_LOGS:
-        if not os.path.isdir(LOG_DATA_DIR):
-            os.mkdir(LOG_DATA_DIR)
+        if not os.path.isdir(LOG_SAVE_DIR):
+            os.mkdir(LOG_SAVE_DIR)
         if not os.path.isdir(NEW_LOG_DIR):
             os.mkdir(NEW_LOG_DIR)
 
