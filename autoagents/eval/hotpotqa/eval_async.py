@@ -118,10 +118,10 @@ def prepare_dataset(
                     filtered_dataset.append(data)
         return filtered_dataset
 
-    if isinstance(pred_ckpt, dict):
-        pred_dict = pred_ckpt
-    else:
+    if isinstance(pred_ckpt, str):
         pred_dict = get_pred_dict(pred_ckpt=pred_ckpt)
+    else:
+        pred_dict = pred_ckpt
 
     dataset = []
     num_new_ids = 0

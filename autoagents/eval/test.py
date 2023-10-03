@@ -17,7 +17,7 @@ from langchain.chat_models import ChatOpenAI
 
 OPENAI_MODEL_NAMES = {"gpt-3.5-turbo", "gpt-4"}
 AWAIT_TIMEOUT: int = 120
-MAX_RETRIES: int = 2
+MAX_RETRIES: int = 5
 
 
 async def work(user_input: str, model: str, temperature: int, agent: str, prompt_version: str, persist_logs: bool, log_save_dir: str):

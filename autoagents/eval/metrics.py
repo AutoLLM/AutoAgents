@@ -83,7 +83,8 @@ def get_summary_from_log_data(log_data: list):
                     is_valid = False
             elif "[Errno -3] Temporary failure in name resolution" in entry["error"]:
                 error_counts["dns_error"] += 1
-            elif "Could not parse LLM output:" in entry["error"]:
+            elif "Could not parse LLM output:" in entry["error"] or \
+            "Expecting ',' delimiter: " in entry["error"]:
                 error_counts["parse_error"] += 1
                 is_valid = False
             elif "Rate limit reached for " in entry["error"]:
