@@ -1,8 +1,12 @@
 import wikipedia
 import requests
 from elasticsearch import Elasticsearch
+from pathlib import Path
+import logging
+import sys
+import json
 
-from duckpy import Client
+from duckpy import AsyncClient, Client
 from langchain import PromptTemplate, LLMChain, Wikipedia
 from langchain.agents import Tool
 from langchain.agents.react.base import DocstoreExplorer
@@ -29,16 +33,17 @@ EXPLICIT in what you want to search. Do NOT use filler words.
 The action_input cannot be None or empty.
 """
 
-notepad_description = """ Useful for when you need to note-down specific
-information for later reference. Please provide the website and full
-information you want to note-down in the action_input and all future prompts
-will remember it. This is the mandatory tool after using the Tool_Search.
+notepad_description = """
+Useful for when you need to note-down specific information for later reference.
+Please provide the source URLs and full information you want to note-down in
+the action_input and all future prompts will remember it. The URLs should come
+from the observation. Should always use Tool_Notepad after using Tool_Search.
 Using Tool_Notepad does not always lead to a final answer.
 
 ## Examples of using Notepad tool
-{
-    "action": "Tool_Notepad",
-    "action_input": "(www.website.com) the information you want to note-down"
+"action": "Tool_Notepad",
+"action_input": {
+    "www.URL.com/of/webpage/you/are/sourcing/the/information/from": "the information you want to note-down"
 }
 """
 
@@ -76,19 +81,32 @@ Keep your lookup concise, using no more than three words.
 The Action Input cannot be None or empty.
 """
 
+user_agents = [
+  "Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0",
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
+]
+
+duckpy_client = Client(default_user_agents=user_agents)
 
 async def ddg(query: str):
+    query = json.loads(query)
     if query is None or query.lower().strip().strip('"') == "none" or query.lower().strip().strip('"') == "null":
         x = "The action_input field is empty. Please provide a search query."
         return [x]
     else:
-        client = Client()
-        return client.search(query)[:MAX_SEARCH_RESULTS]
+        results = []
+        while not results:
+            try:
+                results.extend(duckpy_client.search(query))
+            except Exception as e:
+                print(f"Exception: {e}, query: {query}")
+        return json.dumps(results[:MAX_SEARCH_RESULTS])
+
 
 docstore=DocstoreExplorer(Wikipedia())
 
 async def notepad(x: str) -> str:
-    return f"{[x]}"
+    return x
 
 async def wikisearch(x: str) -> str:
     title_list = wikipedia.search(x)
@@ -194,19 +212,19 @@ async def final(x: str):
     pass
 
 finish_description = """ Useful when you have enough information to produce a
-final answer that achieves the original Goal.
+a markdown table of the final answer that achieves the original Goal. Always tabulate the information you find. If possible only include numeric data so that it's easy to plot.
 
-You must also include this key in the output for the Tool_Finish action
-"citations": ["www.example.com/a/list/of/websites: what facts you got from the website",
-"www.example.com/used/to/produce/the/action/and/action/input: "what facts you got from the website",
-"www.webiste.com/include/the/citations/from/the/previous/steps/as/well: "what facts you got from the website",
-"www.website.com": "this section is only needed for the final answer"]
+You must also include a citations key in the output for the Tool_Finish action
 
 ## Examples of using Finish tool
-{
-    "action": "Tool_Finish",
-    "action_input": "final answer",
-    "citations": ["www.example.com: what facts you got from the website"]
+"action": "Tool_Finish",
+"action_input": ```| Month    | Savings |
+                   | -------- | ------- |
+                   | January  | $250    |
+                   | February | $80     |
+                   | March    | $420    |```,
+"citations": {
+    "www.example.com": "what facts you got from the website"
 }
 """
 

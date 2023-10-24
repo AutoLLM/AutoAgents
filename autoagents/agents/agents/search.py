@@ -10,7 +10,7 @@ from typing import List, Union, Any, Optional, Dict
 
 from langchain.agents import Tool, AgentExecutor, LLMSingleActionAgent, AgentOutputParser
 from langchain.prompts import StringPromptTemplate
-from langchain import LLMChain
+from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import AgentAction, AgentFinish
 from langchain.callbacks import get_openai_callback
@@ -30,7 +30,7 @@ class InterOutputSchema(BaseModel):
     reasoning: str
     plan: List[str]
     action: str
-    action_input: str
+    action_input: Union[str, Dict[str, str]]
     class Config:
         extra = Extra.forbid
 
@@ -41,7 +41,7 @@ class FinalOutputSchema(BaseModel):
     plan: List[str]
     action: str
     action_input: str
-    citations: List[str]
+    citations: Dict[str, str]
     class Config:
         extra = Extra.forbid
 
@@ -61,7 +61,8 @@ def check_valid(o):
 template = """We are working together to satisfy the user's original goal
 step-by-step. Play to your strengths as an LLM. Make sure the plan is
 achievable using the available tools. The final answer should be descriptive,
-and should include all relevant details.
+and should include all relevant details. You can only provide citations if you
+are unable to find the final answer.
 
 Today is {today}.
 
@@ -81,7 +82,7 @@ to satisfy the user's original goal, then respond immediately with the Finish
 Action.
 
 ## Output format
-You MUST produce JSON output with below keys:
+You MUST produce valid JSON output with below keys:
 "thought": "current train of thought",
 "reasoning": "reasoning",
 "plan": [
@@ -90,7 +91,7 @@ You MUST produce JSON output with below keys:
 "next-step plan",
 ],
 "action": "the action to take",
-"action_input": "the input to the Action",
+"action_input": "the input to the Action"
 """
 
 
@@ -149,18 +150,18 @@ class CustomOutputParser(AgentOutputParser):
         if action == "Tool_Finish":
             return AgentFinish(return_values={"output": action_input}, log=llm_output)
 
-        if action_input in self.action_history[action]:
-            new_action_input = rewrite_search_query(action_input,
-                                                    self.action_history[action],
-                                                    self.llm)
-            self.ialogger.add_message({"query_rewrite": True})
-            self.new_action_input = new_action_input
-            self.action_history[action].add(new_action_input)
-            return AgentAction(tool=action, tool_input=new_action_input, log=llm_output)
-        else:
-            # Return the action and action input
-            self.action_history[action].add(action_input)
-            return AgentAction(tool=action, tool_input=action_input, log=llm_output)
+        if action == "Tool_Search":
+            if action_input in self.action_history[action]:
+                new_action_input = rewrite_search_query(action_input,
+                                                        self.action_history[action],
+                                                        self.llm)
+                self.ialogger.add_message({"query_rewrite": True})
+                self.new_action_input = new_action_input
+                self.action_history[action].add(new_action_input)
+                action_input = new_action_input
+            else:
+                self.action_history[action].add(action_input)
+        return AgentAction(tool=action, tool_input=json.dumps(action_input), log=llm_output)
 
 
 class ActionRunner:
@@ -185,7 +186,7 @@ class ActionRunner:
 
             async def on_chain_end(self, outputs, **kwargs) -> None:
                 if "text" in outputs:
-                    await outputq.put(outputs["text"])
+                    await outputq.put(outputs.get("text"))
 
             async def on_agent_action(
                     self,
@@ -196,7 +197,7 @@ class ActionRunner:
                     **kwargs: Any,
                     ) -> None:
                 if (new_action_input := output_parser.new_action_input):
-                    await outputq.put(RuntimeWarning(f"Action Input Rewritten: {new_action_input}"))
+                    if False: await outputq.put(RuntimeWarning(f"Action Input Rewritten: {new_action_input}"))
                     # Notify users
                     output_parser.new_action_input = None
 
@@ -219,7 +220,8 @@ class ActionRunner:
                     parent_run_id: Optional[uuid.UUID] = None,
                     **kwargs: Any,
                     ) -> None:
-                await outputq.put(output)
+                if kwargs["name"] == "Tool_Search":
+                    await outputq.put(output)
 
         handler = MyCustomHandler()
 
@@ -254,6 +256,9 @@ class ActionRunner:
                                         "successful_requests": cb.successful_requests})
             self.ialogger.save(save_dir)
         except Exception as e:
+            import traceback
+            import sys
+            print(traceback.format_exc())
             self.ialogger.add_message({"error": str(e)})
             self.ialogger.save(save_dir)
             await outputq.put(e)
