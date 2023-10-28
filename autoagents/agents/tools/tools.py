@@ -1,12 +1,13 @@
 import wikipedia
 import requests
 from elasticsearch import Elasticsearch
-from pathlib import Path
 import logging
-import sys
 import json
 
-from duckpy import AsyncClient, Client
+from tenacity import retry, wait_exponential, stop_after_attempt, before_log
+from loguru import logger
+
+from duckpy import Client
 from langchain import PromptTemplate, LLMChain, Wikipedia
 from langchain.agents import Tool
 from langchain.agents.react.base import DocstoreExplorer
@@ -82,31 +83,41 @@ The Action Input cannot be None or empty.
 """
 
 user_agents = [
-  "Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0",
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
+    "Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36",
 ]
 
 duckpy_client = Client(default_user_agents=user_agents)
 
+
+@retry(
+    stop=stop_after_attempt(7),
+    wait=wait_exponential(multiplier=1, min=4, max=10),
+    before=before_log(logger, logging.INFO),
+)
 async def ddg(query: str):
-    query = json.loads(query)
-    if query is None or query.lower().strip().strip('"') == "none" or query.lower().strip().strip('"') == "null":
+    try:
+        query = json.loads(query)
+    except json.decoder.JSONDecodeError:
+        pass
+    if (
+        query is None
+        or query.lower().strip().strip('"') == "none"
+        or query.lower().strip().strip('"') == "null"
+    ):
         x = "The action_input field is empty. Please provide a search query."
         return [x]
     else:
-        results = []
-        while not results:
-            try:
-                results.extend(duckpy_client.search(query))
-            except Exception as e:
-                print(f"Exception: {e}, query: {query}")
+        results = duckpy_client.search(query)
         return json.dumps(results[:MAX_SEARCH_RESULTS])
 
 
-docstore=DocstoreExplorer(Wikipedia())
+docstore = DocstoreExplorer(Wikipedia())
+
 
 async def notepad(x: str) -> str:
     return x
+
 
 async def wikisearch(x: str) -> str:
     title_list = wikipedia.search(x)
@@ -115,8 +126,10 @@ async def wikisearch(x: str) -> str:
     title = title_list[0]
     return f"Wikipedia Page Title: {title}\nWikipedia Page Content: {docstore.search(title)}"
 
+
 async def wikilookup(x: str) -> str:
     return docstore.lookup(x)
+
 
 async def wikidumpsearch_es(x: str) -> str:
     global es_client
@@ -126,90 +139,103 @@ async def wikidumpsearch_es(x: str) -> str:
         index=INDEX_NAME, query={"match": {"text": x}}, size=MAX_SEARCH_RESULTS
     )
     res = []
-    for hit in resp['hits']['hits']:
+    for hit in resp["hits"]["hits"]:
         doc = hit["_source"]
-        res.append({
-            "title": doc["title"],
-            "text": ''.join(sent for sent in doc["text"][1]),
-            "url": doc["url"]
-        })
-        if doc["title"] == x:
-            return [{
+        res.append(
+            {
                 "title": doc["title"],
-                "text": '\n'.join(''.join(paras) for paras in doc["text"][1:3])
+                "text": "".join(sent for sent in doc["text"][1]),
+                "url": doc["url"],
+            }
+        )
+        if doc["title"] == x:
+            return [
+                {
+                    "title": doc["title"],
+                    "text": "\n".join("".join(paras) for paras in doc["text"][1:3])
                     if len(doc["text"]) > 2
-                    else '\n'.join(''.join(paras) for paras in doc["text"]),
-                "url": doc["url"]
-            }]
+                    else "\n".join("".join(paras) for paras in doc["text"]),
+                    "url": doc["url"],
+                }
+            ]
     return res
+
 
 async def wikidumpsearch_embed(x: str) -> str:
     res = []
     for obj in vector_search(x):
-        paras = obj["text"].split('\n')
+        paras = obj["text"].split("\n")
         cur = {
             "title": obj["sources"][0]["title"],
             "text": paras[min(1, len(paras) - 1)],
-            "url": obj["sources"][0]["url"]
+            "url": obj["sources"][0]["url"],
         }
         res.append(cur)
         if cur["title"] == x:
-            return [{
-                "title": obj["sources"][0]["title"],
-                "text": '\n'.join(paras[1:3] if len(paras) > 2 else paras),
-                "url": obj["sources"][0]["url"]
-            }]
+            return [
+                {
+                    "title": obj["sources"][0]["title"],
+                    "text": "\n".join(paras[1:3] if len(paras) > 2 else paras),
+                    "url": obj["sources"][0]["url"],
+                }
+            ]
     return res
 
+
 def vector_search(
-        query: str,
-        url: str = "http://0.0.0.0:8080/query",
-        max_candidates: int = MAX_SEARCH_RESULTS
-    ):
-    response = requests.post(
-        url=url, json={"query_list": [query]}
-    ).json()["result"][0]["top_answers"]
-    return response[:min(max_candidates, len(response))]
+    query: str,
+    url: str = "http://0.0.0.0:8080/query",
+    max_candidates: int = MAX_SEARCH_RESULTS,
+):
+    response = requests.post(url=url, json={"query_list": [query]}).json()["result"][0][
+        "top_answers"
+    ]
+    return response[: min(max_candidates, len(response))]
 
 
-search_tool = Tool(name="Tool_Search",
-                   func=lambda x: x,
-                   coroutine=ddg,
-                   description=search_description)
+search_tool = Tool(
+    name="Tool_Search", func=lambda x: x, coroutine=ddg, description=search_description
+)
 
-note_tool = Tool(name="Tool_Notepad",
-                   func=lambda x: x,
-                   coroutine=notepad,
-                   description=notepad_description)
+note_tool = Tool(
+    name="Tool_Notepad",
+    func=lambda x: x,
+    coroutine=notepad,
+    description=notepad_description,
+)
 
-wiki_note_tool = Tool(name="Tool_Notepad",
-                   func=lambda x: x,
-                   coroutine=notepad,
-                   description=wiki_notepad_description)
+wiki_note_tool = Tool(
+    name="Tool_Notepad",
+    func=lambda x: x,
+    coroutine=notepad,
+    description=wiki_notepad_description,
+)
 
 wiki_search_tool = Tool(
-        name="Tool_Wikipedia",
-        func=lambda x: x,
-        coroutine=wikisearch,
-        description=wiki_search_description
-    )
+    name="Tool_Wikipedia",
+    func=lambda x: x,
+    coroutine=wikisearch,
+    description=wiki_search_description,
+)
 
 wiki_lookup_tool = Tool(
-        name="Tool_Lookup",
-        func=lambda x: x,
-        coroutine=wikilookup,
-        description=wiki_lookup_description
-    )
+    name="Tool_Lookup",
+    func=lambda x: x,
+    coroutine=wikilookup,
+    description=wiki_lookup_description,
+)
 
 wiki_dump_search_tool = Tool(
-        name="Tool_Wikipedia",
-        func=lambda x: x,
-        coroutine=wikidumpsearch_embed,
-        description=wiki_search_description
-    )
+    name="Tool_Wikipedia",
+    func=lambda x: x,
+    coroutine=wikidumpsearch_embed,
+    description=wiki_search_description,
+)
+
 
 async def final(x: str):
     pass
+
 
 finish_description = """ Useful when you have enough information to produce a
 a markdown table of the final answer that achieves the original Goal. Always tabulate the information you find. If possible only include numeric data so that it's easy to plot.
@@ -228,19 +254,23 @@ You must also include a citations key in the output for the Tool_Finish action
 }
 """
 
-finish_tool = Tool(name="Tool_Finish",
-                   func=lambda x: x,
-                   coroutine=final,
-                   description=finish_description)
+finish_tool = Tool(
+    name="Tool_Finish",
+    func=lambda x: x,
+    coroutine=final,
+    description=finish_description,
+)
+
 
 def rewrite_search_query(q: str, search_history, llm: BaseLanguageModel) -> str:
-    history_string = '\n'.join(search_history)
-    template ="""We are using the Search tool.
+    history_string = "\n".join(search_history)
+    template = """We are using the Search tool.
                  # Previous queries:
                  {history_string}. \n\n Rewrite query {action_input} to be
                  different from the previous queries."""
-    prompt = PromptTemplate(template=template,
-                            input_variables=["action_input", "history_string"])
+    prompt = PromptTemplate(
+        template=template, input_variables=["action_input", "history_string"]
+    )
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     result = llm_chain.predict(action_input=q, history_string=history_string)
     return result
@@ -252,17 +282,23 @@ search_description_v3 = """Useful for when you need to ask with search."""
 notepad_description_v3 = """ Useful for when you need to note-down specific information for later reference."""
 finish_description_v3 = """Useful when you have enough information to produce a final answer that achieves the original Goal."""
 
-search_tool_v3 = Tool(name="Tool_Search",
-                      func=lambda x: x,
-                      coroutine=ddg,
-                      description=search_description_v3)
+search_tool_v3 = Tool(
+    name="Tool_Search",
+    func=lambda x: x,
+    coroutine=ddg,
+    description=search_description_v3,
+)
 
-note_tool_v3 = Tool(name="Tool_Notepad",
-                    func=lambda x: x,
-                    coroutine=notepad,
-                    description=notepad_description_v3)
+note_tool_v3 = Tool(
+    name="Tool_Notepad",
+    func=lambda x: x,
+    coroutine=notepad,
+    description=notepad_description_v3,
+)
 
-finish_tool_v3 = Tool(name="Tool_Finish",
-                      func=lambda x: x,
-                      coroutine=final,
-                      description=finish_description_v3)
+finish_tool_v3 = Tool(
+    name="Tool_Finish",
+    func=lambda x: x,
+    coroutine=final,
+    description=finish_description_v3,
+)
