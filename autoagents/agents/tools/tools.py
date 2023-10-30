@@ -107,6 +107,7 @@ async def ddg(query: str):
         return [x]
     else:
         results = duckpy_client.search(query)
+        assert len(results) > 0
         return json.dumps(results[:MAX_SEARCH_RESULTS])
 
 
