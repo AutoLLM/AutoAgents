@@ -8,7 +8,9 @@ from tenacity import retry, wait_exponential, stop_after_attempt, before_log
 from loguru import logger
 
 from duckpy import Client
-from langchain import PromptTemplate, LLMChain, Wikipedia
+from langchain.chains import LLMChain
+from langchain.docstore import Wikipedia
+from langchain.prompts import PromptTemplate
 from langchain.agents import Tool
 from langchain.agents.react.base import DocstoreExplorer
 
@@ -82,12 +84,8 @@ Keep your lookup concise, using no more than three words.
 The Action Input cannot be None or empty.
 """
 
-user_agents = [
-    "Mozilla/5.0 (X11; Linux x86_64; rv:79.0) Gecko/20100101 Firefox/79.0",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36",
-]
 
-duckpy_client = Client(default_user_agents=user_agents)
+duckpy_client = Client()
 
 
 @retry(
